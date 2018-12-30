@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Shop2.Model.Models
 {
     [Table("PostCategories")]
-    public class PostCategorie : Auditable
+    public class PostCategory : Auditable
     {
         [Key]
         public int ID { set; get; }

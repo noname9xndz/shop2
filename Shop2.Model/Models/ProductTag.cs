@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Shop2.Model.Models
 {
     [Table("ProductTags")]
-    class ProductTag
+    public class ProductTag
     {
         [Key]
         [Column(Order=1)]

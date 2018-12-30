@@ -16,6 +16,7 @@ namespace Shop2.Model.Models
         // set id tự động tăng
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { set; get; }
+        public virtual IEnumerable<Product> Products { set; get; }
 
         [Required]
         [MaxLength(256)]
@@ -36,6 +37,6 @@ namespace Shop2.Model.Models
 
         public bool? HomeFlag { set; get; }
 
-        public virtual IEnumerable<Product> Products { set; get; }
+        
     }
 }
