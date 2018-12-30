@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,12 +12,13 @@ namespace Shop2.Model.Models
     public class PostTag
     {
         [Key]
+        [Column(Order=1)]
         public int PostID { set; get; }
         [ForeignKey("PostID")]
         public virtual Post Post { set; get; }
 
         [Key]
-        [Column(TypeName ="varchar")]
+        [Column(TypeName ="varchar",Order =2)]
         [MaxLength(50)]
         public string TagID { set; get; }
         [ForeignKey("TagID")]

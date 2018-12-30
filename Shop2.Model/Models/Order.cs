@@ -33,7 +33,7 @@ namespace Shop2.Model.Models
         public string PaymentMethod { set; get; }
         public string PaymentStatus { set; get; }
 
-        [Required]
+        
         public bool Status { set; get; }
     }
 }

@@ -32,7 +32,7 @@ namespace Shop2.Model.Models
         [MaxLength(10)]
         public string Target { set; get; }
 
-        [Required]
+        
         public bool Status { set; get; }
     }
 }
