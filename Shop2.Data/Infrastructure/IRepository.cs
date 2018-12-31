@@ -5,7 +5,8 @@ using System.Linq.Expressions;
 
 namespace Shop2.Data.Infrastructure
 {
-    //IRepository class chứa các phương thức thao tác với csdl 
+    //IRepository class chứa các phương thức thao tác với csdl , các phương thức này sẽ được 
+    // triển khai trong RepositoryBase
     //có thể sử dụng trong tất cả các lớp trong dự án
     public interface IRepository<T> where T : class
     {
@@ -20,14 +21,16 @@ namespace Shop2.Data.Infrastructure
 
         T Delete(int id);
 
-        //Delete multi records
+        // xóa nhiều đối tượng
         void DeleteMulti(Expression<Func<T, bool>> where);
 
-        // Get an entity by int id
+        // tìm kiếm  bằng id
         T GetSingleById(int id);
 
         T GetSingleByCondition(Expression<Func<T, bool>> expression, string[] includes = null);
 
+        // lấy về các đối tượng và lấy thêm được cả đối tượng được nó chứa
+        // ví dụ select ra bài viết và có thể lấy ra được cả danh danh mục
         IEnumerable<T> GetAll(string[] includes = null);
 
         IEnumerable<T> GetMulti(Expression<Func<T, bool>> predicate, string[] includes = null);

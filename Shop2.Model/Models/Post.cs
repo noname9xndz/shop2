@@ -16,7 +16,8 @@ namespace Shop2.Model.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { set; get; }
-    
+        public virtual IEnumerable<PostTag> PostTags { set; get; }
+
 
         [Required]
         [MaxLength(256)]
