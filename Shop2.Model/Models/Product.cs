@@ -27,7 +27,7 @@ namespace Shop2.Model.Models
         public string Alias { set; get; }
 
         [Required]
-        public string CategoryID { set; get; }
+        public int CategoryID { set; get; }
         [ForeignKey("CategoryID")]
         public virtual ProductCategory ProductCategory { set; get; }
 
@@ -35,7 +35,8 @@ namespace Shop2.Model.Models
         [MaxLength(256)]
         public string Image { set; get; }
         // thuộc tính này dạng xml trong csdl
-        public XElement MoreImages { set; get; }
+        [Column(TypeName ="xml")]
+        public string MoreImages { set; get; }
         public decimal Price { set; get; }
         public decimal? PromotionPrice { set; get; }
         public int? Warranty { set; get; }

@@ -16,7 +16,8 @@ namespace Shop2.Model.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { set; get; }
-        //public virtual IEnumerable<PostTag> PostTags { set; get; }
+        public virtual IEnumerable<PostTag> PostTags { set; get; }
+
 
         [Required]
         [MaxLength(256)]
@@ -29,7 +30,7 @@ namespace Shop2.Model.Models
         [Required]
         public int CategoryID { set; get; }
         [ForeignKey("CategoryID")]
-        public virtual PostCategorie PostCategorie { set; get; }
+        public virtual PostCategory PostCategorie { set; get; }
 
         
         [MaxLength(256)]
