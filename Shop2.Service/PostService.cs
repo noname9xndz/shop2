@@ -20,7 +20,10 @@ namespace Shop2.Service
         IEnumerable<Post> GetAll(); // lấy về tất cả bài viết
 
         // lấy về tất cả bài viết và phân trang
-        IEnumerable<Post> GetAllPaging(int page, int pageSize, out int totalRow); 
+        IEnumerable<Post> GetAllPaging(int page, int pageSize, out int totalRow);
+
+        // lấy bài viết bằng danh mục và phân trang
+        IEnumerable<Post> GetAllByCategoryPaging(int categoryID, int page, int pageSize, out int totalRow);
 
         Post GetById(int id); // lấy ra 1 ghi(tìm kiếm)
 
@@ -60,12 +63,19 @@ namespace Shop2.Service
             // ví dụ select ra bài viết và có thể lấy ra được cả danh danh mục
             return _postRepository.GetAll(new string[] {"PostCategory" });
         }
-        
+
+        public IEnumerable<Post> GetAllByCategoryPaging(int categoryID, int page, int pageSize, out int totalRow)
+        {
+            return _postRepository.GetMultiPaging(x => x.Status && x.CategoryID == categoryID, out totalRow,page, 
+                                            pageSize,new string[] { "PostCategory" });
+        }
+
+        // lấy về nhiều đối tượng bằng tag sau đó phân trang
         public IEnumerable<Post> GetAllByTagPaging(string tag,int page, int pageSize, out int totalRow)
         {
-            //TODO : lấy tất cả bài viết bằng tag
-            return _postRepository.GetMultiPaging(x=>x.Status , out totalRow,page,pageSize);
-            // lấy về nhiều đối tượng bằng tag sau đó phân trang
+            // lấy tất cả bài viết bằng tag được định nghĩa ở IPostRepository
+            return _postRepository.GetAllByTag(tag,page,pageSize, out totalRow);
+            
         }
 
         public IEnumerable<Post> GetAllPaging(int page, int pageSize, out int totalRow)
