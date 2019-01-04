@@ -23,27 +23,20 @@ namespace Shop2.Web.Api
         {
             this._postCategoryService = postCategoryService;
         }
-        [Route("getall")]
+        [Route("getall")] // gọi theo route được điều hướng : http://localhost:50445/api/postcategory/getall
         // select dữ liệu
         public HttpResponseMessage Get(HttpRequestMessage request)
         {
             return CreateHttpResponse(request,
                 () => {
                     HttpResponseMessage response = null;
-                    // kiểm tra ngoại lệ của dữ liệu truyền vào
-                    if (ModelState.IsValid)
-                    {
-                        // nếu có lỗi thì truyền lỗi đó vào bảng lỗi trong database
-                        request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                    }
-                    else
-                    {
+                   
                         // không có lỗi sẽ dùng  Service để lưu đối tượng vào database
                        var listCategory = _postCategoryService.GetAll();
      
                         // trả về đối tượng đã dược lưu để xử lý
                         response = request.CreateResponse(HttpStatusCode.OK,listCategory);
-                    }
+                    
                     return response;
                 });
         }
