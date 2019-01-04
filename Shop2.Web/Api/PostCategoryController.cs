@@ -1,11 +1,14 @@
-﻿using Shop2.Model.Models;
+﻿using AutoMapper;
+using Shop2.Model.Models;
 using Shop2.Service;
 using Shop2.Web.Infrastructure.Core;
+using Shop2.Web.Models;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
+using Shop2.Web.Infrastructure.Extensions;
 namespace Shop2.Web.Api
 {
     [RoutePrefix("api/postcategory")]
@@ -33,9 +36,13 @@ namespace Shop2.Web.Api
                    
                         // không có lỗi sẽ dùng  Service để lưu đối tượng vào database
                        var listCategory = _postCategoryService.GetAll();
+
+                    // sử dụng map và trả về đối tượng đó
+                    //bất cứ đối tượng tạo ở Model (Shop.Web) sử dụng phương thức thì giá trị của nó sẽ tự động đẩy sang Model (Shop.Model) 
+                    var listCateoryViewModel = Mapper.Map<List<PostCategoryViewModel>>(listCategory);
      
                         // trả về đối tượng đã dược lưu để xử lý
-                        response = request.CreateResponse(HttpStatusCode.OK,listCategory);
+                        response = request.CreateResponse(HttpStatusCode.OK, listCateoryViewModel);
                     
                     return response;
                 });
@@ -43,7 +50,8 @@ namespace Shop2.Web.Api
 
 
         // thêm mới đối tượng
-        public HttpResponseMessage Post(HttpRequestMessage request,PostCategory postCategory)
+        [Route("add")]
+        public HttpResponseMessage Post(HttpRequestMessage request, PostCategoryViewModel postCategoryViewModel)
         {
             return CreateHttpResponse(request, 
                 () =>{
@@ -57,7 +65,12 @@ namespace Shop2.Web.Api
                     else
                     {
                         // không có lỗi sẽ dùng  Service để lưu đối tượng vào database
-                        var category = _postCategoryService.Add(postCategory);
+                       
+
+                        PostCategory newPostCategory = new PostCategory();
+                       // bất cứ đối tượng tạo ở Model(Shop.Web) sử dụng phương thức thì giá trị của nó sẽ tự động đẩy sang Model(Shop.Model)
+                        newPostCategory.UpdatePostCategory(postCategoryViewModel);
+                        var category = _postCategoryService.Add(newPostCategory);
                         _postCategoryService.Save();
                         // trả về đối tượng đã dược lưu để xử lý
                         response = request.CreateResponse(HttpStatusCode.Created, category);
@@ -66,7 +79,8 @@ namespace Shop2.Web.Api
                         });
         }
         // chỉnh sửa
-        public HttpResponseMessage Put(HttpRequestMessage request, PostCategory postCategory)
+        [Route("update")]
+        public HttpResponseMessage Put(HttpRequestMessage request, PostCategoryViewModel postCategoryViewModel)
         {
             return CreateHttpResponse(request,
                 () => {
@@ -79,8 +93,10 @@ namespace Shop2.Web.Api
                     }
                     else
                     {
+                        var postcatagoryDb = _postCategoryService.GetById(postCategoryViewModel.ID);
+                        postcatagoryDb.UpdatePostCategory(postCategoryViewModel);
                         // không có lỗi sẽ dùng  Service để lưu đối tượng vào database
-                        _postCategoryService.Add(postCategory);
+                        _postCategoryService.Update(postcatagoryDb);
                         _postCategoryService.Save();
                         // trả về đối tượng đã dược lưu để xử lý
                         response = request.CreateResponse(HttpStatusCode.OK);
