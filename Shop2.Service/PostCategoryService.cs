@@ -3,18 +3,12 @@ using Shop2.Data.Repositories;
 using Shop2.Model.Models;
 using System.Collections.Generic;
 
+
+
 namespace Shop2.Service
 {
     public interface IPostCategoryService
     {
-        //void Add(PostCategory postCategory);
-        //void Update(PostCategory postCategory);
-        //void Delete(int id);
-
-        //IEnumerable<PostCategory> GetAll();
-
-        //PostCategory GetById(int id);
-
         PostCategory Add(PostCategory postCategory);
 
         void Update(PostCategory postCategory);
@@ -27,10 +21,10 @@ namespace Shop2.Service
 
         PostCategory GetById(int id);
 
-        void SaveChange();
+        void Save();
     }
 
-    internal class PostCategoryService : IPostCategoryService
+    public class PostCategoryService : IPostCategoryService
     {
         private IPostCategoryRepository _postCategoryRepository;
         private IUnitOfWork _unitOfWork;
@@ -66,7 +60,7 @@ namespace Shop2.Service
             return _postCategoryRepository.GetSingleById(id);
         }
 
-        public void SaveChange()
+        public void Save()
         {
             _unitOfWork.Commit();
         }

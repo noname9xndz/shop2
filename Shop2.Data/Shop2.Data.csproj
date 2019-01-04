@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Shop2.Data</RootNamespace>
     <AssemblyName>Shop2.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,8 +60,13 @@
     <Compile Include="Migrations\201812301839533_InitialDB.Designer.cs">
       <DependentUpon>201812301839533_InitialDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901031448226_AddErrorTable.cs" />
+    <Compile Include="Migrations\201901031448226_AddErrorTable.Designer.cs">
+      <DependentUpon>201901031448226_AddErrorTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\FooterRepository.cs" />
     <Compile Include="Repositories\MenuGroupRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
@@ -97,6 +103,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812301839533_InitialDB.resx">
       <DependentUpon>201812301839533_InitialDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901031448226_AddErrorTable.resx">
+      <DependentUpon>201901031448226_AddErrorTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
