@@ -1,15 +1,20 @@
 ﻿using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.DataProtection;
 using Owin;
 using Shop2.Data;
 using Shop2.Data.Infrastructure;
 using Shop2.Data.Repositories;
+using Shop2.Model.Models;
 using Shop2.Service;
 using System.Reflection;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using static Shop2.Web.App_Start.IdentityConfig;
 
 [assembly: OwinStartup(typeof(Shop2.Web.App_Start.Startup))]
 
@@ -17,13 +22,15 @@ using System.Web.Mvc;
 namespace Shop2.Web.App_Start
 {// file này sẽ chạy song song với global.asax,web.config,... khi ứng dụng được chạy thì file này mặc định sẽ được chạy
 
-    public class Startup
+    public partial class Startup
     {
         // gọi và chạy đối tượng , IAppBuilder sẽ giúp chúng ta khởi tạo đối tượng khi ứng dụng chạy
         public void Configuration(IAppBuilder app)
         {
-            // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
+          
             ConfigAutofac(app);
+            // chạy class StartUp.Auth
+            ConfigureAuth(app);
         }
 
         // setup các đối tượng, khi có bất cứ 1 đối tượng nào được gọi thì hàm này sẽ tự động khởi tạo nó
@@ -39,6 +46,13 @@ namespace Shop2.Web.App_Start
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
 
             builder.RegisterType<Shop2DbContext>().AsSelf().InstancePerRequest();
+
+            //khởi tạo đối tượng trong Asp.net Identity
+            builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
+            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+            builder.Register(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
+            builder.Register(c => app.GetDataProtectionProvider()).InstancePerRequest();
 
             // khởi tạo các đối tượng có hậu tố Repository
             builder.RegisterAssemblyTypes(typeof(PostCategoryRepository).Assembly)
