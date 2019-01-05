@@ -1,4 +1,5 @@
-﻿using Shop2.Model.Models;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using Shop2.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,9 +9,12 @@ using System.Threading.Tasks;
 
 namespace Shop2.Data
 {
-   
-        public class Shop2DbContext : DbContext
-        {
+
+    //public class Shop2DbContext : DbContext
+    // thay vì add DbConText chúng ta sẽ cho kế thừa từ IdentityDbContext<ApplicationUser> để tích hợp 
+    // ASP.NET Identity (1 công nghệ giúp chúng ta trong bài toán xác thực và phân quyền người dùng trên website)
+    public class Shop2DbContext : IdentityDbContext<ApplicationUser>
+    {
             public Shop2DbContext() : base("Shop2Connection")
             {
                 this.Configuration.LazyLoadingEnabled = false;
@@ -35,12 +39,21 @@ namespace Shop2.Data
             public DbSet<VisitorStatistic> VisitorStatistics { set; get; }
             public DbSet<Error> Errors { set; get; }
 
+        // phương thức để tạo mới Identity 
+        public static Shop2DbContext Create()
+        {
+            return new Shop2DbContext();
+        }
+
         // ghi đè phương thức có sẵn OnModelCreating(DbModelBuilder modelBuilder) của DbContext
         protected override void OnModelCreating(DbModelBuilder builder)
             {
-               
+            // câu hình key cho Identity
+            builder.Entity<IdentityUserRole>().HasKey(x => new { x.UserId, x.RoleId });
+            builder.Entity<IdentityUserLogin>().HasKey(x => x.UserId);
+            
 
-            }
+        }
         }
     
 }
