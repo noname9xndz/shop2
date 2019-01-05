@@ -4,16 +4,49 @@
 }
 
 <!DOCTYPE html>
-
-<html ng-app>
+@*khởi tạo module cho angular để sử dụng trong toàn bộ trang*@
+<html ng-app="myModule">
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
     <script src="~/Scripts/plugins/angular/angular.js"></script>
+    <script src="~/Scripts/spa/App.js"></script>
 </head>
 <body>
-    <div> 
-      10+20 = {{10+20}}
+    @*add controller vào thẻ html để nó nhận ra message được lấy ra từ myController*@
+    @*<div ng-controller="myController1">
+            10+20 = {{10+20}} <br />
+            {{message}}
+        </div>
+        <div ng-controller="myController2">
+         <br />
+            {{message}}
+        </div>*@
+    <hr />
+
+    @*<div ng-controller="allController">
+            <div ng-controller="myController1">
+                10+20 = {{10+20}} <br />
+                myController1 :  {{message}}
+            </div>
+            <div ng-controller="myController2">
+                <br />
+                myController1 : {{message}} <br />
+            </div>
+            allController : {{message}}
+        </div>*@
+
+    <div ng-controller="myController1">
+        @*<shop2-Directive></shop2-Directive>*@
+
+        <div shop2-Directive></div>
+        @*cơ chế two way binding*@
+        <input type="number" ng-model="so" /> số trong textbox là số {{so}} <br />
+        <button ng-click="check2()">check số</button>
+
+        <br />
+        {{message}}
     </div>
+
 </body>
 </html>
