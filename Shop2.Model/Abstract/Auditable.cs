@@ -12,17 +12,21 @@ namespace Shop2.Model.Abstract
     // C# cho đa kế thừa interface nhưng lại không cho đa kế thừa class
     public abstract class Auditable : IAuditable
     {
+
         public DateTime? CreatedDate { set; get; }
-        [MaxLength(256)] // chỉ ra độ dài trong database
-        public string CreatedBy { set; get; }
-        public DateTime? UpdateDate { set; get; }
+
         [MaxLength(256)]
-        public string UpdateBy { set; get; }
+        public string CreatedBy { set; get; }
+
+        public DateTime? UpdatedDate { set; get; }
+
+        [MaxLength(256)]
+        public string UpdatedBy { set; get; }
 
         [MaxLength(256)]
         public string MetaKeyword { set; get; }
 
-        [MaxLength(256)] // chỉ ra độ dài trong database
+        [MaxLength(256)]
         public string MetaDescription { set; get; }
 
         public bool Status { set; get; }

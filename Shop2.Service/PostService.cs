@@ -11,6 +11,10 @@ namespace Shop2.Service
     // bất cứ tầng là 1 đối tượng ta đều cho đi qua 1 interface
     public interface IPostService
     {
+        /*1 mảng IEnumerable có những thuộc tính
+                -Là một mảng read-only, chỉ có thể đọc, không thể thêm hay bớt phần tử.
+                -Chỉ duyệt theo một chiều, từ đầu tới cuối mảng
+*/
         void Add(Post post);
 
         void Update(Post post);

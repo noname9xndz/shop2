@@ -11,8 +11,8 @@ namespace Shop2.Model.Abstract
     {
         DateTime? CreatedDate { set; get; }
         string CreatedBy { set; get; }
-        DateTime? UpdateDate { set; get; }
-        string UpdateBy { set; get; }
+        DateTime? UpdatedDate { set; get; }
+        string UpdatedBy { set; get; }
 
         string MetaKeyword { set; get; }
         string MetaDescription { set; get; }

@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 namespace Shop2.Data.Infrastructure
 {
 
+    /*1 mảng IEnumerable có những thuộc tính
+                -Là một mảng read-only, chỉ có thể đọc, không thể thêm hay bớt phần tử.
+                -Chỉ duyệt theo một chiều, từ đầu tới cuối mảng
+*/
+
     //RepositoryBase là 1 lớp abstract class  kế thừa IRepository và 
     //triển khai các phương thức trong IRepository(Thêm sửa xóa get,....)
     public abstract class RepositoryBase<T> : IRepository<T> where T : class

@@ -7,13 +7,13 @@ namespace Shop2.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Changkey : IMigrationMetadata
+    public sealed partial class InitialDB : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Changkey));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialDB));
         
         string IMigrationMetadata.Id
         {
-            get { return "201901051534546_Changkey"; }
+            get { return "201901091407221_InitialDB"; }
         }
         
         string IMigrationMetadata.Source

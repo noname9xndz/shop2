@@ -7,6 +7,10 @@ using System.Collections.Generic;
 
 namespace Shop2.Service
 {
+    /*1 mảng IEnumerable có những thuộc tính
+                -Là một mảng read-only, chỉ có thể đọc, không thể thêm hay bớt phần tử.
+                -Chỉ duyệt theo một chiều, từ đầu tới cuối mảng
+*/
     public interface IPostCategoryService
     {
         PostCategory Add(PostCategory postCategory);

@@ -8,7 +8,7 @@ namespace Shop2.Model.Models
     public class Error
     {
         [Key]
-        public int ID { get; set; }
+        public int ID { set; get; }
 
         public string Message { set; get; }
 

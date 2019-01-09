@@ -8,6 +8,17 @@ namespace Shop2.Data.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Errors",
+                c => new
+                    {
+                        ID = c.Int(nullable: false, identity: true),
+                        Message = c.String(),
+                        StackTrace = c.String(),
+                        CreatedDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.ID);
+            
+            CreateTable(
                 "dbo.Footers",
                 c => new
                     {
@@ -93,32 +104,32 @@ namespace Shop2.Data.Migrations
                         ViewCount = c.Int(),
                         CreatedDate = c.DateTime(),
                         CreatedBy = c.String(maxLength: 256),
-                        UpdateDate = c.DateTime(),
-                        UpdateBy = c.String(maxLength: 256),
+                        UpdatedDate = c.DateTime(),
+                        UpdatedBy = c.String(maxLength: 256),
                         MetaKeyword = c.String(maxLength: 256),
                         MetaDescription = c.String(maxLength: 256),
                         Status = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
-                .ForeignKey("dbo.ProductCategorys", t => t.CategoryID, cascadeDelete: true)
+                .ForeignKey("dbo.ProductCategories", t => t.CategoryID, cascadeDelete: true)
                 .Index(t => t.CategoryID);
             
             CreateTable(
-                "dbo.ProductCategorys",
+                "dbo.ProductCategories",
                 c => new
                     {
                         ID = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 256),
-                        Alias = c.String(nullable: false, maxLength: 256, unicode: false),
-                        Description = c.String(),
-                        ParnetID = c.Int(),
+                        Alias = c.String(nullable: false, maxLength: 256),
+                        Description = c.String(maxLength: 500),
+                        ParentID = c.Int(),
                         DisplayOrder = c.Int(),
-                        Images = c.String(maxLength: 256),
+                        Image = c.String(maxLength: 256),
                         HomeFlag = c.Boolean(),
                         CreatedDate = c.DateTime(),
                         CreatedBy = c.String(maxLength: 256),
-                        UpdateDate = c.DateTime(),
-                        UpdateBy = c.String(maxLength: 256),
+                        UpdatedDate = c.DateTime(),
+                        UpdatedBy = c.String(maxLength: 256),
                         MetaKeyword = c.String(maxLength: 256),
                         MetaDescription = c.String(maxLength: 256),
                         Status = c.Boolean(nullable: false),
@@ -135,8 +146,8 @@ namespace Shop2.Data.Migrations
                         Content = c.String(),
                         CreatedDate = c.DateTime(),
                         CreatedBy = c.String(maxLength: 256),
-                        UpdateDate = c.DateTime(),
-                        UpdateBy = c.String(maxLength: 256),
+                        UpdatedDate = c.DateTime(),
+                        UpdatedBy = c.String(maxLength: 256),
                         MetaKeyword = c.String(maxLength: 256),
                         MetaDescription = c.String(maxLength: 256),
                         Status = c.Boolean(nullable: false),
@@ -157,8 +168,8 @@ namespace Shop2.Data.Migrations
                         HomeFlag = c.Boolean(),
                         CreatedDate = c.DateTime(),
                         CreatedBy = c.String(maxLength: 256),
-                        UpdateDate = c.DateTime(),
-                        UpdateBy = c.String(maxLength: 256),
+                        UpdatedDate = c.DateTime(),
+                        UpdatedBy = c.String(maxLength: 256),
                         MetaKeyword = c.String(maxLength: 256),
                         MetaDescription = c.String(maxLength: 256),
                         Status = c.Boolean(nullable: false),
@@ -181,8 +192,8 @@ namespace Shop2.Data.Migrations
                         ViewCount = c.Int(),
                         CreatedDate = c.DateTime(),
                         CreatedBy = c.String(maxLength: 256),
-                        UpdateDate = c.DateTime(),
-                        UpdateBy = c.String(maxLength: 256),
+                        UpdatedDate = c.DateTime(),
+                        UpdatedBy = c.String(maxLength: 256),
                         MetaKeyword = c.String(maxLength: 256),
                         MetaDescription = c.String(maxLength: 256),
                         Status = c.Boolean(nullable: false),
@@ -228,6 +239,30 @@ namespace Shop2.Data.Migrations
                 .Index(t => t.TagID);
             
             CreateTable(
+                "dbo.IdentityRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.IdentityUserRoles",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                        IdentityRole_Id = c.String(maxLength: 128),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.IdentityRoles", t => t.IdentityRole_Id)
+                .ForeignKey("dbo.ApplicationUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.IdentityRole_Id)
+                .Index(t => t.ApplicationUser_Id);
+            
+            CreateTable(
                 "dbo.Slides",
                 c => new
                     {
@@ -270,6 +305,55 @@ namespace Shop2.Data.Migrations
                 .PrimaryKey(t => t.ID);
             
             CreateTable(
+                "dbo.ApplicationUsers",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        FullName = c.String(maxLength: 256),
+                        Address = c.String(maxLength: 256),
+                        BirthDay = c.DateTime(),
+                        Email = c.String(),
+                        EmailConfirmed = c.Boolean(nullable: false),
+                        PasswordHash = c.String(),
+                        SecurityStamp = c.String(),
+                        PhoneNumber = c.String(),
+                        PhoneNumberConfirmed = c.Boolean(nullable: false),
+                        TwoFactorEnabled = c.Boolean(nullable: false),
+                        LockoutEndDateUtc = c.DateTime(),
+                        LockoutEnabled = c.Boolean(nullable: false),
+                        AccessFailedCount = c.Int(nullable: false),
+                        UserName = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.IdentityUserClaims",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        UserId = c.String(),
+                        ClaimType = c.String(),
+                        ClaimValue = c.String(),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.ApplicationUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.ApplicationUser_Id);
+            
+            CreateTable(
+                "dbo.IdentityUserLogins",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        LoginProvider = c.String(),
+                        ProviderKey = c.String(),
+                        ApplicationUser_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.UserId)
+                .ForeignKey("dbo.ApplicationUsers", t => t.ApplicationUser_Id)
+                .Index(t => t.ApplicationUser_Id);
+            
+            CreateTable(
                 "dbo.VisitorStatistics",
                 c => new
                     {
@@ -283,15 +367,23 @@ namespace Shop2.Data.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.IdentityUserRoles", "ApplicationUser_Id", "dbo.ApplicationUsers");
+            DropForeignKey("dbo.IdentityUserLogins", "ApplicationUser_Id", "dbo.ApplicationUsers");
+            DropForeignKey("dbo.IdentityUserClaims", "ApplicationUser_Id", "dbo.ApplicationUsers");
+            DropForeignKey("dbo.IdentityUserRoles", "IdentityRole_Id", "dbo.IdentityRoles");
             DropForeignKey("dbo.ProductTags", "TagID", "dbo.Tags");
             DropForeignKey("dbo.ProductTags", "ProductID", "dbo.Products");
             DropForeignKey("dbo.PostTags", "TagID", "dbo.Tags");
             DropForeignKey("dbo.PostTags", "PostID", "dbo.Posts");
             DropForeignKey("dbo.Posts", "CategoryID", "dbo.PostCategories");
             DropForeignKey("dbo.OrderDetails", "ProductID", "dbo.Products");
-            DropForeignKey("dbo.Products", "CategoryID", "dbo.ProductCategorys");
+            DropForeignKey("dbo.Products", "CategoryID", "dbo.ProductCategories");
             DropForeignKey("dbo.OrderDetails", "OrderID", "dbo.Orders");
             DropForeignKey("dbo.Menus", "GroupID", "dbo.MenuGroups");
+            DropIndex("dbo.IdentityUserLogins", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.IdentityUserClaims", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.IdentityUserRoles", new[] { "ApplicationUser_Id" });
+            DropIndex("dbo.IdentityUserRoles", new[] { "IdentityRole_Id" });
             DropIndex("dbo.ProductTags", new[] { "TagID" });
             DropIndex("dbo.ProductTags", new[] { "ProductID" });
             DropIndex("dbo.PostTags", new[] { "TagID" });
@@ -302,22 +394,28 @@ namespace Shop2.Data.Migrations
             DropIndex("dbo.OrderDetails", new[] { "OrderID" });
             DropIndex("dbo.Menus", new[] { "GroupID" });
             DropTable("dbo.VisitorStatistics");
+            DropTable("dbo.IdentityUserLogins");
+            DropTable("dbo.IdentityUserClaims");
+            DropTable("dbo.ApplicationUsers");
             DropTable("dbo.SystemConfigs");
             DropTable("dbo.SupportOnlines");
             DropTable("dbo.Slides");
+            DropTable("dbo.IdentityUserRoles");
+            DropTable("dbo.IdentityRoles");
             DropTable("dbo.ProductTags");
             DropTable("dbo.Tags");
             DropTable("dbo.PostTags");
             DropTable("dbo.Posts");
             DropTable("dbo.PostCategories");
             DropTable("dbo.Pages");
-            DropTable("dbo.ProductCategorys");
+            DropTable("dbo.ProductCategories");
             DropTable("dbo.Products");
             DropTable("dbo.Orders");
             DropTable("dbo.OrderDetails");
             DropTable("dbo.Menus");
             DropTable("dbo.MenuGroups");
             DropTable("dbo.Footers");
+            DropTable("dbo.Errors");
         }
     }
 }

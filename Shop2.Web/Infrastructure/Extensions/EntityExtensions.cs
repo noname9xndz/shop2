@@ -28,8 +28,8 @@ namespace Shop2.Web.Infrastructure.Extensions
 
             postCategory.CreatedDate = postCategoryViewModel.CreatedDate;
             postCategory.CreatedBy = postCategoryViewModel.CreatedBy;
-            postCategory.UpdateDate= postCategoryViewModel.UpdatedDate;
-            postCategory.UpdateBy = postCategoryViewModel.UpdatedBy;
+            postCategory.UpdatedDate= postCategoryViewModel.UpdatedDate;
+            postCategory.UpdatedBy = postCategoryViewModel.UpdatedBy;
             postCategory.MetaKeyword = postCategoryViewModel.MetaKeyword;
             postCategory.MetaDescription = postCategoryViewModel.MetaDescription;
             postCategory.Status = postCategoryViewModel.Status;
@@ -41,15 +41,15 @@ namespace Shop2.Web.Infrastructure.Extensions
             productCategory.Name = productCategoryViewModel.Name;
             productCategory.Description = productCategoryViewModel.Description;
             productCategory.Alias = productCategoryViewModel.Alias;
-            productCategory.ParnetID = productCategoryViewModel.ParentID;
+            productCategory.ParentID = productCategoryViewModel.ParentID;
             productCategory.DisplayOrder = productCategoryViewModel.DisplayOrder;
-            productCategory.Images = productCategoryViewModel.Image;
+            productCategory.Image = productCategoryViewModel.Image;
             productCategory.HomeFlag = productCategoryViewModel.HomeFlag;
 
             productCategory.CreatedDate = productCategoryViewModel.CreatedDate;
             productCategory.CreatedBy = productCategoryViewModel.CreatedBy;
-            productCategory.UpdateDate = productCategoryViewModel.UpdatedDate;
-            productCategory.UpdateBy = productCategoryViewModel.UpdatedBy;
+            productCategory.UpdatedDate = productCategoryViewModel.UpdatedDate;
+            productCategory.UpdatedBy = productCategoryViewModel.UpdatedBy;
             productCategory.MetaKeyword = productCategoryViewModel.MetaKeyword;
             productCategory.MetaDescription = productCategoryViewModel.MetaDescription;
             productCategory.Status = productCategoryViewModel.Status;
@@ -69,8 +69,8 @@ namespace Shop2.Web.Infrastructure.Extensions
 
             post.CreatedDate = postViewModel.CreatedDate;
             post.CreatedBy = postViewModel.CreatedBy;
-            post.UpdateDate = postViewModel.UpdatedDate;
-            post.UpdateBy = postViewModel.UpdatedBy;
+            post.UpdatedDate = postViewModel.UpdatedDate;
+            post.UpdatedBy = postViewModel.UpdatedBy;
             post.MetaKeyword = postViewModel.MetaKeyword;
             post.MetaDescription = postViewModel.MetaDescription;
             post.Status = postViewModel.Status;
@@ -95,8 +95,8 @@ namespace Shop2.Web.Infrastructure.Extensions
 
             product.CreatedDate = productViewModel.CreatedDate;
             product.CreatedBy = productViewModel.CreatedBy;
-            product.UpdateDate = productViewModel.UpdatedDate;
-            product.UpdateBy = productViewModel.UpdatedBy;
+            product.UpdatedDate = productViewModel.UpdatedDate;
+            product.UpdatedBy = productViewModel.UpdatedBy;
             product.MetaKeyword = productViewModel.MetaKeyword;
             product.MetaDescription = productViewModel.MetaDescription;
             product.Status = productViewModel.Status;
