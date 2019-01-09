@@ -1,3 +1,61 @@
-﻿
+﻿<section class="content-header">
+    <h1>
+        Danh Mục
+        <small>Danh Sách Sản Phẩm</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Simple</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Danh Sách Sản Phẩm</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th style="width: 10px">ID</th>
+                                <th>Tên Danh Mục</th>
+                                <th style="width: 20%">Ngày Tạo</th>
+                                <th style="width: 10%">Trạng Thái</th>
+                            </tr>
+                            <!--dùng ng-repeat để hiển thị danh sách gọi từ api-->
+                            <tr ng-repeat="item in productCategories">
+                                <td>{{item.ID}}</td>
+                                <td>{{item.Name}}</td>
+                                <td>
+                                    {{item.CreatedDate  | date:'dd/MM/yyyy hh:mm:ss'}}
+                                </td>
+                                <td><span class="badge bg-red">{{item.Status}}</span></td>
+                            </tr>
+                        
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        <li><a href="#">«</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /.box -->
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
 
-<h1>produt category</h1>
+</section>
