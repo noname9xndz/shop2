@@ -3,14 +3,15 @@
 // khai báo controller
 (function (app) {
     app.controller('productCategoryListController', productCategoryListController);
+    // truyền đối tượng apiService  để get dữ liệu từ webapi
+    productCategoryListController.$inject = ['$scope', 'apiService'];
 
-    productCategoryListController.$inject = ['$scope','apiService'];
     function productCategoryListController($scope,apiService) {
         $scope.productCategories = [];
 
-        // lấy dữ liệu từ service
+        // lấy dữ liệu từ webapi
         $scope.getProductCategories = getProductCategories;
-
+            
         function getProductCategories() {
             apiService.get('/api/productcategory/getall', null, function (result) {
                 $scope.productCategories = result.data;

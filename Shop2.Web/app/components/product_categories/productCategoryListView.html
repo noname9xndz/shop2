@@ -21,10 +21,11 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <th style="width: 10px">ID</th>
-                                <th>Tên Danh Mục</th>
+                                <th style="width: 5%">ID</th>
+                                <th style="width: 55%">Tên Danh Mục</th>
                                 <th style="width: 20%">Ngày Tạo</th>
                                 <th style="width: 10%">Trạng Thái</th>
+                                <th style="width: 10%">Thao Tác</th>
                             </tr>
                             <!--dùng ng-repeat để hiển thị danh sách gọi từ api-->
                             <tr ng-repeat="item in productCategories">
@@ -33,7 +34,17 @@
                                 <td>
                                     {{item.CreatedDate  | date:'dd/MM/yyyy hh:mm:ss'}}
                                 </td>
-                                <td><span class="badge bg-red">{{item.Status}}</span></td>
+                                <!--dùng filter để hiển thị trạng thái , ng-class để hiển thị if else "-->
+                                <td>
+                                    <span ng-class="{'badge bg-red' :item.Status==false,'badge bg-green' :item.Status==true}">
+                                        {{item.Status | statusFilter}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                </td>
+
                             </tr>
                         
                         </tbody>
