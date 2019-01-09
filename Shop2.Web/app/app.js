@@ -2,7 +2,9 @@
 // khai báo 1 hàm nặc danh
 (function () {
     //cấu hình router cho shop2
-    angular.module('shop2', ['shop2.products', 'shop2.common']).config(config);
+    angular.module('shop2', ['shop2.products',
+                             'shop2.productCategories',
+                              'shop2.common']).config(config);
 
     // dependency 2 service được định nghĩa sẵn trong ui-route $stateProvider,$urlRouterProvider
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
