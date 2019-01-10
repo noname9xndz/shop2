@@ -13,7 +13,12 @@
                 url: "/product_categories",
                 templateUrl: "/app/components/product_categories/productCategoryListView.html",
                 controller: "productCategoryListController"
-            });
+            })
+            .state('productCategoryAdd', {
+                url: "/productCategoryAdd",
+                templateUrl: "/app/components/product_categories/productCategoryAddView.html",
+                controller: "productCategoryAddController"
+            }); 
 
     }
 })();// chỉ ra module này thuộc tp nào không có bỏ trống

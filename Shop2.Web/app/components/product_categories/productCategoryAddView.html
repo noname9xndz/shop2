@@ -1,0 +1,129 @@
+﻿
+
+
+
+<section class="content-header">
+    <h1>
+        Danh Mục Sản Phẩm
+        
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang Chủ</a></li>
+        <li><a href="#">Sản Phẩm</a></li>
+        <li><a ui-sref="product_categories">Danh Mục</a></li>
+        <li class="active">Thêm Mới</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Thêm Mới</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                <!--novalidate  loại bỏ cơ chế validate mặc định của form-->
+                <form class="form-horizontal" novalidate name="frmAddProductCategory" role="form" ng-submit="AddProductCaterory()">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Tên Danh Mục</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="name" ng-model="productCategory.Name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Tiêu Đề SEO</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="Alias" ng-model="productCategory.Alias">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Mô Tả Ngắn</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  name="Description" ng-model="productCategory.Description">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Danh Mục Cha</label>
+
+                            <div class="col-sm-10">
+               
+                                <select name="ParentID" class="form-control" ng-model="productCategory.ParentID" ng-options="option.ID as option.Name for option in parentCategories ">
+                                    <option value="">Danh Mục Gốc</option>
+                                </select>
+                                <input type="hidden" name="ParentID" ng-model="productCategory.ParentID" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Thứ Tự</label>
+
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control"  name="DisplayOrder" ng-model="productCategory.DisplayOrder">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Hình Ảnh</label>
+
+                            <div class="col-sm-10">
+                                <input type="file" name="Image" class="form-control" ng-model="productCategory.Image">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Meta Keyword</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  name="MetaKeyword" ng-model="productCategory.MetaKeyword">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Meta Description</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  name="MetaDescription" ng-model="productCategory.MetaDescription">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="Status" ng-model="productCategory.Status" ng-checked="productCategory.Status"> Kích hoạt
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"  name="HomeFlag" ng-model="productCategory.HomeFlag" ng-checked="productCategory.HomeFlag"> Hiển Thị Trang Chủ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button ui-sref="product_categories" class="btn btn-default">Trở Về</button>
+                        <button type="submit" class="btn btn-success pull-right">Thêm Mới</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+           
+        </div>
+  
+    </div>
+    <!-- /.row -->
+</section>
