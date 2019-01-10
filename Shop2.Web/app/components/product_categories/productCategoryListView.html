@@ -10,14 +10,33 @@
     </ol>
 </section>
 <section class="content">
+   
+
     <div class="row">
+       
         <div class="col-md-12">
+           
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Danh Sách Sản Phẩm</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+
+                            <div class="input-group">
+                                <!--binding biến keyword ra bằng ng-model và sự kiện click vào button bằng ng-click -->
+                                <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khóa">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                 
+
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
+
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
@@ -46,7 +65,12 @@
                                 </td>
 
                             </tr>
-                        
+                        <tfoot>
+                            <tr>
+                                <td colspan="6"><span class="pull-right">Trang: {{page+1}} - Tổng số bản ghi: {{totalCount}}</span></td>
+                            </tr>
+                        </tfoot>
+
                         </tbody>
                     </table>
                 </div>
@@ -62,6 +86,7 @@
         <!-- /.col -->
         <!-- /.col -->
     </div>
-    <!-- /.row -->
+        <!-- /.row -->
 
 </section>
+

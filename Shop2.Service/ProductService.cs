@@ -9,58 +9,59 @@ using System.Threading.Tasks;
 
 namespace Shop2.Service
 {
-
-    public interface IProductCategoryService
+    public interface IProduct
     {
-        ProductCategory Add(ProductCategory ProductCategory);
+        Product Add(Product product);
 
-        void Update(ProductCategory ProductCategory);
+        void Update(Product product);
 
-        ProductCategory Delete(int id);
+        Product Delete(int id);
 
-        IEnumerable<ProductCategory> GetAll();
+        IEnumerable<Product> GetAll();
 
-        IEnumerable<ProductCategory> GetAllByParentId(int parentId);
+        IEnumerable<Product> GetAllByParentId(int parentID);
 
-        ProductCategory GetById(int id);
+        Product GetById(int id);
 
         void Save();
+
+
     }
-
-    public class ProductCategoryService : IProductCategoryService
+    public class ProductService : IProduct
     {
-        private IProductCategoryRepository _ProductCategoryRepository;
-        private IUnitOfWork _unitOfWork;
-
-        public ProductCategoryService(IProductCategoryRepository ProductCategoryRepository, IUnitOfWork unitOfWork)
+        IProductRepository _productRepository;
+        IUnitOfWork _unitOfWork;
+        public ProductService(IProductRepository productRepository,IUnitOfWork unitOfWork)
         {
-            this._ProductCategoryRepository = ProductCategoryRepository;
+
+            this._productRepository = productRepository;
             this._unitOfWork = unitOfWork;
         }
 
-        public ProductCategory Add(ProductCategory ProductCategory)
+        public Product Add(Product product)
         {
-            return _ProductCategoryRepository.Add(ProductCategory);
+            return _productRepository.Add(product);
         }
 
-        public ProductCategory Delete(int id)
+        public Product Delete(int id)
         {
-            return _ProductCategoryRepository.Delete(id);
+            return _productRepository.Delete(id);
         }
 
-        public IEnumerable<ProductCategory> GetAll()
+        public IEnumerable<Product> GetAll()
         {
-            return _ProductCategoryRepository.GetAll();
+            return _productRepository.GetAll();
         }
 
-        public IEnumerable<ProductCategory> GetAllByParentId(int parentId)
+        public IEnumerable<Product> GetAllByParentId(int parentID)
         {
-            return _ProductCategoryRepository.GetMulti(x => x.Status && x.ParentID == parentId); 
+            
+            return _productRepository.GetMulti(x => x.Status);
         }
 
-        public ProductCategory GetById(int id)
+        public Product GetById(int id)
         {
-            return _ProductCategoryRepository.GetSingleById(id);
+            return _productRepository.GetSingleById(id);
         }
 
         public void Save()
@@ -68,9 +69,10 @@ namespace Shop2.Service
             _unitOfWork.Commit();
         }
 
-        public void Update(ProductCategory ProductCategory)
+        public void Update(Product product)
         {
-            _ProductCategoryRepository.Update(ProductCategory);
+            throw new NotImplementedException();
         }
     }
+
 }

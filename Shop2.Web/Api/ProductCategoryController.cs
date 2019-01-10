@@ -23,15 +23,17 @@ namespace Shop2.Web.Api
             this._productCategoryService = productCategoryService;
         }
         [Route("getall")]
-        public HttpResponseMessage Get(HttpRequestMessage request,int page,int pageSize=20)
+        public HttpResponseMessage Get(HttpRequestMessage request,string keyword,int page,int pageSize=20)
         {
             return CreateHttpResponse(request,
                 () => {
                 int totalRow = 0;
-                var listCategory = _productCategoryService.GetAll();
+                    // tìm kiếm theo keyword
+                var listCategory = _productCategoryService.GetAllByKeyWord(keyword);
 
                 // lấy ra số bản ghi và thực hiện phân trang
                 totalRow = listCategory.Count();
+                
                 var query = listCategory.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
 
                     var listproductCategory = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(query);

@@ -15,12 +15,20 @@
 
         // lấy dữ liệu từ webapi
         $scope.getProductCategories = getProductCategories;
+        $scope.keyword = '';
+
+        $scope.search = search;
+
+        function search() {
+            getProductCategories();
+        }
             
         function getProductCategories(page) {
             page = page || 0;
             var cofig = {
                 //params 1 định dạng để truyền params vào uri
                 params: {
+                    keyword: $scope.keyword,
                     page : page ,
                     pageSize : 20
                 }
