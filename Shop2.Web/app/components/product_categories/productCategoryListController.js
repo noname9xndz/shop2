@@ -4,9 +4,9 @@
 (function (app) {
     app.controller('productCategoryListController', productCategoryListController);
     // truyền đối tượng apiService  để get dữ liệu từ webapi
-    productCategoryListController.$inject = ['$scope', 'apiService'];
+    productCategoryListController.$inject = ['$scope', 'apiService','notificationService'];
 
-    function productCategoryListController($scope, apiService) {
+    function productCategoryListController($scope, apiService, notificationService) {
         // lấy tạo mảng productCategories
         $scope.productCategories = [];
 
@@ -35,6 +35,12 @@
             }
 
             apiService.get('/api/productcategory/getall', cofig, function (result) {
+                if (result.data.TotalCount == 0) {
+                    notificationService.displayWarning('không có bản ghi nào được tìm thấy');
+                }
+                else {
+                    notificationService.displaySuccess('tìm thấy ' + result.data.TotalCount + ' bản ghi');
+                }
                 // lấy về data 
                 $scope.productCategories = result.data.Items;
                 // lấy về giá trị dùng để phân trang
