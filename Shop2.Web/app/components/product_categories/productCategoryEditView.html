@@ -33,7 +33,9 @@
 
                             <div class="col-sm-10">
                                 <!--gọi hàm biến đổi name vè seo-->
-                                <input type="text" class="form-control" ng-change="GetSeoTitle()" name="name" ng-model="productCategory.Name">
+                                <input type="text" class="form-control" ng-change="GetSeoTitle()"   ng-maxlength="256" required  name="name" ng-model="productCategory.Name">
+                                <span ng-show="frmUpdateProductCategory.name.$invalid" class="has-error">Nhập tên danh mục</span>
+                                <span ng-show="frmUpdateProductCategory.name.$error.maxlength" class="has-error">Tên danh mục tối đa 256 ký tự</span>
                             </div>
                         </div>
 
@@ -41,7 +43,9 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Tiêu Đề SEO</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="Alias" ng-model="productCategory.Alias">
+                                <input type="text" class="form-control" required name="Alias" ng-model="productCategory.Alias">
+                                <span ng-show="frmUpdateProductCategory.Alias.$invalid" class="has-error">Nhập tiêu đề seo</span>
+                                <span ng-show="frmUpdateProductCategory.Aliass.$error.maxlength" class="has-error">Tiêu đề Seo tối đa 256 ký tự</span>
                             </div>
                         </div>
 
@@ -49,7 +53,8 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Mô Tả Ngắn</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="Description" ng-model="productCategory.Description">
+                                <input type="text" class="form-control" ng-maxlength="500" name="Description" ng-model="productCategory.Description">
+                                <span ng-show="frmUpdateProductCategory.name.$error.maxlength" class="has-error">Mô tả tối đa 500 ký tự</span>
                             </div>
                         </div>
 
@@ -69,7 +74,8 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Thứ Tự</label>
 
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" name="DisplayOrder" ng-model="productCategory.DisplayOrder">
+                                <input type="number" class="form-control" required name="DisplayOrder" ng-model="productCategory.DisplayOrder">
+                                <span ng-show="frmUpdateProductCategory.DisplayOrder.$invalid" class="has-error">Nhập số thứ tự</span>
                             </div>
                         </div>
 
@@ -77,7 +83,8 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Hình Ảnh</label>
 
                             <div class="col-sm-10">
-                                <input type="file" name="Image" class="form-control" ng-model="productCategory.Image">
+                                <input type="file" name="Image" ng-maxlength="256" class="form-control" ng-model="productCategory.Image">
+                                <span ng-show="frmUpdateProductCategory.name.$error.maxlength" class="has-error">Tên ảnh tối đa 256 ký tự</span>
                             </div>
                         </div>
 
@@ -116,7 +123,7 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <button ui-sref="product_categories" class="btn btn-default">Trở Về</button>
-                        <button type="submit" class="btn btn-success pull-right">Lưu</button>
+                        <button type="submit" ng-disabled="frmUpdateProductCategory.$invalid" class="btn btn-success pull-right">Lưu</button>
                     </div>
                     <!-- /.box-footer -->
                 </form>

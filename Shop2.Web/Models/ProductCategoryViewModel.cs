@@ -10,10 +10,10 @@ namespace Shop2.Web.Models
     {
         public int ID { set; get; }
 
-        [Required(ErrorMessage = "Yêu cầu nhập tên danh mục")]
+        [Required(ErrorMessage = "Yêu cầu nhập tên danh mục ")]
         public string Name { set; get; }
 
-        [Required(ErrorMessage = "Yêu cầu nhập tiêu đề SEO")]
+        [Required(ErrorMessage = "Yêu cầu nhập tiêu đề  SEO")]
         public string Alias { set; get; }
 
         public string Description { set; get; }
