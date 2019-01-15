@@ -13,9 +13,9 @@
         }
 
         // viết sự kiện submit
-        $scope.AddProductCaterory = AddProductCaterory;
+        $scope.AddProductCategory = AddProductCategory;
 
-        function AddProductCaterory() {
+        function AddProductCategory() {
             apiService.post('api/productcategory/create', $scope.productCategory, function (result) {
                 notificationService.displaySuccess(result.data.Name + ' đã được thêm mới');
                 $state.go('product_categories');

@@ -18,7 +18,12 @@
                 url: "/productCategoryAdd",
                 templateUrl: "/app/components/product_categories/productCategoryAddView.html",
                 controller: "productCategoryAddController"
-            }); 
+            })
+            .state('productCategoryEdit', {
+                url: "/productCategoryEdit/:id",
+                templateUrl: "/app/components/product_categories/productCategoryEditView.html",
+                controller: "productCategoryEditController"
+            }); ; 
 
     }
 })();// chỉ ra module này thuộc tp nào không có bỏ trống

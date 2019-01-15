@@ -1,7 +1,7 @@
 ﻿
 
 
-//service dùng chung cho cả app
+//apiservice dùng chung cho cả app
 (function (app) {
     app.factory('apiService', apiService);
 
@@ -10,7 +10,8 @@
     function apiService($http, notificationService) {
         return {
             get: get,
-            post:post
+            post: post,
+            put :put
         }
         // định nghĩa phương thức get
         function get(url, params, success, failed) {
@@ -21,9 +22,25 @@
                     failed(error);
                 }
         }
+
         // định nghĩa post
         function post(url, data, success, failed) {
             $http.post(url, data).then(function (result) {
+                success(result)
+            }, function (error) {
+                if (error.status === 401) {
+                    notificationService.displayError('Bạn cần đăng nhập');
+                }
+                else if (failed != null) {
+                    failed(error);
+                }
+                failed(error);
+            });
+        }
+
+        // định nghĩa put
+        function put(url, data, success, failed) {
+            $http.put(url, data).then(function (result) {
                 success(result)
             }, function (error) {
                 if (error.status === 401) {

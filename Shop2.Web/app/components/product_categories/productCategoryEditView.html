@@ -4,14 +4,14 @@
 
 <section class="content-header">
     <h1>
-        Danh Mục Sản Phẩm
-        
+      Cập nhật danh mục : {{productCategory.Name}}
+
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Trang Chủ</a></li>
         <li><a href="#">Sản Phẩm</a></li>
         <li><a ui-sref="product_categories">Danh Mục</a></li>
-        <li class="active">Thêm Mới</li>
+        <li class="active">Cập Nhật</li>
     </ol>
 </section>
 <section class="content">
@@ -20,20 +20,20 @@
             <!-- Horizontal Form -->
             <div class="box box-info">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Thêm Mới</h3>
+                    <h3 class="box-title">{{productCategory.Name}}</h3>
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-
                 <!--novalidate  loại bỏ cơ chế validate mặc định của form-->
-                <form class="form-horizontal" novalidate name="frmAddProductCategory" role="form" ng-submit="AddProductCategory()">
+                <form class="form-horizontal" novalidate name="frmUpdateProductCategory" role="form" ng-submit="UpdateProductCategory()">
                     <div class="box-body">
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">Tên Danh Mục</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="name" ng-model="productCategory.Name">
+                                <!--gọi hàm biến đổi name vè seo-->
+                                <input type="text" class="form-control" ng-change="GetSeoTitle()" name="name" ng-model="productCategory.Name">
                             </div>
                         </div>
 
@@ -49,7 +49,7 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Mô Tả Ngắn</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control"  name="Description" ng-model="productCategory.Description">
+                                <input type="text" class="form-control" name="Description" ng-model="productCategory.Description">
                             </div>
                         </div>
 
@@ -57,7 +57,7 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Danh Mục Cha</label>
 
                             <div class="col-sm-10">
-               
+
                                 <select name="ParentID" class="form-control" ng-model="productCategory.ParentID" ng-options="option.ID as option.Name for option in parentCategories ">
                                     <option value="">Danh Mục Gốc</option>
                                 </select>
@@ -69,7 +69,7 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Thứ Tự</label>
 
                             <div class="col-sm-10">
-                                <input type="number" class="form-control"  name="DisplayOrder" ng-model="productCategory.DisplayOrder">
+                                <input type="number" class="form-control" name="DisplayOrder" ng-model="productCategory.DisplayOrder">
                             </div>
                         </div>
 
@@ -85,7 +85,7 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Meta Keyword</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control"  name="MetaKeyword" ng-model="productCategory.MetaKeyword">
+                                <input type="text" class="form-control" name="MetaKeyword" ng-model="productCategory.MetaKeyword">
                             </div>
                         </div>
 
@@ -93,7 +93,7 @@
                             <label for="inputPassword3" class="col-sm-2 control-label">Meta Description</label>
 
                             <div class="col-sm-10">
-                                <input type="text" class="form-control"  name="MetaDescription" ng-model="productCategory.MetaDescription">
+                                <input type="text" class="form-control" name="MetaDescription" ng-model="productCategory.MetaDescription">
                             </div>
                         </div>
 
@@ -107,7 +107,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox"  name="HomeFlag" ng-model="productCategory.HomeFlag" ng-checked="productCategory.HomeFlag"> Hiển Thị Trang Chủ
+                                        <input type="checkbox" name="HomeFlag" ng-model="productCategory.HomeFlag" ng-checked="productCategory.HomeFlag"> Hiển Thị Trang Chủ
                                     </label>
                                 </div>
                             </div>
@@ -116,14 +116,14 @@
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <button ui-sref="product_categories" class="btn btn-default">Trở Về</button>
-                        <button type="submit" class="btn btn-success pull-right">Thêm Mới</button>
+                        <button type="submit" class="btn btn-success pull-right">Lưu</button>
                     </div>
                     <!-- /.box-footer -->
                 </form>
             </div>
-           
+
         </div>
-  
+
     </div>
     <!-- /.row -->
 </section>
