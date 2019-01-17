@@ -15,7 +15,7 @@ namespace Shop2.Data
     // ASP.NET Identity (1 công nghệ giúp chúng ta trong bài toán xác thực và phân quyền người dùng trên website)
     public class Shop2DbContext : IdentityDbContext<ApplicationUser>
     {
-        internal object ApplicationUser;
+        //internal object ApplicationUser;
 
         public Shop2DbContext() : base("Shop2Connection")
             {

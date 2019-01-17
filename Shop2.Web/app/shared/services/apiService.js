@@ -11,7 +11,8 @@
         return {
             get: get,
             post: post,
-            put :put
+            put: put,
+            del: del
         }
         // định nghĩa phương thức get
         function get(url, params, success, failed) {
@@ -51,6 +52,15 @@
                 }
                 failed(error);
             });
+        }
+
+        function del(url, params, success, failed) {
+            $http.delete(url, params).then(function (result) {
+                success(result);
+            }),
+                function (error) {
+                    failed(error);
+                }
         }
     }
 })(angular.module('shop2.common'));
