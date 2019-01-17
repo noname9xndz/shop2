@@ -27,7 +27,8 @@
                                 <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khóa">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
-                                    <button  style="margin-left:20px"class="btn btn-success" type="button" ui-sref="productCategoryAdd">Thêm Mới</button>
+                                    <button style="margin-left:20px" class="btn btn-success" type="button" ui-sref="productCategoryAdd">Thêm Mới</button>
+                                    <button style="margin-left:20px" class="btn btn-success" type="button" ng-click="deleteMulti()" id="btnDelete"  disabled>Xóa</button>
                                 </span>
                             </div>
                         </div>
@@ -42,6 +43,7 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
+                                <th><label><input type="checkbox" name="all" ng-click="selectAll()"  /></label></th>
                                 <th style="width: 5%">ID</th>
                                 <th style="width: 55%">Tên Danh Mục</th>
                                 <th style="width: 20%">Ngày Tạo</th>
@@ -50,6 +52,7 @@
                             </tr>
                             <!--dùng ng-repeat để hiển thị danh sách gọi từ api-->
                             <tr ng-repeat="item in productCategories">
+                                <td><input type="checkbox" name="all" ng-model="item.checked" /></td> 
                                 <td>{{item.ID}}</td>
                                 <td>{{item.Name}}</td>
                                 <td>

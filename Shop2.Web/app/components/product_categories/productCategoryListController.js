@@ -4,9 +4,9 @@
 (function (app) {
     app.controller('productCategoryListController', productCategoryListController);
     // truyền đối tượng apiService  để get dữ liệu từ webapi
-    productCategoryListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox'];
+    productCategoryListController.$inject = ['$scope', 'apiService', 'notificationService', '$ngBootbox','$filter'];
 
-    function productCategoryListController($scope, apiService, notificationService, $ngBootbox) {
+    function productCategoryListController($scope, apiService, notificationService, $ngBootbox, $filter) {
         // lấy tạo mảng productCategories
         $scope.productCategories = [];
 
@@ -15,11 +15,67 @@
 
         // lấy dữ liệu từ webapi
         $scope.getProductCategories = getProductCategories;
+
         $scope.keyword = '';
 
         $scope.search = search;
 
         $scope.deleteProductCategory = deleteProductCategory;
+
+        $scope.selectAll = selectAll;
+
+        $scope.deleteMulti = deleteMulti;
+        // xóa nhiều 
+        function deleteMulti() {
+            var listId = [];
+            // gọi lại selected bên dưới,lấy ra id trong listProductCategory trong api
+            $.each($scope.selected, function (i, item) {
+                listId.push(item.ID);
+            });
+            var config = {
+                // đưa list id vào
+                params: {
+                    // biến đổi kiểu json trả về thành string
+                    checkedProductCategories: JSON.stringify(listId)
+                }
+            }
+            apiService.del('api/productcategory/deletemulti', config, function (result)
+            {
+                notificationService.displaySuccess('Xóa thành công ' + result.data + ' bản ghi.');
+                // gọi lại hàm hiển thị
+                search();
+            }, function (error) {
+                notificationService.displayError('Xóa không thành công');
+            });
+        }
+        // sự kiện cho nút select All
+        // kiểm tra sự kiện trên selectAll, sự kiện này được binding vào  ng-model="item.checked"
+        $scope.isAll = false;
+        function selectAll() {
+            if ($scope.isAll === false) {
+                angular.forEach($scope.productCategories, function (item) {
+                    item.checked = true;
+                });
+                $scope.isAll = true;
+            } else {
+                angular.forEach($scope.productCategories, function (item) {
+                    item.checked = false;
+                });
+                $scope.isAll = false;
+            }
+        }
+        // sự kiện cho nút xóa
+        // dùng watch + filter lắng nghe sự thay đổi(check) của list này 2 tham số : tên của list,hàm call back(giá trị mới , giá trị cũ)
+        $scope.$watch("productCategories", function (n, o) {
+            var checked = $filter("filter")(n, { checked: true });
+            if (checked.length) {
+                $scope.selected = checked;
+                $('#btnDelete').removeAttr('disabled');
+            } else {
+                $('#btnDelete').attr('disabled', 'disabled');
+            }
+        }, true);
+
 
         function deleteProductCategory(id) {
             $ngBootbox.confirm('Bạn có chắc muốn xóa?').then(function () {
@@ -28,7 +84,7 @@
                         id: id
                     }
                 }
-                apiService.del('api/productcategory/delete', config, function () {
+                apiService.del('api/productcategory/delete',  config, function () {
                     notificationService.displaySuccess('Xóa thành công');
                     search();
                 }, function () {
