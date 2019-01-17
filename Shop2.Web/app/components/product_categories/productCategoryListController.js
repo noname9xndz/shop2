@@ -17,7 +17,6 @@
         $scope.getProductCategories = getProductCategories;
 
         $scope.keyword = '';
-
         $scope.search = search;
 
         $scope.deleteProductCategory = deleteProductCategory;

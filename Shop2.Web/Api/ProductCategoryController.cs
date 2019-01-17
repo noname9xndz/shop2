@@ -210,6 +210,7 @@ namespace Shop2.Web.Api
                 }
                 else
                 {
+                    // thư viện JavaScriptSerializer giúp ta dữ liệu text dưới dạng JSON qua một đối tượng tương ứng ở đây 
                     var listProductCategory = new JavaScriptSerializer().Deserialize<List<int>>(checkedProductCategories);
                     foreach(var item in listProductCategory)
                     {

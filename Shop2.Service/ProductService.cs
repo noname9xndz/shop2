@@ -9,59 +9,66 @@ using System.Threading.Tasks;
 
 namespace Shop2.Service
 {
-    public interface IProduct
+    public interface IProductService
     {
-        Product Add(Product product);
+        Product Add(Product Product);
 
-        void Update(Product product);
+        void Update(Product Product);
 
         Product Delete(int id);
 
         IEnumerable<Product> GetAll();
 
-        IEnumerable<Product> GetAllByParentId(int parentID);
+        // tìm kiếm theo điều kiện gì đó
+        IEnumerable<Product> GetAllByKeyWord(string keyword);
 
         Product GetById(int id);
 
         void Save();
-
-
     }
-    public class ProductService : IProduct
-    {
-        IProductRepository _productRepository;
-        IUnitOfWork _unitOfWork;
-        public ProductService(IProductRepository productRepository,IUnitOfWork unitOfWork)
-        {
 
-            this._productRepository = productRepository;
+    public class ProductService : IProductService
+    {
+        private IProductRepository _ProductRepository;
+        private IUnitOfWork _unitOfWork;
+
+        public ProductService(IProductRepository ProductRepository, IUnitOfWork unitOfWork)
+        {
+            this._ProductRepository = ProductRepository;
             this._unitOfWork = unitOfWork;
         }
 
-        public Product Add(Product product)
+        public Product Add(Product Product)
         {
-            return _productRepository.Add(product);
+            return _ProductRepository.Add(Product);
         }
 
         public Product Delete(int id)
         {
-            return _productRepository.Delete(id);
+            return _ProductRepository.Delete(id);
         }
 
         public IEnumerable<Product> GetAll()
         {
-            return _productRepository.GetAll();
+            return _ProductRepository.GetAll();
+        }
+        // tìm kiếm theo điều kiện người dùng nhập vào
+        public IEnumerable<Product> GetAllByKeyWord(string keyword)
+        {
+            if(!string.IsNullOrEmpty(keyword))
+            { 
+              return _ProductRepository.GetMulti(x => x.Name.Contains(keyword) || x.Description.Contains(keyword));
+            }
+            else
+            {
+                return _ProductRepository.GetAll();
+            }
         }
 
-        public IEnumerable<Product> GetAllByParentId(int parentID)
-        {
-            
-            return _productRepository.GetMulti(x => x.Status);
-        }
 
         public Product GetById(int id)
         {
-            return _productRepository.GetSingleById(id);
+            return _ProductRepository.GetSingleById(id);
         }
 
         public void Save()
@@ -69,9 +76,9 @@ namespace Shop2.Service
             _unitOfWork.Commit();
         }
 
-        public void Update(Product product)
+        public void Update(Product Product)
         {
-            throw new NotImplementedException();
+            _ProductRepository.Update(Product);
         }
     }
 
