@@ -24,14 +24,21 @@
         }
         //  lấy về id
         function loadproductDetail() {
+           
+            $scope.product.MoreImages = JSON.stringify($scope.moreImages);
             apiService.get('api/product/getbyid/' + $stateParams.id, null, function (result) {
                 $scope.product = result.data;
+                // load moreImages chuyển đổi từ json sang mảng để angular js đọc
+                $scope.moreImages = JSON.parse ($scope.product.MoreImages);
             }, function (error) {
                 notificationService.displayError(error.data);
             });
         }
 
         function Updateproduct() {
+            // chuyển đổi sang string để add vào database
+            $scope.product.MoreImages = JSON.stringify($scope.moreImages);
+
             apiService.put('api/product/update', $scope.product,
                 function (result) {
                     notificationService.displaySuccess(result.data.Name + ' đã được cập nhật.');
@@ -40,13 +47,28 @@
                     notificationService.displayError('Cập nhật không thành công.');
                 });
         }
-        // upsload ảnh 
+
+        // up load ảnh sp
         $scope.ChooseImage = function () {
             var finder = new CKFinder();
             finder.selectActionFunction = function (fileUrl) {
                 $scope.$apply(function () {
                     $scope.product.Image = fileUrl;
                 })
+            }
+            finder.popup();
+        }
+
+        // up ảnh mô tả sp
+        $scope.moreImages = [];
+
+        $scope.ChooseMoreImage = function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $scope.$apply(function () {
+                    $scope.moreImages.push(fileUrl);
+                })
+
             }
             finder.popup();
         }

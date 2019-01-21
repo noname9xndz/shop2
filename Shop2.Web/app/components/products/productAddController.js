@@ -28,6 +28,9 @@
         }
 
         function AddProduct() {
+            // chuyển đổi sang string để add vào database
+            $scope.product.MoreImages = JSON.stringify($scope.moreImages);
+
             apiService.post('api/product/create', $scope.product, function (result) {
                 notificationService.displaySuccess(result.data.Name + ' đã được thêm mới');
                 $state.go('products');
@@ -36,6 +39,7 @@
             });
         }
 
+        // up load ảnh sp
         $scope.ChooseImage = function () {
             var finder = new CKFinder();
             finder.selectActionFunction = function (fileUrl) {
@@ -45,7 +49,20 @@
             }
             finder.popup();
         }
-       
+
+        // up ảnh mô tả sp
+        $scope.moreImages = [];
+
+        $scope.ChooseMoreImage = function () {
+            var finder = new CKFinder();
+            finder.selectActionFunction = function (fileUrl) {
+                $scope.$apply(function () {
+                    $scope.moreImages.push(fileUrl);
+                })
+
+            }
+            finder.popup();
+        }
 
         function loadProductCategory() {
             apiService.get('api/productcategory/getallparents', null, function (result) {
