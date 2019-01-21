@@ -119,7 +119,7 @@
                 //    notificationService.displaySuccess('tìm thấy ' + result.data.TotalCount + ' bản ghi');
                 //}
                 // lấy về data 
-                $scope.productCategories = result.data.Items;
+                $scope.products = result.data.Items;
                 // lấy về giá trị dùng để phân trang
                 $scope.page = result.data.Page;
                 $scope.pagesCount = result.data.TotalPages;

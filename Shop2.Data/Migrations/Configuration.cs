@@ -20,6 +20,7 @@
         {
             CreateProductCategory(context);
             //CreateApplicationUser(context);
+            CreateProduct(context);
 
 
         }
@@ -67,6 +68,19 @@
                  new ProductCategory(){ Name = "Mỹ Phẩm",Alias = "my-pham",Status = true},
             };
                 context.ProductCategories.AddRange(listProductCategory);
+                context.SaveChanges();
+            }
+        }
+        private void CreateProduct(Shop2.Data.Shop2DbContext context)
+        {
+            if(context.Products.Count()==0)
+            {
+                List<Product> listProduct = new List<Product>()
+                {
+                    new Product(){Name="sam sung s7",Alias="sam-sung-s7",CategoryID=1,Price=3232,Status=true,Tags="samsung"},
+                    new Product(){Name="xiaomi mi max",Alias="mi-max",CategoryID=3,Price=3434232,Status=false,Tags="xiaomi"}
+                };
+                context.Products.AddRange(listProduct);
                 context.SaveChanges();
             }
         }

@@ -84,7 +84,7 @@ namespace Shop2.Web.Api
         [Route("create")]
         [HttpPost]
         [AllowAnonymous] // cho phép post vào nặc danh chưa cần đăng nhập
-        public HttpResponseMessage Creat(HttpRequestMessage request, ProductViewModel ProductViewModel)
+        public HttpResponseMessage Create(HttpRequestMessage request, ProductViewModel ProductViewModel)
         {
             return CreateHttpResponse(request, () =>
             {

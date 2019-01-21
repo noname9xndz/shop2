@@ -3,8 +3,8 @@
 (function (app) {
     app.controller('productAddController', productAddController);
     //$state đói tượng của ui router để điều hướng
-    productAddController.$inject = ['apiService', '$scope', 'notificationService', '$state'];
-    function productAddController(apiService, $scope, notificationService, $state) {
+    productAddController.$inject = ['apiService', '$scope', 'notificationService', '$state','commonService'];
+    function productAddController(apiService, $scope, notificationService, $state,commonService) {
 
         $scope.product = {
             // khởi tạo mặc định các giá trị
@@ -20,12 +20,17 @@
             height: '200px'
         };
 
-
+         // chuẩn hóa seo
+        $scope.GetSeoTitle = GetSeoTitle;
+        // nhớ gọi hàm này bằng ng-change trên trang html
+        function GetSeoTitle() {
+            $scope.product.Alias = commonService.getSeoTitle($scope.product.Name)
+        }
 
         function AddProduct() {
             apiService.post('api/product/create', $scope.product, function (result) {
                 notificationService.displaySuccess(result.data.Name + ' đã được thêm mới');
-                $state.go('product_categories');
+                $state.go('products');
             }, function (error) {
                 notificationService.displaySuccess('Thêm mới không thành công');
             });
