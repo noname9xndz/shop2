@@ -16,6 +16,7 @@ using System.Web.Script.Serialization;
 namespace Shop2.Web.Api
 {
     [RoutePrefix("api/product")]
+    [Authorize] // bắt buộc đăng nhập mói vô được
     public class ProductController : ApiControllerBase
     {
         IProductService _productService;
@@ -99,6 +100,7 @@ namespace Shop2.Web.Api
                     var newProduct = new Product();
                     newProduct.UpdateProduct(ProductViewModel);
                     newProduct.CreatedDate = DateTime.Now;
+                    newProduct.CreatedBy = User.Identity.Name;
                     _productService.Add(newProduct);
                     _productService.Save();
 
@@ -152,6 +154,7 @@ namespace Shop2.Web.Api
 
                     dbProduct.UpdateProduct(ProductViewModel);
                     dbProduct.UpdatedDate = DateTime.Now;
+                    dbProduct.CreatedBy = User.Identity.Name;
 
                     _productService.Update(dbProduct);
                     _productService.Save();

@@ -23,6 +23,12 @@ namespace Shop2.Model.Models
         //  tạo danh tính người dùng 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
+            //cơ chế clamis là cơ chế giống như lưu session(tk,mk,tên,mail,phân quyền..) trong ứng dụng 
+            //còn clamis mở rộng nó sẽ mã hóa chứa nhiều thông tin của user và có thể trao đổi qua lại với client
+            // mỗi lân đăng nhập nó sẽ có token khác nhau, mỗi request gửi lên(query với phần quản trị) phải kèm theo token này vào header của request 
+            // Token sẽ dc lưu sử dụng localStorageModule ,logout thì token này sẽ được xóa đi 
+            //  Nếu không có token xem như user chưa đăng nhập 
+
             //add cơ chế quản lý thông qua cookies
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);

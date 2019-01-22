@@ -4,7 +4,9 @@
     //cấu hình router cho shop2
     angular.module('shop2', ['shop2.products',
                              'shop2.productCategories',
-                              'shop2.common']).config(config);
+                              'shop2.common'])
+                             .config(config)
+                              .config(configAuthentication);
 
     // dependency 2 service được định nghĩa sẵn trong ui-route $stateProvider,$urlRouterProvider giúp điều hướng trang
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -37,4 +39,34 @@
         $urlRouteProvider.otherwise('/login');
         
     }
+
+    // check request lên có token hay ko
+    // interceptors giúp quản trị việc tương tác giữa client và server
+    function configAuthentication($httpProvider) {
+        $httpProvider.interceptors.push(function ($q, $location) {
+            return {
+                request: function (config) {
+                    return config;
+                },
+                requestError: function (rejection) {
+
+                    return $q.reject(rejection);
+                },
+                response: function (response) {
+                    if (response.status == "401") {
+                        $location.path('/login');
+                    }
+                    return response;
+                },
+                responseError: function (rejection) {
+
+                    if (rejection.status == "401") {
+                        $location.path('/login');
+                    }
+                    return $q.reject(rejection);
+                }
+            };
+        });
+    }
+
 })();// chỉ ra module này thuộc tp nào không có bỏ trống

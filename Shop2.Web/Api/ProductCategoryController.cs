@@ -16,6 +16,7 @@ using System.Web.Script.Serialization;
 namespace Shop2.Web.Api
 {
     [RoutePrefix("api/productcategory")]
+    [Authorize] // bắt buộc đăng nhập mói vô được
     public class ProductCategoryController : ApiControllerBase
     {
         IProductCategoryService _productCategoryService;
@@ -29,6 +30,7 @@ namespace Shop2.Web.Api
 
         [Route("getall")]
         [HttpGet]
+       
         public HttpResponseMessage Get(HttpRequestMessage request,string keyword,int page,int pageSize=20)
         {
             return CreateHttpResponse(request,
@@ -63,6 +65,7 @@ namespace Shop2.Web.Api
 
         [Route("getallparents")]
         [HttpGet]
+       
         public HttpResponseMessage GetAllParents(HttpRequestMessage request)
         {
             return CreateHttpResponse(request,
@@ -83,7 +86,8 @@ namespace Shop2.Web.Api
 
         [Route("create")]
         [HttpPost]
-        [AllowAnonymous] // cho phép post vào nặc danh chưa cần đăng nhập
+        [Authorize] // bắt buộc đăng nhập mói vô được
+       
         public HttpResponseMessage Creat(HttpRequestMessage request,ProductCategoryViewModel productCategoryViewModel)
         {
             return CreateHttpResponse(request, () =>
@@ -99,6 +103,7 @@ namespace Shop2.Web.Api
                     var newProductCategory = new ProductCategory();
                     newProductCategory.UpdateProductCategory(productCategoryViewModel);
                     newProductCategory.CreatedDate = DateTime.Now;
+                    newProductCategory.CreatedBy = User.Identity.Name;
                     _productCategoryService.Add(newProductCategory);
                     _productCategoryService.Save();
 
@@ -116,6 +121,7 @@ namespace Shop2.Web.Api
         // lấy về id để update
         [Route("getbyid/{id:int}")]
         [HttpGet]
+        
         public HttpResponseMessage GetByID(HttpRequestMessage request,int id)
         {
             return CreateHttpResponse(request,
@@ -135,7 +141,8 @@ namespace Shop2.Web.Api
 
         [Route("update")]
         [HttpPut] 
-        [AllowAnonymous] 
+        [AllowAnonymous]
+      
         public HttpResponseMessage Update(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
         {
             return CreateHttpResponse(request, () =>
@@ -152,6 +159,7 @@ namespace Shop2.Web.Api
 
                     dbProductCategory.UpdateProductCategory(productCategoryViewModel);
                     dbProductCategory.UpdatedDate = DateTime.Now;
+                    dbProductCategory.CreatedBy = User.Identity.Name;
 
                     _productCategoryService.Update(dbProductCategory);
                     _productCategoryService.Save();
@@ -169,6 +177,7 @@ namespace Shop2.Web.Api
         [Route("delete")]
         [HttpDelete]
         [AllowAnonymous]
+        
         public HttpResponseMessage Delete(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel,int id)
         {
             return CreateHttpResponse(request, () =>
@@ -198,6 +207,7 @@ namespace Shop2.Web.Api
         [Route("deletemulti")]
         [HttpDelete]
         [AllowAnonymous]
+        
         public HttpResponseMessage DeleteMulti(HttpRequestMessage request,string checkedProductCategories)
         {
             return CreateHttpResponse(request, () =>

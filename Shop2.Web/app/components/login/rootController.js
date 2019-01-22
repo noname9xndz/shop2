@@ -1,13 +1,18 @@
 ﻿(function (app) {
     // chứa các phương thức dùng chung cho toàn app
     app.controller('rootController', rootController);
+    
 
-    rootController.$inject = ['$scope', '$state'];
-    function rootController($scope, $state) {
-        // logout dùng chung cho cả app
-        $scope.logout = function () {
+    rootController.$inject = ['$state', 'authData', 'loginService', '$scope', 'authenticationService'];
+
+    function rootController($state, authData, loginService, $scope, authenticationService) {
+        $scope.logOut = function () {
+            loginService.logOut();
             $state.go('login');
         }
+        $scope.authentication = authData.authenticationData;
+
+       // authenticationService.validateRequest();
     }
 
 })(angular.module('shop2'));

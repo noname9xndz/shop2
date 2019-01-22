@@ -12,6 +12,7 @@ using Shop2.Web.Infrastructure.Extensions;
 namespace Shop2.Web.Api
 {
     [RoutePrefix("api/postcategory")]
+    [Authorize] // bắt buộc đăng nhập mói vô được
     // kế thừa ApiControllerBase ở Infrastructure>Core
     public class PostCategoryController : ApiControllerBase
     {
@@ -27,6 +28,7 @@ namespace Shop2.Web.Api
             this._postCategoryService = postCategoryService;
         }
         [Route("getall")] // gọi theo route được điều hướng : http://localhost:50445/api/postcategory/getall
+       
         // select dữ liệu
         public HttpResponseMessage Get(HttpRequestMessage request)
         {
@@ -51,6 +53,7 @@ namespace Shop2.Web.Api
 
         // thêm mới đối tượng
         [Route("add")]
+        
         public HttpResponseMessage Post(HttpRequestMessage request, PostCategoryViewModel postCategoryViewModel)
         {
             return CreateHttpResponse(request, 
@@ -80,6 +83,7 @@ namespace Shop2.Web.Api
         }
         // chỉnh sửa
         [Route("update")]
+        
         public HttpResponseMessage Put(HttpRequestMessage request, PostCategoryViewModel postCategoryViewModel)
         {
             return CreateHttpResponse(request,

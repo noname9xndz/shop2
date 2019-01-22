@@ -6,8 +6,8 @@
     app.factory('apiService', apiService);
 
     // http 1 service có sẵn của angular
-    apiService.$inject = ['$http','notificationService'];
-    function apiService($http, notificationService) {
+    apiService.$inject = ['$http', 'notificationService', 'authenticationService'];
+    function apiService($http, notificationService,authenticationService) {
         return {
             get: get,
             post: post,
@@ -16,6 +16,7 @@
         }
         // định nghĩa phương thức get
         function get(url, params, success, failed) {
+            authenticationService.setHeader(); //add token hiện tại vào để xác nhận
             $http.get(url, params).then(function (result) {
                 success(result);
             }),
@@ -26,6 +27,7 @@
 
         // định nghĩa post
         function post(url, data, success, failed) {
+            authenticationService.setHeader(); //add token hiện tại vào để xác nhận
             $http.post(url, data).then(function (result) {
                 success(result)
             }, function (error) {
@@ -41,6 +43,7 @@
 
         // định nghĩa put
         function put(url, data, success, failed) {
+            authenticationService.setHeader();
             $http.put(url, data).then(function (result) {
                 success(result)
             }, function (error) {
@@ -55,6 +58,7 @@
         }
 
         function del(url, params, success, failed) {
+            authenticationService.setHeader();
             $http.delete(url, params).then(function (result) {
                 success(result);
             }),
