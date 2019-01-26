@@ -9,7 +9,6 @@ namespace Shop2.Model.Models
     {
         [Key] // khóa chính của
               // set id tự động tăng
-        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [MaxLength(50)] // tránh việc tốn bộ nhớ
         public string ID { set; get; }
 

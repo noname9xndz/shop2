@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using Shop2.Common;
     using Shop2.Model.Models;
     using System;
     using System.Collections.Generic;
@@ -84,5 +85,14 @@
                 context.SaveChanges();
             }
         }
+        //private void CreateFooter(Shop2.Data.Shop2DbContext context)
+        //{
+        //    if (context.Footers.Count(x=>x.ID==CommonConstants.DefaultFooterID) == 0)
+        //    {
+        //        string content = "";
+        //        //context.Products.AddRange(content);
+        //        //context.SaveChanges();
+        //    }
+        //}
     }
 }

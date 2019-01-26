@@ -10,19 +10,33 @@ namespace Shop2.Web.Mappings
         //Bản chất ở đây chúng at sẽ map 1 class trong shop.Model với 1 ViewModel trong shop.Web
         public static void Configure()
         {
-            
-            Mapper.CreateMap<Post, PostViewModel>();
-            Mapper.CreateMap<PostCategory, PostCategoryViewModel>();
-            Mapper.CreateMap<Tag, TagViewModel>();
+            // cơ chế cũ
+            //Mapper.CreateMap<Post, PostViewModel>();
+            //Mapper.CreateMap<PostCategory, PostCategoryViewModel>();
+            //Mapper.CreateMap<Tag, TagViewModel>();
+            //Mapper.CreateMap<ProductCategory, ProductCategoryViewModel>();
+            //Mapper.CreateMap<Product, ProductViewModel>();
+            //Mapper.CreateMap<ProductTag, ProductTagViewModel>();
+            //Mapper.CreateMap<Footer, FooterViewModel>();
+            //Mapper.CreateMap<Slide, SlideViewModel>();
+            //Mapper.CreateMap<Page, PageViewModel>();
 
-            Mapper.CreateMap<ProductCategory, ProductCategoryViewModel>();
-            Mapper.CreateMap<Product, ProductViewModel>();
-            Mapper.CreateMap<ProductTag, ProductTagViewModel>();
-            Mapper.CreateMap<Footer, FooterViewModel>();
-#pragma warning disable CS0618 // Type or member is obsolete
-            Mapper.CreateMap<Slide, SlideViewModel>();
-#pragma warning restore CS0618 // Type or member is obsolete
-            Mapper.CreateMap<Page, PageViewModel>();
+
+            Mapper.Initialize(cfg => {
+
+                
+                cfg.CreateMap<Post, PostViewModel>();
+                cfg.CreateMap<PostCategory, PostCategoryViewModel>();
+                cfg.CreateMap<Tag, TagViewModel>();
+                cfg.CreateMap<ProductCategory, ProductCategoryViewModel>();
+                cfg.CreateMap<Product, ProductViewModel>();
+                cfg.CreateMap<ProductTag, ProductTagViewModel>();
+                cfg.CreateMap<Footer, FooterViewModel>();
+                cfg.CreateMap<Slide, SlideViewModel>();
+                cfg.CreateMap<Page, PageViewModel>();
+
+            });
+
         }
     }
 }
