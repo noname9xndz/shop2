@@ -70,6 +70,10 @@
     <Compile Include="Migrations\201901190814110_AddTagFiled.Designer.cs">
       <DependentUpon>201901190814110_AddTagFiled.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901281335369_addcontenttoslide.cs" />
+    <Compile Include="Migrations\201901281335369_addcontenttoslide.Designer.cs">
+      <DependentUpon>201901281335369_addcontenttoslide.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ErrorRepository.cs" />
@@ -112,6 +116,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901190814110_AddTagFiled.resx">
       <DependentUpon>201901190814110_AddTagFiled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901281335369_addcontenttoslide.resx">
+      <DependentUpon>201901281335369_addcontenttoslide.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

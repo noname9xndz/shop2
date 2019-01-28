@@ -23,8 +23,14 @@ namespace Shop2.Service
         // tìm kiếm theo điều kiện gì đó
         IEnumerable<Product> GetAllByKeyWord(string keyword);
 
+        // sp mới nhât
+        IEnumerable<Product> GetLastest(int top);
+        // sp bán chạy
+        IEnumerable<Product> GetHotProduct(int top);
+
         Product GetById(int id);
 
+        
         void Save();
     }
 
@@ -113,6 +119,16 @@ namespace Shop2.Service
         public Product GetById(int id)
         {
             return _ProductRepository.GetSingleById(id);
+        }
+
+        public IEnumerable<Product> GetHotProduct(int top)
+        {
+            return _ProductRepository.GetMulti(x => x.Status && x.HomeFlag==true).OrderByDescending(x => x.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Product> GetLastest(int top)
+        {
+            return _ProductRepository.GetMulti(x => x.Status).OrderByDescending(x => x.CreatedDate).Take(top);
         }
 
         public void Save()

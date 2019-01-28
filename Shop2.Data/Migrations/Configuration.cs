@@ -22,11 +22,13 @@
             CreateProductCategory(context);
             //CreateApplicationUser(context);
             CreateProduct(context);
+            CreateSlide(context);
 
 
         }
         private void CreateApplicationUser(Shop2.Data.Shop2DbContext context)
         {
+            
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new Shop2DbContext()));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new Shop2DbContext()));
 
@@ -85,14 +87,32 @@
                 context.SaveChanges();
             }
         }
-        //private void CreateFooter(Shop2.Data.Shop2DbContext context)
-        //{
-        //    if (context.Footers.Count(x=>x.ID==CommonConstants.DefaultFooterID) == 0)
-        //    {
-        //        string content = "";
-        //        //context.Products.AddRange(content);
-        //        //context.SaveChanges();
-        //    }
-        //}
+        private void CreateSlide(Shop2.Data.Shop2DbContext context)
+        {
+            if (context.Slides.Count() == 0)
+            {
+                List<Slide> listSilde = new List<Slide>()
+                {
+                    new Slide() {
+                        Name ="slide 1",
+                        DisplayOrder =1,
+                        Status =true,
+                        URL ="#",
+                        Image ="/Assets/client/images/bag.jpg" ,
+                        Description="@@",
+                        Content =@"<h2>FLAT 50% 0FF</h2>
+                                <label>FOR ALL PURCHASE <b>VALUE</b></label>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et </p>
+                                <span class=""on-get"">GET NOW</span>"},
+
+                    new Slide() { Name="slide 2",DisplayOrder=2,Status=true,URL="#",Image="/Assets/client/images/bag1.jpg",Description="@@",Content=@"<h2>FLAT 50% 0FF</h2>
+                                <label>FOR ALL PURCHASE <b>VALUE</b></label>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et </p>
+                                <span class=""on-get"">GET NOW</span>"}
+                };
+                context.Slides.AddRange(listSilde);
+                context.SaveChanges();
+            }
+        }
     }
 }
