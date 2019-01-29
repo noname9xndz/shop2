@@ -3,8 +3,8 @@
 (function (app) {
     app.controller('productCategoryAddController', productCategoryAddController);
     //$state đói tượng của ui router để điều hướng
-    productCategoryAddController.$inject = ['apiService', '$scope', 'notificationService', '$state'];
-    function productCategoryAddController(apiService, $scope, notificationService, $state) {
+    productCategoryAddController.$inject = ['apiService', '$scope', 'notificationService', '$state', 'commonService'];
+    function productCategoryAddController(apiService, $scope, notificationService, $state,commonService) {
 
         $scope.productCategory = {
             // khởi tạo mặc định các giá trị
@@ -15,6 +15,11 @@
         // viết sự kiện submit
         $scope.AddProductCategory = AddProductCategory;
 
+        $scope.GetSeoTitle = GetSeoTitle;
+        // nhớ gọi hàm này bằng ng-change trên trang html
+        function GetSeoTitle() {
+            $scope.productCategory.Alias = commonService.getSeoTitle($scope.productCategory.Name)
+        }
     
 
         function AddProductCategory() {
