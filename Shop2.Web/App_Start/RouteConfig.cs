@@ -32,7 +32,12 @@ namespace Shop2.Web
               namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
           );
 
-
+            routes.MapRoute(
+                name: "Search",
+                url: "tim-kiem.html",
+                defaults: new { controller = "Product", action = "Search", id = UrlParameter.Optional },
+              namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+            );
 
             routes.MapRoute(
                name: "About",

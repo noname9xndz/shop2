@@ -54,5 +54,40 @@ namespace Shop2.Web.Controllers
 
             return View(paginationSet);
         }
+        public JsonResult GetListProductByName(string keyword)
+        {
+            var productModel = _productService.GetListProductByName(keyword);
+            return Json(new
+            {
+                data = productModel
+
+            },JsonRequestBehavior.AllowGet);
+
+        }
+        public ActionResult Search(string keyword, int page = 1, string sort = "")
+        {
+            int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
+            int totalRow = 0;
+            var productModel = _productService.SearchProductByName(keyword, page, pageSize, out totalRow, sort);
+            var productView = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(productModel);
+
+
+            int totalPage = (int)(Math.Ceiling((double)totalRow / pageSize));
+
+            ViewBag.Keyword = keyword;
+            var paginationSet = new PaginationSet<ProductViewModel>()
+            {
+
+                Items = productView,
+                MaxPage = int.Parse(ConfigHelper.GetByKey("MaxPage")),
+                Page = page,
+                TotalCount = totalRow,
+                TotalPages = totalPage
+
+
+            };
+
+            return View(paginationSet);
+        }
     }
 }
