@@ -11,6 +11,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <!--theme-style-->
     <link href="~/Assets/client/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Assets/admin/libs/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet" />
     <!--//theme-style-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -26,22 +27,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <!---->
     <div class="container">
         @RenderBody()
+        @{ Html.RenderAction("Category", "Home");}
     </div>
-
-
-
-    <!---->
-    <!--  required các trang con có bắt buộc phải áp dụng session này không -->
-    @RenderSection("homeProducts", required: false)
-
-    
-
-    @{ Html.RenderAction("Category", "Home");}
-   
-
     <!---->
     @{Html.RenderAction("Footer", "Home");}
-
+    <div class="clearfix"> </div>
+    <!--  required các trang con có bắt buộc phải áp dụng session này không -->
     @RenderSection("footerJS", required: false)
 </body>
 </html>

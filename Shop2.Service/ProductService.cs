@@ -28,6 +28,8 @@ namespace Shop2.Service
         // sp bán chạy
         IEnumerable<Product> GetHotProduct(int top);
 
+        IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize,out int totalRow);
+
         Product GetById(int id);
 
         
@@ -129,6 +131,15 @@ namespace Shop2.Service
         public IEnumerable<Product> GetLastest(int top)
         {
             return _ProductRepository.GetMulti(x => x.Status==true).OrderByDescending(x => x.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize,out int totalRow)
+        {
+            var query =  _ProductRepository.GetMulti(x => x.Status && x.CategoryID == categoryId);
+            
+            totalRow = query.Count();
+
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
         public void Save()

@@ -9,7 +9,7 @@ namespace Shop2.Web.Infrastructure.Core
     public class PaginationSet<T>
     {
         public int Page { set; get; }
-        public int Count
+        public int Count // số item lấy ra
         {
             get
             {
@@ -21,7 +21,7 @@ namespace Shop2.Web.Infrastructure.Core
         /*1 mảng IEnumerable có những thuộc tính
                  -Là một mảng read-only, chỉ có thể đọc, không thể thêm hay bớt phần tử.
                  -Chỉ duyệt theo một chiều, từ đầu tới cuối mảng
-*/
-        public IEnumerable<T> Items { set; get; }
+*/      public int MaxPage { set; get; } // max số trang hiển thị
+        public IEnumerable<T> Items { set; get; } // list item lấy ra
     }
 }

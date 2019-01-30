@@ -54,7 +54,14 @@ namespace Shop2.Web
                defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
                  namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
            );
-           
+
+            routes.MapRoute(
+               name: "trang chủ",
+               url: "trang-chu.html",
+               defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                 namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+           );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
