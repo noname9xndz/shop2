@@ -12,10 +12,10 @@
             <a href="/@(category.Alias).pc-@(category.ID).html"><h4>@category.Name - <span>@Model.TotalCount sản phẩm</span> </h4></a>
             <ul class="w_nav">
                 <li>Sắp xếp : </li>
-                <li><a class="active" href="#">Phổ biến</a></li> |
-                <li><a href="#">Mới </a></li> |
-                <li><a href="#">Khuyến mãi</a></li> |
-                <li><a href="#">Giá: Thấp -> Cao </a></li>
+                <li><a class="active" href="?page=@Model.Page&sort=popular">Phổ biến</a></li> |
+                <li><a href="?page=@Model.Page&sort=new">Mới </a></li> |
+                <li><a href="?page=@Model.Page&sort=discount">Khuyến mãi</a></li> |
+                <li><a href="?page=@Model.Page&sort=price">Giá: Thấp -> Cao </a></li>
                 <!-- <div class="clearfix"> </div>  -->
             </ul>
             <div class="clearfix"> </div>

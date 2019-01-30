@@ -28,7 +28,7 @@ namespace Shop2.Service
         // sp bán chạy
         IEnumerable<Product> GetHotProduct(int top);
 
-        IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize,out int totalRow);
+        IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize,out int totalRow, string sort);
 
         Product GetById(int id);
 
@@ -133,10 +133,26 @@ namespace Shop2.Service
             return _ProductRepository.GetMulti(x => x.Status==true).OrderByDescending(x => x.CreatedDate).Take(top);
         }
 
-        public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize,out int totalRow)
+        public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize,out int totalRow, string sort)
         {
             var query =  _ProductRepository.GetMulti(x => x.Status && x.CategoryID == categoryId);
-            
+
+            switch (sort)
+            {
+                case "popular":
+                    query = query.OrderByDescending(x => x.ViewCount);
+                    break;
+                case "discount":
+                    query = query.OrderByDescending(x => x.PromotionPrice.HasValue);
+                    break;
+                case "price":
+                    query = query.OrderBy(x => x.Price);
+                    break;
+                default:
+                    query = query.OrderByDescending(x => x.CreatedDate);
+                    break;
+            }
+
             totalRow = query.Count();
 
             return query.Skip((page - 1) * pageSize).Take(pageSize);
