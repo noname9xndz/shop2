@@ -16,7 +16,7 @@ using System.Web.Script.Serialization;
 namespace Shop2.Web.Api
 {
     [RoutePrefix("api/product")]
-    //[Authorize] // bắt buộc đăng nhập mói vô được
+    [Authorize] // bắt buộc đăng nhập mói vô được
     public class ProductController : ApiControllerBase
     {
         IProductService _productService;

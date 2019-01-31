@@ -50,8 +50,10 @@ namespace Shop2.Model.Models
         public int? ViewCount { set; get; }
 
         public string Tags { set; get; }
-        
-       
+
+        public int Quantity { set; get; }
+
+
 
     }
 }

@@ -43,7 +43,7 @@
                     </div>
                     <h4><a href="@url">@product.Name</a></h4>
                     <p>@product.Description</p>
-                    @if (product.PromotionPrice.HasValue && product.Price > 0 && product.PromotionPrice > 0)
+                    @if (product.PromotionPrice.HasValue && product.Price > 0 && product.PromotionPrice > 0 && product.PromotionPrice <= product.Price)
                     {
 
                         <span class="actual">@product.PromotionPrice.Value.ToString("N0")</span>

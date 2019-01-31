@@ -33,6 +33,8 @@ namespace Shop2.Service
         IEnumerable<string> GetListProductByName(string name);
 
         IEnumerable<Product> SearchProductByName(string keyword, int page, int pageSize, out int totalRow, string sort);
+        // sp liên quan
+        IEnumerable<Product> GetReatedProducts(int id, int top);
 
         Product GetById(int id);
 
@@ -165,6 +167,13 @@ namespace Shop2.Service
         public IEnumerable<string> GetListProductByName(string name)
         {
             return _ProductRepository.GetMulti(x => x.Status == true && x.Name.Contains(name)).Select(y=>y.Name);
+        }
+
+        public IEnumerable<Product> GetReatedProducts(int id, int top)
+        {
+            var product = _ProductRepository.GetSingleById(id);
+            return _ProductRepository.GetMulti(x => x.Status == true && x.ID != id && x.CategoryID == product.CategoryID).OrderByDescending(x => x.CreatedDate).Take(top);
+
         }
 
         public void Save()

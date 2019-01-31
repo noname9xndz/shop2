@@ -75,7 +75,7 @@
 
         function loadProduct() {
             apiService.get('api/product/getallparents', null, function (result) {
-                $scope.productCategory = result.data;
+                $scope.productCategories = result.data;
             }, function () {
                 console.log('cannot get list parent');
             });
