@@ -108,16 +108,18 @@
             </div>
             <h6>@Model.Quantity sản phẩm trong kho</h6>
             <p>@Model.Description</p>
-            <!--  <div class="tag">
+            <div class="tag">
                 <h5>Tag :</h5>
                 <ul class="taglist">
-                    @*foreach (var tag in (IEnumerable<Shop2.Web.Models.TagViewModel>)ViewBag.Tags)
+                    @foreach (var tag in (IEnumerable<Shop2.Web.Models.TagViewModel>)ViewBag.Tags)
                     {
-                        <li><a href="/tag/@(tag.ID).html">@(tag.Name), </a></li>
-                    }*@
+                     
+                        <li><a href="/tag-@(tag.ID).html">@(tag.Name), </a></li>
+
+                    }
 
                 </ul>
-            </div>  -->
+            </div>
             <div class="clearfix"></div>
             <div class="share">
                 <h5>Chia sẻ :</h5>

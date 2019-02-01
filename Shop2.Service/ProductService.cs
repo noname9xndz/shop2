@@ -12,6 +12,7 @@ namespace Shop2.Service
 {
     public interface IProductService
     {
+        // với dữ liệu lớn thì nên sử dung IQueryable để giảm  việc query vào database
         Product Add(Product Product);
 
         void Update(Product Product);
@@ -35,6 +36,19 @@ namespace Shop2.Service
         IEnumerable<Product> SearchProductByName(string keyword, int page, int pageSize, out int totalRow, string sort);
         // sp liên quan
         IEnumerable<Product> GetReatedProducts(int id, int top);
+
+        IEnumerable<Tag> GetListTagByProductId(int id);
+
+        // tăng view khi xem chi tiết sp
+        void IncreaseView(int id);
+
+        IEnumerable<Product> GetListProductByTag(string tagID, int page,int pageSize, out int totalRow, string sort);
+
+        //Tag GetTag(string tagID);
+        Tag GetTag(string tagID);
+
+
+
 
         Product GetById(int id);
 
@@ -133,7 +147,7 @@ namespace Shop2.Service
         {
             return _ProductRepository.GetMulti(x => x.Status==true && x.HotFlag==true).OrderByDescending(x => x.CreatedDate).Take(top);
         }
-
+        
         public IEnumerable<Product> GetLastest(int top)
         {
             return _ProductRepository.GetMulti(x => x.Status==true).OrderByDescending(x => x.CreatedDate).Take(top);
@@ -169,11 +183,42 @@ namespace Shop2.Service
             return _ProductRepository.GetMulti(x => x.Status == true && x.Name.Contains(name)).Select(y=>y.Name);
         }
 
+        public IEnumerable<Product> GetListProductByTag(string tagID,int page,int pageSize,out int totalRow, string sort)
+        {
+           // get mutil không hỗ trợ phương thức
+           // trong trường hợp respository không hỗ hỗ thì quay lại viết linq thuần 
+           return _ProductRepository.GetListProductByTag(tagID, page, pageSize, out totalRow, sort);
+            
+        }
+
+        public IEnumerable<Tag> GetListTagByProductId(int id)
+        {
+            return _productTagRepository.GetMulti(x => x.ProductID == id, new string[] { "Tag" }).Select(y=>y.Tag);
+        }
+
         public IEnumerable<Product> GetReatedProducts(int id, int top)
         {
             var product = _ProductRepository.GetSingleById(id);
             return _ProductRepository.GetMulti(x => x.Status == true && x.ID != id && x.CategoryID == product.CategoryID).OrderByDescending(x => x.CreatedDate).Take(top);
 
+        }
+
+        public Tag GetTag(string tagID)
+        {
+            return _tagRepository.GetSingleByCondition(x=>x.ID==tagID);
+        }
+
+        public void IncreaseView(int id)
+        { // trên thực tế chúng ta phải tính view theo ip 
+           var product = _ProductRepository.GetSingleById(id);
+            if(product.ViewCount.HasValue) //.HasValue có giá trị nào đó ko??
+            {
+                product.ViewCount += 1;
+            }
+            else
+            {
+                product.ViewCount = 1;
+            }
         }
 
         public void Save()

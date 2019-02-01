@@ -60,6 +60,15 @@ namespace Shop2.Web
                  namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
            );
 
+
+            routes.MapRoute(
+                  name: "TagList",
+                  url: "tag-{tagID}.html",
+                  defaults: new { controller = "Product", action = "ListProductByTag", tagID = UrlParameter.Optional },
+                    namespaces: new string[] { "Shop2.Web.Controllers" }
+              );
+
+
             routes.MapRoute(
                name: "trang chủ",
                url: "trang-chu.html",
