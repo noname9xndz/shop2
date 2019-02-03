@@ -201,6 +201,7 @@
   <ItemGroup>
     <Compile Include="Api\AccountController.cs" />
     <Compile Include="Api\HomeController.cs" />
+    <Compile Include="Api\PageController.cs" />
     <Compile Include="Api\PostCategoryController.cs" />
     <Compile Include="Api\ProductCategoryController.cs" />
     <Compile Include="Api\ProductController.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\PostController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
@@ -247,6 +249,12 @@
     <Content Include="app\components\login\loginController.js" />
     <Content Include="app\components\login\loginView.html" />
     <Content Include="app\components\login\rootController.js" />
+    <Content Include="app\components\page\pageAddController.js" />
+    <Content Include="app\components\page\pageAddView.html" />
+    <Content Include="app\components\page\pageEditView.html" />
+    <Content Include="app\components\page\pageListController.js" />
+    <Content Include="app\components\page\pageEditController.js" />
+    <Content Include="app\components\page\pageListView.html" />
     <Content Include="app\components\products\product.module.js" />
     <Content Include="app\components\products\productAddController.js" />
     <Content Include="app\components\products\productAddView.html" />
@@ -6503,6 +6511,7 @@
     <Content Include="Assets\admin\libs\jquery-ui\README.md" />
     <Content Include="Assets\admin\libs\jquery-ui\ui\.DS_Store" />
     <Content Include="Assets\admin\libs\jquery-ui\ui\.jshintrc" />
+    <Content Include="app\components\page\page.module.js" />
     <None Include="packages.config" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\Layouts.cshtml" />
@@ -6514,6 +6523,7 @@
     <Content Include="Views\Product\Search.cshtml" />
     <Content Include="Views\Product\Detail.cshtml" />
     <Content Include="Views\Product\ListProductByTag.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shop2.Common\Shop2.Common.csproj">

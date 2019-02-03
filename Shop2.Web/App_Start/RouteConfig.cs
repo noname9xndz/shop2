@@ -46,7 +46,7 @@ namespace Shop2.Web
                namespaces:new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
            );
 
-            routes.MapRoute(
+            routes.MapRoute( 
                name: "Product Category",
                url: "{Alias}.pc-{id}.html",
                defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional },
@@ -75,6 +75,13 @@ namespace Shop2.Web
                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                  namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
            );
+
+            routes.MapRoute(
+             name: "Page",
+             url: "trang-{Alias}.html",
+             defaults: new { controller = "Page", action = "Index", Alias = UrlParameter.Optional },
+             namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+         );
 
             routes.MapRoute(
                 name: "Default",

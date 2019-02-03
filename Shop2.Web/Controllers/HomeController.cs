@@ -16,13 +16,15 @@ namespace Shop2.Web.Controllers
         IProductCategoryService _productCategoryService;
         ICommonService _commonService;
         IProductService _productService;
+        IPageService _pageService;
 
         public HomeController(IProductCategoryService productCategoryService, ICommonService commonService,
-                        IProductService productService)
+                        IProductService productService,IPageService pageService)
         {
             _productCategoryService = productCategoryService;
             _commonService = commonService;
             _productService = productService;
+            _pageService = pageService;
         }
 
         public ActionResult Index()
@@ -37,8 +39,11 @@ namespace Shop2.Web.Controllers
             var lastestProductView = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(lastestProductModel);
             var topSaleProductView = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(topSaleProductModel);
 
+           
+
             homeViewModel.LastestProducts = lastestProductView;
             homeViewModel.TopSaleProducts = topSaleProductView;
+         
 
             return View(homeViewModel);
         }
@@ -55,8 +60,10 @@ namespace Shop2.Web.Controllers
 
         [ChildActionOnly] 
         public ActionResult Header()
-        {   //Header view
-            return PartialView();
+        {
+            var newPageModel = _pageService.GetAll();
+            var newPageView = Mapper.Map<IEnumerable<Page>, IEnumerable<PageViewModel>>(newPageModel);
+            return PartialView(newPageView);
         }
 
 

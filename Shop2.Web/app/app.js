@@ -4,6 +4,7 @@
     //cấu hình router cho shop2
     angular.module('shop2', ['shop2.products',
                              'shop2.productCategories',
+                             'shop2.pages',
                               'shop2.common'])
                              .config(config)
                               .config(configAuthentication);

@@ -1,0 +1,104 @@
+﻿
+
+
+
+<section class="content-header">
+    <h1>
+        Danh Mục Page
+
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Trang Chủ</a></li>
+        <li><a href="#">Page</a></li>
+        <li><a ui-sref="product_categories">Danh Mục</a></li>
+        <li class="active">Thêm Mới</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Horizontal Form -->
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Thêm Mới</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <!--novalidate  loại bỏ cơ chế validate mặc định của form-->
+                <form class="form-horizontal" novalidate name="frmAddPage" role="form" ng-submit="AddPage()">
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">Tên Trang</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-maxlength="256" ng-change="GetSeoTitle()" required name="name" ng-model="page.Name">
+                                <span ng-show="frmAddPage.name.$invalid" class="has-error">Nhập tên danh mục</span>
+                                <span ng-show="frmAddPage.name.$error.maxlength" class="has-error">Tên danh mục tối đa 256 ký tự</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Tiêu Đề SEO</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" required name="Alias" ng-model="page.Alias">
+                                <span ng-show="frmAddPage.Alias.$invalid" class="has-error">Nhập tiêu đề seo</span>
+                                <span ng-show="frmAddPage.Aliass.$error.maxlength" class="has-error">Tiêu đề Seo tối đa 256 ký tự</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Nội Dung Trang</label>
+
+                            <div class="col-sm-10">
+
+                                <textarea class="form-control" ckeditor="editorOptions" name="content" ng-model="page.Content"></textarea>
+                            </div>
+                        </div>
+
+                        
+
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Meta Keyword</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="MetaKeyword" ng-model="page.MetaKeyword">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Meta Description</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="MetaDescription" ng-model="page.MetaDescription">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="Status" ng-model="page.Status" ng-checked="page.Status"> Hiển Thị Trang Chủ
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+                        <button ui-sref="pages" class="btn btn-default">Trở Về</button>
+                        <button type="submit" ng-disabled="frmAddPage.$invalid" class="btn btn-success pull-right">Thêm Mới</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.row -->
+</section>

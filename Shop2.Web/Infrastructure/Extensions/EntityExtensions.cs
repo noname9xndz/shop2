@@ -104,8 +104,23 @@ namespace Shop2.Web.Infrastructure.Extensions
             product.Quantity = productViewModel.Quantity;
          
         }
+        public static void UpdatePage(this Page page, PageViewModel pageViewModel)
+        {
+            page.ID = pageViewModel.ID;
+            page.Name = pageViewModel.Name;
+            page.Alias = pageViewModel.Alias;
+            page.Content = pageViewModel.Content;
 
-      
+            page.CreatedDate = pageViewModel.CreatedDate;
+            page.CreatedBy = pageViewModel.CreatedBy;
+            page.UpdatedDate = pageViewModel.UpdatedDate;
+            page.UpdatedBy = pageViewModel.UpdatedBy;
+            page.MetaKeyword = pageViewModel.MetaKeyword;
+            page.MetaDescription = pageViewModel.MetaDescription;
+            page.Status = pageViewModel.Status;
+
+        }
+
         public static void UpdateOrder(this Order order, OrderViewModel orderViewModel)
         {
             order.CustomerName = orderViewModel.CustomerName;

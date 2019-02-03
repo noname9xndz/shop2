@@ -7,8 +7,8 @@
 }
 <link href="~/Assets/client/css/etalage.css" rel="stylesheet" />
 @section footerJS{
-    <script type="text/javascript" src="/Assets/client/js/jquery.flexisel.js"></script>
-    <script src="/Assets/client/js/jquery.etalage.min.js"></script>
+    <script type="text/javascript" src="~/Assets/client/js/jquery.flexisel.js"></script>
+    <script src="~/Assets/client/js/jquery.etalage.min.js"></script>
     <script>
         jQuery(document).ready(function ($) {
             $("#flexiselDemo1").flexisel({
@@ -146,6 +146,13 @@
     @{
         var relatedProducts = (IEnumerable<Shop2.Web.Models.ProductViewModel>)ViewBag.RelatedProducts;
     }
+
+ 
+    @*@if(relatedProducts.)
+    {
+
+    }*@
+
     <h3 class="m_3" style="margin-top:100px;margin-bottom:50px">Sản phẩm liên quan</h3>
     <ul id="flexiselDemo1">
         @foreach (var product in relatedProducts)

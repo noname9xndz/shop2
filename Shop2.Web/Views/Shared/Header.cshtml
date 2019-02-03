@@ -1,4 +1,6 @@
-﻿<div class="header">
+﻿
+@model IEnumerable<Shop2.Web.Models.PageViewModel>
+<div class="header">
     <div class="top-header">
         <div class="container">
             <div class="top-header-left">
@@ -23,10 +25,15 @@
                 </div>
                 <div class="down-top top-down">
                     <select class="in-drop">
+                        @foreach (var page in Model.Where(x=>x.Status==true))
+                        {
 
-                        <option value="Dollar" class="in-of">Dollar</option>
-                        <option value="Yen" class="in-of">Yen</option>
-                        <option value="Euro" class="in-of">Euro</option>
+                         <option value="@page.Name" class="in-of">@page.Name</option>
+
+
+                        }
+
+
                     </select>
                 </div>
                 <!---->
@@ -41,13 +48,13 @@
                 <div class="logo">
                     <a href="trang-chu.html"><img src="~/Assets/client/images/logo.png" alt=" " /></a>
                 </div>
-              
-        <div class="search">
-            <form method="get" action="/tim-kiem.html">
-                <input type="text" id="txtKeyword" name="keyword" placeholder="Từ khóa">
-                <input type="submit" value="Tìm kiếm" id="btnSearch">
-            </form>
-        </div>
+
+                <div class="search">
+                    <form method="get" action="/tim-kiem.html">
+                        <input type="text" id="txtKeyword" name="keyword" placeholder="Từ khóa">
+                        <input type="submit" value="Tìm kiếm" id="btnSearch">
+                    </form>
+                </div>
 
                 <div class="clearfix"> </div>
             </div>

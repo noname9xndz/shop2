@@ -36,7 +36,9 @@ namespace Shop2.Web.Api
                 () => {
                     int totalRow = 0;
                     // tìm kiếm theo keyword
+                    
                     var listCategory = _productService.GetAllByKeyWord(keyword);
+                    
 
                     // lấy ra số bản ghi và thực hiện phân trang
                     totalRow = listCategory.Count();

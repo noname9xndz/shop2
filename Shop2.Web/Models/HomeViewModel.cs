@@ -10,5 +10,6 @@ namespace Shop2.Web.Models
         public IEnumerable<SlideViewModel> Slides { set; get; }
         public IEnumerable<ProductViewModel> LastestProducts { set; get; }
         public IEnumerable<ProductViewModel> TopSaleProducts { set; get; }
+        public IEnumerable<PageViewModel> NewPage { set; get; }
     }
 }
