@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Shop2.Web
@@ -12,7 +8,7 @@ namespace Shop2.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
             routes.MapRoute(
               name: "Login",
               url: "dang-nhap.html",
@@ -24,7 +20,7 @@ namespace Shop2.Web
               },
               namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
           );
-       
+
             routes.MapRoute(
               name: "Register",
               url: "dang-ky.html",
@@ -43,10 +39,10 @@ namespace Shop2.Web
                name: "About",
                url: "gioi-thieu.html",
                defaults: new { controller = "About", action = "Index", id = UrlParameter.Optional },
-               namespaces:new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+               namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
            );
 
-            routes.MapRoute( 
+            routes.MapRoute(
                name: "Product Category",
                url: "{Alias}.pc-{id}.html",
                defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional },
@@ -78,10 +74,17 @@ namespace Shop2.Web
 
             routes.MapRoute(
              name: "Page",
-             url: "trang-{Alias}.html",
+             url: "trang/{Alias}.html",
              defaults: new { controller = "Page", action = "Index", Alias = UrlParameter.Optional },
              namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
          );
+
+            routes.MapRoute(
+               name: "Contact",
+               url: "lien-he.html",
+               defaults: new { controller = "Contact", action = "Index", id = UrlParameter.Optional },
+                 namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+           );
 
             routes.MapRoute(
                 name: "Default",

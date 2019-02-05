@@ -82,8 +82,17 @@
     <Compile Include="Migrations\201901311621380_addforeignkey.Designer.cs">
       <DependentUpon>201901311621380_addforeignkey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902031520474_ContactDetail.cs" />
+    <Compile Include="Migrations\201902031520474_ContactDetail.Designer.cs">
+      <DependentUpon>201902031520474_ContactDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902031602109_UpdateContactDetail.cs" />
+    <Compile Include="Migrations\201902031602109_UpdateContactDetail.Designer.cs">
+      <DependentUpon>201902031602109_UpdateContactDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ContactDetailRepostitory.cs" />
     <Compile Include="Repositories\ErrorRepository.cs" />
     <Compile Include="Repositories\FooterRepository.cs" />
     <Compile Include="Repositories\MenuGroupRepository.cs" />
@@ -133,6 +142,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901311621380_addforeignkey.resx">
       <DependentUpon>201901311621380_addforeignkey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031520474_ContactDetail.resx">
+      <DependentUpon>201902031520474_ContactDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902031602109_UpdateContactDetail.resx">
+      <DependentUpon>201902031602109_UpdateContactDetail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

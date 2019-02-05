@@ -121,19 +121,42 @@ namespace Shop2.Web.Infrastructure.Extensions
 
         }
 
-        public static void UpdateOrder(this Order order, OrderViewModel orderViewModel)
+        public static void UpdateContactDetail(this ContactDetail contactDetail, ContactDetailViewModel contactDetailViewModel)
         {
-            order.CustomerName = orderViewModel.CustomerName;
-            order.CustomerAddress = orderViewModel.CustomerName;
-            order.CustomerEmail = orderViewModel.CustomerName;
-            order.CustomerMobile = orderViewModel.CustomerName;
-            order.CustomerMessage = orderViewModel.CustomerName;
-            order.PaymentMethod = orderViewModel.CustomerName;
-            order.CreatedDate = DateTime.Now;
-            order.CreatedBy = orderViewModel.CreatedBy;
-            order.Status = orderViewModel.Status;
+            contactDetail.ID = contactDetailViewModel.ID;
+            contactDetail.Name = contactDetailViewModel.Name;
+            contactDetail.Email = contactDetailViewModel.Email;
+            contactDetail.Phone = contactDetailViewModel.Phone;
+            contactDetail.Website = contactDetailViewModel.Website;
+            contactDetail.Other = contactDetailViewModel.Other;
+            contactDetail.Lat = contactDetailViewModel.Lat;
+            contactDetail.Lng = contactDetailViewModel.Lng;
+            contactDetail.Address = contactDetailViewModel.Address;
             
+
+            contactDetail.CreatedDate = contactDetailViewModel.CreatedDate;
+            contactDetail.CreatedBy = contactDetailViewModel.CreatedBy;
+            contactDetail.UpdatedDate = contactDetailViewModel.UpdatedDate;
+            contactDetail.UpdatedBy = contactDetailViewModel.UpdatedBy;
+            contactDetail.MetaKeyword = contactDetailViewModel.MetaKeyword;
+            contactDetail.MetaDescription = contactDetailViewModel.MetaDescription;
+            contactDetail.Status = contactDetailViewModel.Status;
+
         }
+
+        //public static void UpdateOrder(this Order order, OrderViewModel orderViewModel)
+        //{
+        //    order.CustomerName = orderViewModel.CustomerName;
+        //    order.CustomerAddress = orderViewModel.CustomerName;
+        //    order.CustomerEmail = orderViewModel.CustomerName;
+        //    order.CustomerMobile = orderViewModel.CustomerName;
+        //    order.CustomerMessage = orderViewModel.CustomerName;
+        //    order.PaymentMethod = orderViewModel.CustomerName;
+        //    order.CreatedDate = DateTime.Now;
+        //    order.CreatedBy = orderViewModel.CreatedBy;
+        //    order.Status = orderViewModel.Status;
+            
+        //}
 
        
         

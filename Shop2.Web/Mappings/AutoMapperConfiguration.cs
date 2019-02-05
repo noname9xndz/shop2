@@ -34,6 +34,7 @@ namespace Shop2.Web.Mappings
                 cfg.CreateMap<Footer, FooterViewModel>();
                 cfg.CreateMap<Slide, SlideViewModel>();
                 cfg.CreateMap<Page, PageViewModel>();
+                cfg.CreateMap<ContactDetail, ContactDetailViewModel>();
 
             });
 

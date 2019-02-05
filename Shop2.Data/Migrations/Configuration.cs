@@ -26,6 +26,7 @@
             CreateProduct(context);
             CreateSlide(context);
             CreatePage(context);
+            CreateContact(context);
 
 
         }
@@ -133,6 +134,44 @@
 
                     };
                     context.Pages.Add(page);
+                    context.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        Trace.WriteLine($"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation error.");
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Trace.WriteLine($"- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"");
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void CreateContact(Shop2.Data.Shop2DbContext context)
+        {
+            if (context.ContactDetails.Count() == 0)
+            {
+                try
+                {
+                    var contactDetail = new Shop2.Model.Models.ContactDetail()
+                    {
+                        
+                        Name = "Shop xxdsf",
+                        Address="43 Nguyễn Chí Thanh",
+                        Email="noname9xnd@gmail.com",
+                        Lat=21.0633645,
+                        Lng=105.8053274,
+                        Phone="0969696969",
+                        Website="xxxx.com",
+                        Other="thông tin thêm",
+                        Status = true
+
+                    };
+                    context.ContactDetails.Add(contactDetail);
                     context.SaveChanges();
                 }
                 catch (DbEntityValidationException ex)

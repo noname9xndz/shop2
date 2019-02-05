@@ -33,9 +33,9 @@ namespace Shop2.Service
         private IPageRepository _pageRepository;
         private IUnitOfWork _unitOfWork;
 
-        public PageService(IPageRepository _pageRepository, IUnitOfWork unitOfWork)
+        public PageService(IPageRepository pageRepository, IUnitOfWork unitOfWork)
         {
-            this._pageRepository = _pageRepository;
+            this._pageRepository = pageRepository;
             this._unitOfWork = unitOfWork;
         }
 

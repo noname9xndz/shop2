@@ -26,7 +26,7 @@ namespace Shop2.Web.Controllers
             _productService = productService;
             _pageService = pageService;
         }
-
+        [OutputCache(Duration = 60, Location = System.Web.UI.OutputCacheLocation.Server)]
         public ActionResult Index()
         {
             var slideModel = _commonService.GetSlides();
@@ -49,6 +49,10 @@ namespace Shop2.Web.Controllers
         }
 
         [ChildActionOnly] //chỉ được nhúng
+        [OutputCache(Duration =3600)]
+        //OutputCache giúp giảm time load trang bằng cách giữ các nd thường hay truy cập để trên  ram server hay client
+        // có thể setting trực tiếp trên phương thức như trên hoặc setting cache ở webconfig 
+        //gg tìm hiển thêm các thuộc tính của OutputCache
         public ActionResult Footer()
         {   // footer view
 
@@ -58,7 +62,8 @@ namespace Shop2.Web.Controllers
         }
 
 
-        [ChildActionOnly] 
+        [ChildActionOnly]
+        [OutputCache(Duration = 3600)]
         public ActionResult Header()
         {
             var newPageModel = _pageService.GetAll();
@@ -68,6 +73,7 @@ namespace Shop2.Web.Controllers
 
 
         [ChildActionOnly]
+        [OutputCache(Duration = 3600)]
         public ActionResult Category()
         {    //Category view
             var model = _productCategoryService.GetAll();
