@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BotDetect.Web.Mvc;
 
 namespace Shop2.Web.Controllers
 {
@@ -42,6 +43,7 @@ namespace Shop2.Web.Controllers
         // có thể đưa feedback và contact về 1 viewmodel  hoặc triển khai theo cách 
         // khởi tạo 1 ContactDetailViewModel trong FeedbackViewModel
         [HttpPost]
+        [SimpleCaptchaValidation("CaptchaCode", "contactCaptcha", "Mã xác nhận không đúng!")] // adđ sử dụng capcha https://captcha.com/asp.net-captcha.html
         public ActionResult SendFeedback(FeedbackViewModel feedbackViewModel)
         {
             if(ModelState.IsValid)

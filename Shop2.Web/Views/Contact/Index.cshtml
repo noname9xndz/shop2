@@ -1,20 +1,21 @@
 ﻿@model Shop2.Web.Models.FeedbackViewModel
+@using BotDetect.Web.Mvc
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 
-
-<style>
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+@*<style>
     #map {
-        height: 100%;
+        height: 300px;
     }
-</style>
+</style>*@
 <input type="hidden" id="hidAddress" value="@Model.ContactDetail.Name<br />Điện thoại:@Model.ContactDetail.Phone <br>Địa chỉ: @Model.ContactDetail.Address" />
-<input type="hidden" id="hidLat" value="@Model.ContactDetail.Lat" />
-<input type="hidden" id="hidLng" value="@Model.ContactDetail.Lng" />
-<input type="hidden" id="hidName" value="@Model.ContactDetail.Name" />
+<input  type="hidden"  id="hidLat" value="@Model.ContactDetail.Lat" />
+<input  type="hidden"  id="hidLng" value="@Model.ContactDetail.Lng" />
+<input   type="hidden" id="hidName" value="@Model.ContactDetail.Name" />
 <div class="main">
     <div class="reservation_top">
         <div class=" contact_right">
@@ -55,6 +56,10 @@
                     @Html.TextBoxFor(model => model.Name, new { @class = "textbox", @placeholder = "tên người gửi" });
                     @Html.TextBoxFor(model => model.Email, new { @class = "textbox", @placeholder = "email người gửi" });
                     @Html.TextAreaFor(model => model.Message, new { @placeholder = "Lời nhắn" });
+
+                    MvcCaptcha contactCaptcha = new MvcCaptcha("contactCaptcha"); 
+                        @Html.Captcha(contactCaptcha)
+                        @Html.TextBox("CaptchaCode")
                     <input type="submit" value="Send">
                     <div class="clearfix"> </div>
 
