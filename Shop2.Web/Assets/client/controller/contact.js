@@ -1,5 +1,5 @@
 ﻿
-
+// cấu hình để gọi api gg map,setting tìm trên gg map api
 
 var contact = {
 
@@ -9,8 +9,12 @@ var contact = {
     registerEvent: function () {
         contact.initMap();
     },
-    initMap: function () {
-        var uluru = { lat: parseFloat($('#hidLat').val()), lng: parseFloat($('#hidLng').val()) };
+    initMap: function ()
+    {
+        var uluru = {
+            lat: parseFloat($('#hidLat').val()), // lấy kinh độ
+            lng: parseFloat($('#hidLng').val())  // lấy vĩ độ
+        };
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 17,
             center: uluru
