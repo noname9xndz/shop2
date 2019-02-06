@@ -144,6 +144,18 @@ namespace Shop2.Web.Infrastructure.Extensions
 
         }
 
+        public static void UpdateFeedback(this Feedback feedback,FeedbackViewModel feedbackViewModel)
+        {
+
+            feedback.ID = feedbackViewModel.ID;
+            feedback.Name = feedbackViewModel.Name;
+            feedback.Message= feedbackViewModel.Message;
+            feedback.Status= feedbackViewModel.Status;
+            feedback.CreatedDate= DateTime.Now;
+            feedback.Email= feedbackViewModel.Email;
+
+        }
+
         //public static void UpdateOrder(this Order order, OrderViewModel orderViewModel)
         //{
         //    order.CustomerName = orderViewModel.CustomerName;

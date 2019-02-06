@@ -3,3 +3,9 @@
 .taglist li{
     float: left;
 }
+.tag{
+    display:block;
+}
+.error{
+    color:red;
+}
