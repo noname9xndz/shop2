@@ -15,8 +15,10 @@ namespace Shop2.Service
     }
     public class ContactDetailService : IContactDetailService
     {
-        IContactDetailRepository _contactDetailRepository;
-        IUnitOfWork _unitOfWork;
+        private IContactDetailRepository _contactDetailRepository;
+#pragma warning disable IDE0044 // Add readonly modifier
+        private IUnitOfWork _unitOfWork;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         public ContactDetailService(IContactDetailRepository contactDetailRepository, IUnitOfWork unitOfWork)
         {

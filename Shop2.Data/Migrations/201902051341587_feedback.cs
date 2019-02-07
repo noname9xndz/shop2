@@ -2,8 +2,10 @@ namespace Shop2.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
-    
+
+#pragma warning disable IDE1006 // Naming Styles
     public partial class feedback : DbMigration
+#pragma warning restore IDE1006 // Naming Styles
     {
         public override void Up()
         {

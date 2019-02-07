@@ -44,7 +44,9 @@ namespace Shop2.Common
 
                 return true;
             }
+#pragma warning disable CS0168 // Variable is declared but never used
             catch (SmtpException smex)
+#pragma warning restore CS0168 // Variable is declared but never used
             {
 
                 return false;

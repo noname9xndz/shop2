@@ -38,7 +38,9 @@ namespace Shop2.Web.App_Start
         {
 
             //kiểm tra,xác thực tất cả các request gửi lên server
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             {
                 context.Validated();
             }

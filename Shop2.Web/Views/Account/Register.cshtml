@@ -1,0 +1,69 @@
+﻿
+
+@model Shop2.Web.Models.RegisterViewModel
+@using BotDetect.Web.Mvc
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+@*gọi capcha css*@
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+<div class="register">
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken(); @*chặn submit liên tục lên server*@
+
+    if (TempData["Ketqua"] != null)
+    {
+
+            <div class="alert alert-success" role="alert">
+                <strong>Đăng Ký </strong>thành công.
+                <br />  <a href="/dang-nhap.html">Click</a> để đăng nhập
+            </div>
+    }
+        <div class="  register-top-grid">
+            <h3>Thông Tin Cá Nhân</h3>
+            @Html.ValidationSummary(false, "", new { @class = "error" })
+            <div class="mation">
+                <span>Họ Tên<label>*</label></span>
+                @Html.TextBoxFor(model => model.FullName)
+
+                <span>Email<label>*</label></span>
+                @Html.TextBoxFor(model => model.Email)
+
+
+                <span>Địa Chỉ<label>*</label></span>
+                @Html.TextBoxFor(model => model.Address)
+
+                <span>Số điện thoại<label>*</label></span>
+                @Html.TextBoxFor(model => model.PhoneNumber)
+
+                <span>Tài Khoản<label>*</label></span>
+                @Html.TextBoxFor(model => model.UserName)
+
+
+                <span>Mật Khẩu<label>*</label></span>
+                @Html.PasswordFor(model => model.Password)
+
+                @{
+                    MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha ");
+                 }
+                @Html.Captcha(registerCaptcha)
+                @Html.TextBox("CaptchaCode")
+            </div>
+            <div class="clearfix"> </div>
+
+        </div>
+
+
+        <div class="clearfix"> </div>
+        <div class="register-but">
+            <input type="submit" value="submit">
+            <div class="clearfix"> </div>
+
+        </div>
+    }
+
+</div>
+
