@@ -1,11 +1,12 @@
 ﻿
 @model IEnumerable<Shop2.Web.Models.PageViewModel>
+@using Microsoft.AspNet.Identity;
 <div class="header">
     <div class="top-header">
         <div class="container">
             <div class="top-header-left">
                 <ul class="support">
-                    
+                    <li><a href="gioi-thieu.html"><label> </label></a></li>
                     <li><a href="gioi-thieu">Giới Thiệu</a></li>
                 </ul>
                 <ul class="support">
@@ -30,10 +31,10 @@
                 </div>
                 <div class="down-top top-down">
                     <select class="in-drop">
-                        @foreach (var page in Model.Where(x=>x.Status==true))
+                        @foreach (var page in Model.Where(x => x.Status == true))
                         {
 
-                         <option value="@page.Name" class="in-of">@page.Name</option>
+                            <option value="@page.Name" class="in-of">@page.Name</option>
 
 
                         }
@@ -64,11 +65,27 @@
                 <div class="clearfix"> </div>
             </div>
             <div class="header-bottom-right">
-                <div class="account"><a href="login.html"><span> </span>YOUR ACCOUNT</a></div>
-                <ul class="login">
-                    <li><a href="dang-nhap.html"><span> </span>Đăng Nhập</a></li> |
-                    <li><a href="dang-ky.html">Đăng Ký</a></li>
-                </ul>
+                @using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                {
+                    if (Request.IsAuthenticated) // nếu login thành công bằng cơ chế identity
+                    {
+
+                        @Html.AntiForgeryToken() @*chống submit liên tục lên server*@
+                        <ul class="login">
+                            <li><a href="tai-khoan.html"><span> </span>Xin chào : @User.Identity.Name</a></li> |
+                            <li><button type="submit">Thoát</button></li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="login">
+                            <li><a href="dang-nhap.html"><span> </span>Đăng Nhập</a></li> |
+                            <li><a href="dang-ky.html">Đăng Ký</a></li>
+                        </ul>
+                    }
+
+                }
+
                 <div class="cart"><a href="gio-hang.html"><span> </span>Giỏ Hàng</a></div>
                 <div class="clearfix"> </div>
             </div>

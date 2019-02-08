@@ -26,7 +26,7 @@ namespace Shop2.Web.Controllers
             _productService = productService;
             _pageService = pageService;
         }
-        [OutputCache(Duration = 60, Location = System.Web.UI.OutputCacheLocation.Server)]
+        [OutputCache(Duration = 60, Location = System.Web.UI.OutputCacheLocation.Client)]
         public ActionResult Index()
         {
             var slideModel = _commonService.GetSlides();
@@ -63,7 +63,6 @@ namespace Shop2.Web.Controllers
 
 
         [ChildActionOnly]
-        [OutputCache(Duration = 3600)]
         public ActionResult Header()
         {
             var newPageModel = _pageService.GetAll();

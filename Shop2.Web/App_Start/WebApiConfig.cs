@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Owin.Security.OAuth;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -13,6 +14,11 @@ namespace Shop2.Web
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            // nhớ cài Microsoft.AspNet.WebApi.Owin
+            // giúp lọc cơ chế đăng nhập cho client(cookie authen) và admin(based token)
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType)); // riêng api sẽ sử dụng OAuthDefaults
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

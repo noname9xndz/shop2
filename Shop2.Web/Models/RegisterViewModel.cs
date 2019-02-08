@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Shop2.Web.Models
 {
-    // viết dựa trên ApplicationUser 
+    // viết dựa trên ApplicationUser chia làm 2 phần là login và register
     public class RegisterViewModel
     {
         [MaxLength(256)]

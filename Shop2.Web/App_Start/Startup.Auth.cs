@@ -99,7 +99,8 @@ namespace Shop2.Web.App_Start
             // add PerOwinContext(Open web interface for dotnet) quản lý usermanger tượng tác với bảng user
             // PerOwinContext giúp giảm sự phụ thuôc giữa serve và application , cho phép quản lý user độc lập không phụ thuộc vào server
             app.CreatePerOwinContext<UserManager<ApplicationUser>>(CreateManager);
-
+            
+            // đăng nhập bằng token sử dụng cho admin
             app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
             {
                 // tất cả request đăng nhâp đều thông qua TokenEndpointPath 
@@ -112,7 +113,22 @@ namespace Shop2.Web.App_Start
             });
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
-           
+
+            // đăng nhập bằng cookies ,sử dụng cho client
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/dang-nhap.html"),
+                Provider = new CookieAuthenticationProvider
+                {
+                    // Enables the application to validate the security stamp when the user logs in.
+                    // This is a security feature which is used when you change a password or add an external login to your account.  
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                        validateInterval: TimeSpan.FromMinutes(30),
+                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager, DefaultAuthenticationTypes.ApplicationCookie))
+                }
+            });
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // chưa login thì sẽ chuyển qua authen để chứng thực
 

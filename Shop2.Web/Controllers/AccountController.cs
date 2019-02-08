@@ -2,11 +2,13 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using Shop2.Common;
 using Shop2.Model.Models;
 using Shop2.Web.Models;
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -53,16 +55,56 @@ namespace Shop2.Web.Controllers
 
 
         // GET: Account
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl; // trả về url trước khi đăng nhập
             return View();
         }
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginViewModel loginViewModel, string returnUrl)
+        {
+            if(ModelState.IsValid)
+            {
+                // tìm kiếm tài khoản
+                ApplicationUser user =await _userManager.FindAsync(loginViewModel.UserName, loginViewModel.Password);
+
+                if(user !=null)
+                {
+                    IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+                    authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie); // nếu đã đăng nhập thì thoát và xóa cookie có sẵn
+                     // tạo ClaimsIdentity chứa thông tin đăng nhập người dùng lưu vào cookies
+                    ClaimsIdentity identity = _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationProperties properties = new AuthenticationProperties();
+                    // nếu chọn ghi nhớ thì sẽ lưu lâu dài
+                    properties.IsPersistent = loginViewModel.RememberMe;
+                    // đăng nhập
+                    authenticationManager.SignIn(properties, identity);
+                    if(Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                }
+                else
+                {
+                    ModelState.AddModelError("", "tài khoản hoặc mật khẩu không đúng");
+                }
+
+            }
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+
 
         [HttpGet]
         public ActionResult Register()
         {
-
-           
+            
             return View();
         }
 
@@ -122,6 +164,14 @@ namespace Shop2.Web.Controllers
             }
 
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOut()
+        {
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            authenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
         }
 
 
