@@ -79,6 +79,13 @@ namespace Shop2.Web
              defaults: new { controller = "Page", action = "Index", Alias = UrlParameter.Optional },
              namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
          );
+            routes.MapRoute(
+             name: "Cart",
+             url: "gio-hang.html",
+             defaults: new { controller = "ShoppingCart", action = "Index", id = UrlParameter.Optional },
+               namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+         );
+          
 
             routes.MapRoute(
                name: "Contact",

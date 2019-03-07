@@ -35,5 +35,12 @@ namespace Shop2.Model.Models
 
         
         public bool Status { set; get; }
+
+        [StringLength(128)] 
+        [Column(TypeName ="nvarchar")]
+        public string CustomerID { set; get; }
+
+        [ForeignKey("CustomerID")]
+        public virtual ApplicationUser User { set; get; }
     }
 }

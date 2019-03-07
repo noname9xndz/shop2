@@ -156,21 +156,22 @@ namespace Shop2.Web.Infrastructure.Extensions
 
         }
 
-        //public static void UpdateOrder(this Order order, OrderViewModel orderViewModel)
-        //{
-        //    order.CustomerName = orderViewModel.CustomerName;
-        //    order.CustomerAddress = orderViewModel.CustomerName;
-        //    order.CustomerEmail = orderViewModel.CustomerName;
-        //    order.CustomerMobile = orderViewModel.CustomerName;
-        //    order.CustomerMessage = orderViewModel.CustomerName;
-        //    order.PaymentMethod = orderViewModel.CustomerName;
-        //    order.CreatedDate = DateTime.Now;
-        //    order.CreatedBy = orderViewModel.CreatedBy;
-        //    order.Status = orderViewModel.Status;
+        public static void UpdateOrder(this Order order, OrderViewModel orderViewModel)
+        {
+            order.CustomerName = orderViewModel.CustomerName;
+            order.CustomerAddress = orderViewModel.CustomerName;
+            order.CustomerEmail = orderViewModel.CustomerName;
+            order.CustomerMobile = orderViewModel.CustomerName;
+            order.CustomerMessage = orderViewModel.CustomerName;
+            order.PaymentMethod = orderViewModel.CustomerName;
+            order.CreatedDate = DateTime.Now;
+            order.CreatedBy = orderViewModel.CreatedBy;
+            order.Status = orderViewModel.Status;
+            order.CustomerID = orderViewModel.CustomerId;
             
-        //}
+        }
 
-       
-        
+
+
     }
 }

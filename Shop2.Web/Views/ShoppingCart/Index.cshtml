@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layouts.cshtml";
+}
+
+<div class="single_top">
+    <div class="single_grid">
+        <div id="cartContent">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>STT</td>
+                        <td>Tên sản phẩm</td>
+                        <td>Hình ảnh</td>
+                        <td>Giá</td>
+                        <td>Số lượng</td>
+                        <td>Thành tiền</td>
+                        <td>#</td>
+                    </tr>
+                </thead>
+                <tbody id="shoppingCartBody"> </tbody>
+            </table>
+            <button class="btn btn-success" id="btnContinue">Tiếp tục mua hàng</button>
+            <button class="btn btn-danger" id="btnDeleteAll">Xóa giỏ hàng</button>
+            <button class="btn btn" id="btnCheckout">Thanh toán</button>
+            <div class="pull-right">
+                Tổng tiền: <span id="lblTotalOrder"></span>
+            </div>
+        </div>
+
+        <div id="divCheckout" style="display:none;">
+
+            <div class="reservation_top">
+                <div class=" contact_right">
+                    <h3>Thanh Toán</h3>
+                    <div class="contact-form">
+                        <form method="post" id="frmPayment">
+                            @if (Request.IsAuthenticated == true)
+                            {
+                                <label>
+                                    <input type="checkbox" id="checkUserLoginInfo" /> Sử dụng thông tin đăng nhập
+                                </label>
+                            }
+
+
+                            <input type="text" class="textbox" id="txtName" name="Name" placeholder="Họ Tên">
+                            <input type="text" class="textbox" id="txtAdress" name="Adress" placeholder="Địa Chỉ">
+                            <input type="text" class="textbox" id="txtEmail" name="Email" placeholder="Email">
+                            <input type="text" class="textbox" id="txtPhone" name="Phone" placeholder="Điện Thoại">
+                            <textarea value="Message" id="txtMessage" name="Message">Message</textarea>
+                            <input type="button" class="btnCreatOrder" value="Thanh Toán">
+                            <div class="clearfix"> </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="clearfix"> </div>
+    </div>
+
+</div>
+<script id="tplShoppingCart" type="x-tmpl-mustache">
+    <tr>
+        <td>{{ProductID}}</td>
+        <td> {{ProductName}}</td>
+        <td><img src="{{Image}}" height="60" /></td>
+        <td>{{PriceFormat}}</td> <!--tính toán vẫn dùng price hiển thị dùng priceformat-->
+        <td><input type="number" value="{{Quantity}}" data-id="{{ProductID}}" data-price="{{Price}}" class="input txtQuantity" /></td>
+        <td id="amount_{{ProductID}}">{{Amount}}</td>
+        <td><button class="btn btn-danger btnDeleteItem" data-id="{{ProductID}}"> <i class="fa fa-close"></i></button></td>
+
+    </tr>
+</script>
+@section footerJS{
+    <script src="~/Assets/client/controller/shoppingCart.js"></script>
+}

@@ -215,7 +215,8 @@ namespace Shop2.Web.Api
                 }
                 else
                 {
-                    // thư viện JavaScriptSerializer giúp ta dữ liệu text dưới dạng JSON qua một đối tượng tương ứng ở đây là lấy về list id
+                    // thư viện JavaScriptSerializer giúp chuyển dữ liệu text dưới dạng JSON qua một đối tượng tương ứng ở đây là lấy về list id
+                    //  // thư viện JavaScriptSerializer giúp chuyển đối một đối tượng .NET (hay CLR) bất kì thành một chuỗi JSON và ngược lại. 
                     var listproduct = new JavaScriptSerializer().Deserialize<List<int>>(checkedProducts);
                     foreach (var item in listproduct)
                     {

@@ -103,7 +103,7 @@
 
                 }
 
-                <a class="now-get get-cart-in btnAddToCart" href="#" data-id="@Model.ID">Thêm vào giỏ hàng</a>
+                <a class="now-get get-cart-in btnAddProductToCart" href="#" data-id="@Model.ID"  >Thêm vào giỏ hàng</a>
                 <div class="clearfix"></div>
             </div>
             <h6>@Model.Quantity sản phẩm trong kho</h6>
@@ -113,7 +113,7 @@
                 <ul class="taglist">
                     @foreach (var tag in (IEnumerable<Shop2.Web.Models.TagViewModel>)ViewBag.Tags)
                     {
-                     
+
                         <li><a href="/tag-@(tag.ID).html">@(tag.Name), </a></li>
 
                     }
@@ -147,11 +147,11 @@
         var relatedProducts = (IEnumerable<Shop2.Web.Models.ProductViewModel>)ViewBag.RelatedProducts;
     }
 
- 
-    @*@if(relatedProducts.)
-    {
 
-    }*@
+    @*@if(relatedProducts.)
+        {
+
+        }*@
 
     <h3 class="m_3" style="margin-top:100px;margin-bottom:50px">Sản phẩm liên quan</h3>
     <ul id="flexiselDemo1">

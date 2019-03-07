@@ -14,5 +14,7 @@ namespace Shop2.Common
         public const string PostTag = "post";
 
         public const string DefaultFooterID = "defaultFooterID";
+
+        public const string SessionCart = "SessionCart";
     }
 }

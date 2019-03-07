@@ -5,7 +5,8 @@ using System.Web;
 
 namespace Shop2.Web.Models
 {
-    //[Serializable]
+    [Serializable] // :giúp biến đổi và tái tạo các đối tượng để chúng có thể được lưu trữ và trao đổi giữa các ứng dụng
+    // ở đây shoppingcartviewmodel sử dụng đối tượng productviewmodel nên ta phải để [Serializable] 
     public class ProductViewModel
     {
         public int ID { set; get; }
