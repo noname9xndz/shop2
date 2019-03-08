@@ -1,12 +1,13 @@
 ﻿
 
-
+// viết js dạng hướng đói tượng
 var cart = {
     init: function () {
         cart.loadData();
         cart.registerEvent();
     },
     registerEvent: function () {
+
         // sk nút thêm giỏ hàng
         //$("#btnAddProductToCart").off('click').on('click', function (event) {
         //    event.preventDefault(); // xóa điều hướng mặc định
@@ -14,7 +15,7 @@ var cart = {
         //    cart.addItem(productId);
         //});
 
-        // sử dụng jquery-validation để bắt ngoại lệ
+        // sử dụng jquery-validation để bắt ngoại lệ nhập form thanh toán
         $("#frmPayment").validate({
             rules: {
                 Name: "required",
@@ -154,7 +155,7 @@ var cart = {
                 dataType: 'json',
                 success: function (res) {
                     if (res.status == true) {
-                          cart.loadData();
+                        cart.loadData(); // xóa xong load lại data
 
                     }
                 }
@@ -242,6 +243,7 @@ var cart = {
 
                         $("#divCheckout").hide();
                         cart.deleteAllItem();
+                        // ghi đè lên cartContent
                         setTimeout(function () {
                             $('#cartContent').html('Cảm ơn bạn đã đặt hàng . Chúng tôi sẽ liên hệ lại sớm nhất');
                         }, 1000);
@@ -251,6 +253,7 @@ var cart = {
             })
     },
     loadData: function () {
+        // dùng Mustache thư viện giúp load html template
         $.ajax(
             {//status ,data lấy trong ShoppingCartController->GetAllProduct
                 url: '/ShoppingCart/GetAllProduct',
@@ -285,7 +288,7 @@ var cart = {
                             $('#cartContent').html('Không có sản phẩm nào trong giỏ hàng.');
                         }
                         // load lại các sự kiện click
-                        $("#lblTotalOrder").text(numeral(cart.getTotalOrder()).format('0,0')); //numeral để format giá
+                        $("#lblTotalOrder").text(numeral(cart.getTotalOrder()).format('0,0')); //numeral(thư viện để format số) để format giá
                         cart.registerEvent();
                     }
                 }

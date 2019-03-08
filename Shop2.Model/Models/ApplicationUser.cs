@@ -36,6 +36,7 @@ namespace Shop2.Model.Models
             return userIdentity;
         }
 
+        //thuộc tính ảo tham chiếu đển bảng order để lấy thông tin người mua hàng nếu đăng nhập
         public virtual IEnumerable<Order> Orders { set; get; }
     }
 }

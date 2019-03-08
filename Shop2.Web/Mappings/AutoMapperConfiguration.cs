@@ -10,16 +10,6 @@ namespace Shop2.Web.Mappings
         //Bản chất ở đây chúng at sẽ map 1 class trong shop.Model với 1 ViewModel trong shop.Web
         public static void Configure()
         {
-            // cơ chế cũ
-            //Mapper.CreateMap<Post, PostViewModel>();
-            //Mapper.CreateMap<PostCategory, PostCategoryViewModel>();
-            //Mapper.CreateMap<Tag, TagViewModel>();
-            //Mapper.CreateMap<ProductCategory, ProductCategoryViewModel>();
-            //Mapper.CreateMap<Product, ProductViewModel>();
-            //Mapper.CreateMap<ProductTag, ProductTagViewModel>();
-            //Mapper.CreateMap<Footer, FooterViewModel>();
-            //Mapper.CreateMap<Slide, SlideViewModel>();
-            //Mapper.CreateMap<Page, PageViewModel>();
 
 
             Mapper.Initialize(cfg => {

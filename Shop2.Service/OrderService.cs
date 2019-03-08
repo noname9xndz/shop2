@@ -29,10 +29,11 @@ namespace Shop2.Service
         {
             try
             {
-                // add order vào db
+                // add order(chứa thông tin người mua hàng) vào db
                 _orderRepository.Add(order);
                 _unitOfWork.Commit();
 
+                // add orderDetail(chứ số lượng sp,sp) vào db
                 foreach (var orderDetail in orderDetails)
                 {
                     orderDetail.OrderID = order.ID;

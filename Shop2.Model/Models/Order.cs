@@ -36,6 +36,8 @@ namespace Shop2.Model.Models
         
         public bool Status { set; get; }
 
+
+        // lấy thông tin user nếu đăng nhập
         [StringLength(128)] 
         [Column(TypeName ="nvarchar")]
         public string CustomerID { set; get; }

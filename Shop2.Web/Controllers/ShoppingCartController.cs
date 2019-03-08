@@ -78,12 +78,7 @@ namespace Shop2.Web.Controllers
             {
                 status = true
             });
-
-
-
-
-
-
+            
         }
 
         // lấy toàn bộ sp trong giỏ hàng
@@ -128,6 +123,7 @@ namespace Shop2.Web.Controllers
             });
 
         }
+       // xóa 1 sp trong giỏ hàng
         [HttpPost]
         public JsonResult DeleteItem(int productId)
         {
@@ -146,9 +142,11 @@ namespace Shop2.Web.Controllers
                 status = false
             });
         }
+        // xóa tất cả sp trong giỏ hàng
         [HttpPost]
         public JsonResult DeleteAllProduct()
         {
+            //gán ngược session lại bằng cách tạo mới
             Session[CommonConstants.SessionCart] = new List<ShoppingCartViewModel>();
             return Json(new
             {
@@ -176,8 +174,11 @@ namespace Shop2.Web.Controllers
             }
            
         }
+        // tạo order khi click thanh toán
         public JsonResult CreatOrder(string orderViewModel)
         {
+            // order(chứa thông tin người mua hàng) 
+            // orderDetail(chứ số lượng sp,sp) 
             var order = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
             var orderNew = new Order();
             orderNew.UpdateOrder(order);
