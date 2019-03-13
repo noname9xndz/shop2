@@ -368,6 +368,7 @@
     <Content Include="Assets\admin\img\boxed-bg.png" />
     <Content Include="Assets\admin\img\credit\american-express.png" />
     <Content Include="Assets\admin\img\credit\cirrus.png" />
+    <Content Include="Assets\admin\img\ffff.jpg" />
     <Content Include="Assets\admin\img\credit\mastercard.png" />
     <Content Include="Assets\admin\img\credit\mestro.png" />
     <Content Include="Assets\admin\img\credit\paypal.png" />

@@ -456,7 +456,7 @@ a:focus {
 .sidebar-form input:focus {
   border-color: transparent;
 }
-.user-panel {
+/*.user-panel {
   position: relative;
   width: 100%;
   padding: 10px;
@@ -495,7 +495,7 @@ a:focus {
 .user-panel > .info > a > .ion,
 .user-panel > .info > a > .glyphicon {
   margin-right: 3px;
-}
+}*/
 .sidebar-menu {
   list-style: none;
   margin: 0;
