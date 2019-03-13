@@ -64,7 +64,9 @@ namespace Shop2.Web.Controllers
             }
             else
             {//không add 1 sp mới vào giỏ hàng
+#pragma warning disable IDE0017 // Simplify object initialization
                 ShoppingCartViewModel newItem = new ShoppingCartViewModel();
+#pragma warning restore IDE0017 // Simplify object initialization
                 newItem.ProductId = productId;
                 // lấy sp ra
                 var product = _productService.GetById(productId);
@@ -194,7 +196,9 @@ namespace Shop2.Web.Controllers
 
             foreach(var item in cartSession)
             {
+#pragma warning disable IDE0017 // Simplify object initialization
                 var detail = new OrderDetail();
+#pragma warning restore IDE0017 // Simplify object initialization
                 detail.ProductID = item.ProductId;
                 detail.Quantity = item.Quantity;
                 orderDetails.Add(detail);

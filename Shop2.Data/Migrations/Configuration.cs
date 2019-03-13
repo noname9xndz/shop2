@@ -16,7 +16,8 @@
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            //false nếu ta ko tạo ra initMigrations mỗi lần thêm để tạo ra vết, true chỉ cần update database tự nhận
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(Shop2.Data.Shop2DbContext context)

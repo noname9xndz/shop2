@@ -7,21 +7,23 @@
     Layout = "~/Views/Shared/Layouts.cshtml";
 }
 @*gọi capcha css*@
-<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl" rel="stylesheet" type="text/css" />
+
+<link href="@BotDetect.Web.CaptchaUrls.Absolute.LayoutStyleSheetUrl"rel="stylesheet" type="text/css" />
+      rel="stylesheet" type="text/css" />
 <div class="register">
 
     @using (Html.BeginForm("Register", "Account", FormMethod.Post))
     {
         @Html.AntiForgeryToken(); @*chặn submit liên tục lên server*@
 
-    if (TempData["Ketqua"] != null)
-    {
+        if (TempData["Ketqua"] != null)
+        {
 
             <div class="alert alert-success" role="alert">
                 <strong>Đăng Ký </strong>thành công.
                 <br />  <a href="/dang-nhap.html">Click</a> để đăng nhập
             </div>
-    }
+        }
         <div class="  register-top-grid">
             <h3>Thông Tin Cá Nhân</h3>
             @Html.ValidationSummary(false, "", new { @class = "error" })
@@ -48,7 +50,7 @@
 
                 @{
                     MvcCaptcha registerCaptcha = new MvcCaptcha("registerCaptcha ");
-                 }
+                }
                 @Html.Captcha(registerCaptcha)
                 @Html.TextBox("CaptchaCode")
             </div>

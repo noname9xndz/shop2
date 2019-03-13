@@ -31,7 +31,9 @@ namespace Shop2.Web.Controllers
         {
             var slideModel = _commonService.GetSlides();
             var slideView = Mapper.Map<IEnumerable<Slide> , IEnumerable<SlideViewModel> >(slideModel);
+#pragma warning disable IDE0017 // Simplify object initialization
             var homeViewModel = new HomeViewModel();
+#pragma warning restore IDE0017 // Simplify object initialization
             homeViewModel.Slides = slideView;
 
             var lastestProductModel = _productService.GetLastest(3);

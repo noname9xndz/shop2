@@ -3,11 +3,14 @@
 (function () {
     //cấu hình router cho shop2
     angular.module('shop2', ['shop2.products',
-                             'shop2.productCategories',
-                             'shop2.pages',
-                              'shop2.common'])
-                             .config(config)
-                              .config(configAuthentication);
+        'shop2.productCategories',
+        'shop2.application_groups',
+        'shop2.application_roles',
+        'shop2.application_users',
+        'shop2.pages',
+        'shop2.common'])
+        .config(config)
+        .config(configAuthentication);
 
     // dependency 2 service được định nghĩa sẵn trong ui-route $stateProvider,$urlRouterProvider giúp điều hướng trang
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -31,14 +34,14 @@
             // phần thao tác trang admin
             .state('home', {
                 url: "/admin",
-                parent :'base',
-               // truyền vào 1 trang html và  dùng <div ui-view> </div> để gọi nó ở trang index
-               templateUrl: "/app/components/home/homeView.html",
-               controller: "homeController"
-        });
+                parent: 'base',
+                // truyền vào 1 trang html và  dùng <div ui-view> </div> để gọi nó ở trang index
+                templateUrl: "/app/components/home/homeView.html",
+                controller: "homeController"
+            });
         // nếu không phải trường hợp nào sẽ trả về trang login
         $urlRouteProvider.otherwise('/login');
-        
+
     }
 
     // check request lên có token hay ko

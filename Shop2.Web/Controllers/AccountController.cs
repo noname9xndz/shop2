@@ -74,8 +74,10 @@ namespace Shop2.Web.Controllers
                     authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie); // nếu đã đăng nhập thì thoát và xóa cookie có sẵn
                      // tạo ClaimsIdentity chứa thông tin đăng nhập người dùng lưu vào cookies
                     ClaimsIdentity identity = _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+#pragma warning disable IDE0017 // Simplify object initialization
                     AuthenticationProperties properties = new AuthenticationProperties();
-                    // nếu chọn ghi nhớ thì sẽ lưu lâu dài
+#pragma warning restore IDE0017 // Simplify object initialization
+                               // nếu chọn ghi nhớ thì sẽ lưu lâu dài
                     properties.IsPersistent = loginViewModel.RememberMe;
                     // đăng nhập
                     authenticationManager.SignIn(properties, identity);
@@ -95,6 +97,7 @@ namespace Shop2.Web.Controllers
                 }
 
             }
+            
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -109,7 +112,7 @@ namespace Shop2.Web.Controllers
         }
 
         [HttpPost]
-        [SimpleCaptchaValidation("CaptchaCode", "registerCaptcha", "Mã xác nhận không đúng!")] // adđ sử dụng capcha(botdetect- Nugetpacket) https://captcha.com/asp.net-captcha.html
+        [CaptchaValidation("CaptchaCode","registerCaptcha", "Mã xác nhận không đúng!")] // adđ sử dụng capcha(botdetect- Nugetpacket) https://captcha.com/asp.net-captcha.html
         // viết bất đồng bộ để check nhanh hơn
         public async Task<ActionResult> Register(RegisterViewModel registerViewModel)
         {
@@ -161,6 +164,10 @@ namespace Shop2.Web.Controllers
                 TempData["Ketqua"] = "Đăng ký thành công";
               
 
+            }
+            else
+            {
+                MvcCaptcha.ResetCaptcha("registerCaptcha");
             }
 
             return View();

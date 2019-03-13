@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Shop2.Model.Models
 {// tạo 1 ASP.NET Identity để xem tổ chức code và cách cài đặt
    // ASP.NET Identity là 1 công nghệ giúp chúng ta trong bài toán xác thực và phân quyền người dùng trên website
-    public class ApplicationUser :IdentityUser
+    public class ApplicationUser :IdentityUser  // quản lý user
     {
         // thêm cái thuộc tính mình cần mà IdentityUser chưa có
         [MaxLength(256)]
