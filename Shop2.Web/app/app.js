@@ -22,17 +22,14 @@
                 url: '',
                 templateUrl: '/app/shared/views/baseView.html',
                 abstract: true
-            })
-
-            // các trang kế thừa ,trang con trong trang admin
-            // trang login
-            .state('login', {
+            }).state('login', {
+                  // các trang kế thừa ,trang con trong trang admin
+                  // trang login
                 url: "/login",
                 templateUrl: "/app/components/login/loginView.html",
                 controller: "loginController"
-            })
-            // phần thao tác trang admin
-            .state('home', {
+            }).state('home', {
+                // phần thao tác trang admin  
                 url: "/admin",
                 parent: 'base',
                 // truyền vào 1 trang html và  dùng <div ui-view> </div> để gọi nó ở trang index

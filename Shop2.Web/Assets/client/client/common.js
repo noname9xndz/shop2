@@ -46,10 +46,11 @@ var common = {
                      dataType: 'json',
                      success: function (res) {
                          if (res.status) {
+
                              alert('Thêm sản phẩm thành công.');
                          }
                          else {
-                             alert(response.message);
+                              alert(res.message);
                          }
                      }
                  });

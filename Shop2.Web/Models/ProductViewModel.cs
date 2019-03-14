@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Shop2.Web.Models
 {
-    [Serializable] // :giúp biến đổi và tái tạo các đối tượng để chúng có thể được lưu trữ và trao đổi giữa các ứng dụng
+    [Serializable] // :giúp biến đổi và tái tạo các đối tượng để chúng có thể được lưu trữ và trao đổi giữa các ứng dụng (bằng session)
     // ở đây shoppingcartviewmodel sử dụng đối tượng productviewmodel nên ta phải để [Serializable] 
     public class ProductViewModel
     {
@@ -54,8 +54,9 @@ namespace Shop2.Web.Models
         public string Tags { set; get; }
 
         public int Quantity { set; get; }
+        
+        public decimal OriginalPrice { set; get; } // giá nhập
 
-        //public decimal OriginalPrice { set; get; }
         public virtual ProductCategoryViewModel ProductCategory { set; get; }
     }
 }

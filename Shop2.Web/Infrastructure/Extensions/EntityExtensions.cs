@@ -102,6 +102,7 @@ namespace Shop2.Web.Infrastructure.Extensions
             product.Status = productViewModel.Status;
             product.Tags = productViewModel.Tags;
             product.Quantity = productViewModel.Quantity;
+            product.OriginalPrice = productViewModel.OriginalPrice;
          
         }
         public static void UpdatePage(this Page page, PageViewModel pageViewModel)

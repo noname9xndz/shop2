@@ -47,12 +47,12 @@ namespace Shop2.Service
         //Tag GetTag(string tagID);
         Tag GetTag(string tagID);
 
-
-
-
         Product GetById(int id);
 
+        bool SellProduct(int productId, int quantity); // trừ sp khi đặt hàng thành công
+
         
+
         void Save();
     }
 
@@ -114,6 +114,8 @@ namespace Shop2.Service
             }
             return product;
         }
+
+       
 
         public Product Delete(int id)
         {
@@ -249,6 +251,16 @@ namespace Shop2.Service
             totalRow = query.Count();
 
             return query.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        public bool SellProduct(int productId, int quantity)
+        {
+            // nếu sp ddc đặt thành công sẽ trừ đi số lượng
+            var product = _ProductRepository.GetSingleById(productId);
+            if (product.Quantity < quantity)
+                return false;
+            product.Quantity -= quantity;
+            return true;
         }
 
         public void Update(Product Product)

@@ -26,7 +26,7 @@
                 parent: 'base',
                 templateUrl: "/app/components/product_categories/productCategoryEditView.html",
                 controller: "productCategoryEditController"
-            }); ; 
+            });
 
     }
 })();// chỉ ra module này thuộc tp nào không có bỏ trống

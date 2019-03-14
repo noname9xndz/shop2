@@ -52,6 +52,8 @@ namespace Shop2.Model.Models
         public string Tags { set; get; }
 
         public int Quantity { set; get; }
+
+        public decimal OriginalPrice { set; get; } // giá nhập
         
         public virtual IEnumerable<ProductTag> ProductTags { set; get; }
 

@@ -45,12 +45,27 @@ namespace Shop2.Web.Controllers
         public JsonResult AddProduct(int productId)
         {
             var cart = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-            
-            if(cart == null)
+            var product = _productService.GetById(productId);
+            if (cart == null)
             {
                 cart = new List<ShoppingCartViewModel>();
             }
-            
+            if(product.Quantity==0)
+            {
+                return Json(new
+                {
+                    status = false,
+                    message = "Sản Phẩm không đủ hàng"
+                });
+            }
+            if(product.Price <= 0 || product.Price <= 0 || product.PromotionPrice > product.Price)
+            {
+                return Json(new
+                {
+                    status = false,
+                    message = "Liên Hệ Người Bán Hàng Để Mua"
+                });
+            }
             //kiểm tra thông tin sp
             if (cart.Any(x => x.ProductId == productId))
             {// có tăng số lượng
@@ -64,12 +79,9 @@ namespace Shop2.Web.Controllers
             }
             else
             {//không add 1 sp mới vào giỏ hàng
-#pragma warning disable IDE0017 // Simplify object initialization
                 ShoppingCartViewModel newItem = new ShoppingCartViewModel();
-#pragma warning restore IDE0017 // Simplify object initialization
                 newItem.ProductId = productId;
-                // lấy sp ra
-                var product = _productService.GetById(productId);
+                
                 newItem.Product = Mapper.Map<Product, ProductViewModel>(product);
                 newItem.Quantity = 1;
                 cart.Add(newItem);
@@ -193,22 +205,38 @@ namespace Shop2.Web.Controllers
 
             var cartSession = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
             List<OrderDetail> orderDetails = new List<OrderDetail>();
+            bool isEnough = true;
 
             foreach(var item in cartSession)
             {
-#pragma warning disable IDE0017 // Simplify object initialization
                 var detail = new OrderDetail();
-#pragma warning restore IDE0017 // Simplify object initialization
                 detail.ProductID = item.ProductId;
                 detail.Quantity = item.Quantity;
                 orderDetails.Add(detail);
+                isEnough = _productService.SellProduct(item.ProductId, item.Quantity); // tính số sp còn lại
+                break;
             }
-            _orderService.Create(orderNew,orderDetails);
-
-            return Json(new
+            if(isEnough==true)
             {
-                status = true
-            });
+                _orderService.Create(orderNew, orderDetails);
+                _productService.Save();
+
+                return Json(new
+                {
+                    status = true,
+                    message = "Không đủ hàng"
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    status = false
+                });
+            }
+            
+
+           
 
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,9 @@ namespace Shop2.Web
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+                               new DefaultContractResolver { IgnoreSerializableAttribute = true }; // cấu hình để sử dụng  Serializable loại bỏ những thuộc tính mặc định
 
             // nhớ cài Microsoft.AspNet.WebApi.Owin
             // giúp lọc cơ chế đăng nhập cho client(cookie authen) và admin(based token)

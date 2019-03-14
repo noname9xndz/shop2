@@ -19,6 +19,10 @@ namespace Shop2.Model.Models
         [ForeignKey("ProductID")]
         public virtual Product Product { set; get; }
 
-        public int? Quantity { set; get; }
+        public int Quantity { set; get; }
+
+        public decimal Price { set; get; }
+
+        public decimal? PromotionPrice { set; get; }
     }
 }
