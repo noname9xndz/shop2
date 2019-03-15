@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Shop2.Common;
 using Shop2.Model.Models;
 using Shop2.Service;
 using Shop2.Web.Models;
@@ -31,9 +32,7 @@ namespace Shop2.Web.Controllers
         {
             var slideModel = _commonService.GetSlides();
             var slideView = Mapper.Map<IEnumerable<Slide> , IEnumerable<SlideViewModel> >(slideModel);
-#pragma warning disable IDE0017 // Simplify object initialization
             var homeViewModel = new HomeViewModel();
-#pragma warning restore IDE0017 // Simplify object initialization
             homeViewModel.Slides = slideView;
 
             var lastestProductModel = _productService.GetLastest(3);
@@ -41,7 +40,18 @@ namespace Shop2.Web.Controllers
             var lastestProductView = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(lastestProductModel);
             var topSaleProductView = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(topSaleProductModel);
 
-           
+            // get thông tin seo cho trang
+            try
+            {
+                  homeViewModel.Title = _commonService.GetSystemConfig(CommonConstants.HomeTitle).ValueString;
+                  homeViewModel.MetaKeyword = _commonService.GetSystemConfig(CommonConstants.HomeMetaKeyword).ValueString;
+                  homeViewModel.MetaDescription = _commonService.GetSystemConfig(CommonConstants.HomeMetaDescription).ValueString;
+               
+            }
+            catch
+            {
+
+            }
 
             homeViewModel.LastestProducts = lastestProductView;
             homeViewModel.TopSaleProducts = topSaleProductView;

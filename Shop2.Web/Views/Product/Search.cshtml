@@ -3,8 +3,12 @@
 @{
     var keyword = (string)ViewBag.Keyword;
     ViewBag.Title = "Kết quả tìm kiếm cho từ khóa " + keyword;
-
+    var pageIndex = Model.Page;
     Layout = "~/Views/Shared/Layouts.cshtml";
+    ViewBag.Title = pageIndex == 1 ? "Kết quả tìm kiếm cho " + keyword : "Kết quả tìm kiếm cho " + keyword + "-Trang" + pageIndex;
+    ViewBag.MetaKeyword = pageIndex == 1 ? "Kết quả tìm kiếm cho " + keyword : "Kết quả tìm kiếm cho" + keyword + "-Trang" + pageIndex;
+    ViewBag.MetaDescription = pageIndex == 1 ? "Kết quả tìm kiếm cho " + keyword : "Kết quả tìm kiếm cho " + keyword + "-Trang" + pageIndex;
+
 
 }
 <div class="women-product">

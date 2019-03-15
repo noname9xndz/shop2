@@ -2,17 +2,15 @@
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Shop2.Common;
     using Shop2.Model.Models;
     using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Data.Entity.Validation;
     using System.Diagnostics;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Shop2.Data.Shop2DbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Shop2DbContext>
     {
         public Configuration()
         {
@@ -20,7 +18,7 @@
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(Shop2.Data.Shop2DbContext context)
+        protected override void Seed(Shop2DbContext context)
         {
             CreateProductCategory(context);
             //CreateApplicationUser(context);
@@ -28,12 +26,12 @@
             CreateSlide(context);
             CreatePage(context);
             CreateContact(context);
-
+            CreateConfigTitle(context);
 
         }
-        private void CreateApplicationUser(Shop2.Data.Shop2DbContext context)
+        private void CreateApplicationUser(Shop2DbContext context)
         {
-            
+
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new Shop2DbContext()));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new Shop2DbContext()));
 
@@ -57,7 +55,7 @@
             manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
 
         }
-        private void CreateProductCategory(Shop2.Data.Shop2DbContext context)
+        private void CreateProductCategory(Shop2DbContext context)
         {
             if (context.ProductCategories.Count() == 0)
             {
@@ -79,9 +77,9 @@
                 context.SaveChanges();
             }
         }
-        private void CreateProduct(Shop2.Data.Shop2DbContext context)
+        private void CreateProduct(Shop2DbContext context)
         {
-            if(context.Products.Count()==0)
+            if (context.Products.Count() == 0)
             {
                 List<Product> listProduct = new List<Product>()
                 {
@@ -92,7 +90,7 @@
                 context.SaveChanges();
             }
         }
-        private void CreateSlide(Shop2.Data.Shop2DbContext context)
+        private void CreateSlide(Shop2DbContext context)
         {
             if (context.Slides.Count() == 0)
             {
@@ -119,8 +117,8 @@
                 context.SaveChanges();
             }
         }
-       
-        private void CreatePage(Shop2.Data.Shop2DbContext context)
+
+        private void CreatePage(Shop2DbContext context)
         {
             if (context.Pages.Count() == 0)
             {
@@ -152,7 +150,7 @@
             }
         }
 
-        private void CreateContact(Shop2.Data.Shop2DbContext context)
+        private void CreateContact(Shop2DbContext context)
         {
             if (context.ContactDetails.Count() == 0)
             {
@@ -160,15 +158,15 @@
                 {
                     var contactDetail = new Shop2.Model.Models.ContactDetail()
                     {
-                        
+
                         Name = "Shop xxdsf",
-                        Address="43 Nguyễn Chí Thanh",
-                        Email="noname9xnd@gmail.com",
-                        Lat=21.0633645,
-                        Lng=105.8053274,
-                        Phone="0969696969",
-                        Website="xxxx.com",
-                        Other="thông tin thêm",
+                        Address = "43 Nguyễn Chí Thanh",
+                        Email = "noname9xnd@gmail.com",
+                        Lat = 21.0633645,
+                        Lng = 105.8053274,
+                        Phone = "0969696969",
+                        Website = "xxxx.com",
+                        Other = "thông tin thêm",
                         Status = true
 
                     };
@@ -188,6 +186,50 @@
                 }
 
             }
+        }
+
+        private void CreateConfigTitle(Shop2DbContext context)
+        {
+            try
+            {
+                if (context.SystemConfigs.Any(x => x.Code == "HomeTitle"))
+                {
+                    context.SystemConfigs.Add(new SystemConfig()
+                    {
+                        Code = "HomeTitle",
+                        ValueString = "Trang chủ NonameShop"
+                    });
+                }
+                if (context.SystemConfigs.Any(x => x.Code == "MetaKeyword"))
+                {
+                    context.SystemConfigs.Add(new SystemConfig()
+                    {
+                        Code = "HomeMetaKeyword",
+                        ValueString = "Trang chủ NonameShop"
+                    });
+                }
+                if (context.SystemConfigs.Any(x => x.Code == "MetaDescription"))
+                {
+                    context.SystemConfigs.Add(new SystemConfig()
+                    {
+                        Code = "HomeMetaDescription",
+                        ValueString = "Trang chủ NonameShop"
+                    });
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (var eve in ex.EntityValidationErrors)
+                {
+                    Trace.WriteLine($"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation error.");
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Trace.WriteLine($"- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"");
+                    }
+                }
+            }
+
+
         }
     }
 }

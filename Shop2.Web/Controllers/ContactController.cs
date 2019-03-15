@@ -30,9 +30,8 @@ namespace Shop2.Web.Controllers
         {
             // lấy api gg map nhớ nhúng  ~/Assets/client/controller/contact.js"
 
-#pragma warning disable IDE0017 // Simplify object initialization
+
             FeedbackViewModel viewModel = new FeedbackViewModel();
-#pragma warning restore IDE0017 // Simplify object initialization
             viewModel.ContactDetail = GetDetail(); // đẩy ngược vào contact view
             return View(viewModel);
         }
@@ -72,6 +71,10 @@ namespace Shop2.Web.Controllers
                 feedbackViewModel.Name = string.Empty;
                 feedbackViewModel.Email = string.Empty;
                 feedbackViewModel.Message = string.Empty;
+            }
+            else
+            {
+                MvcCaptcha.ResetCaptcha("contactCaptcha");
             }
             feedbackViewModel.ContactDetail = GetDetail();
 

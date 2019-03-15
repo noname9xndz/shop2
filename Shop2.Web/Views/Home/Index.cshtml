@@ -1,8 +1,10 @@
 ﻿@model  Shop2.Web.Models.HomeViewModel
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = Model.Title;
     Layout = "~/Views/Shared/Layouts.cshtml";
+    ViewBag.MetaKeyword = Model.MetaKeyword;
+    ViewBag.MetaDescription = Model.MetaDescription;
 }
 
 <div class="shoes-grid">

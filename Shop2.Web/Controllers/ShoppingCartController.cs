@@ -58,7 +58,7 @@ namespace Shop2.Web.Controllers
                     message = "Sản Phẩm không đủ hàng"
                 });
             }
-            if(product.Price <= 0 || product.Price <= 0 || product.PromotionPrice > product.Price)
+            if(product.Price <= 0 || product.PromotionPrice <= 0 || product.PromotionPrice > product.Price)
             {
                 return Json(new
                 {

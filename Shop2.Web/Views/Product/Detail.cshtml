@@ -2,8 +2,10 @@
 
 
 @{
-    ViewBag.Title = Model.Name;
+    ViewBag.Title = @Model.Name;
     Layout = "~/Views/Shared/Layouts.cshtml";
+    ViewBag.MetaKeyword = Model.MetaKeyword;
+    ViewBag.MetaDescription = Model.MetaDescription;
 }
 <link href="~/Assets/client/css/etalage.css" rel="stylesheet" />
 @section footerJS{

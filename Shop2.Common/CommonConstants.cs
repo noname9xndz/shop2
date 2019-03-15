@@ -16,5 +16,9 @@ namespace Shop2.Common
         public const string DefaultFooterID = "defaultFooterID";
 
         public const string SessionCart = "SessionCart";
+        // seo cho trang
+        public const string HomeTitle = "HomeTitle";
+        public const string HomeMetaKeyword = "HomeMetaKeyword";
+        public const string HomeMetaDescription = "HomeMetaDescription";
     }
 }
