@@ -22,7 +22,6 @@ namespace Shop2.Model.Models
         public int Quantity { set; get; }
 
         public decimal Price { set; get; }
-
-        public decimal? PromotionPrice { set; get; }
+        
     }
 }

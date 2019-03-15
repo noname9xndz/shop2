@@ -16,6 +16,6 @@ namespace Shop2.Web.Models
 
         public decimal Price { set; get; }
 
-        public decimal? PromotionPrice { set; get; }
+       
     }
 }

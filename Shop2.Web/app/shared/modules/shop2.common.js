@@ -12,5 +12,5 @@ và chỉ thực hiệncontroller trong view đó mà không cần tải lại c
 // dependency  ui.router vào common, bất cứ function nào truyền vào common có thể dùng ui router
 (function () {
     //angular.module('shop2.common', ['ui.router'])
-    angular.module('shop2.common', ['ui.router', 'ngBootbox', 'ngCkeditor','checklist-model'])
+    angular.module('shop2.common', ['ui.router', 'ngBootbox', 'ngCkeditor', 'checklist-model','chart.js'])
 })(); // chỉ ra module này thuộc tp nào không có bỏ trống

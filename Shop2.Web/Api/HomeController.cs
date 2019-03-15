@@ -13,9 +13,7 @@ namespace Shop2.Web.Api
     [Authorize] // bắt buộc đăng nhập mói vô được
     public class HomeController : ApiControllerBase
     {
-#pragma warning disable IDE0044 // Add readonly modifier
         IErrorService _errorService;
-#pragma warning restore IDE0044 // Add readonly modifier
         public HomeController(IErrorService errorService):base(errorService)
         {
             this._errorService = errorService;

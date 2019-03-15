@@ -7,6 +7,7 @@
         'shop2.application_groups',
         'shop2.application_roles',
         'shop2.application_users',
+        'shop2.statistics',
         'shop2.pages',
         'shop2.common'])
         .config(config)
