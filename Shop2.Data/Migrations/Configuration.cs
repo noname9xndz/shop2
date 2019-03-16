@@ -14,14 +14,14 @@
     {
         public Configuration()
         {
-            //false nếu ta ko tạo ra initMigrations mỗi lần thêm để tạo ra vết, true chỉ cần update database tự nhận
-            AutomaticMigrationsEnabled = true;
+            
+            AutomaticMigrationsEnabled = true; // true lần đầu tiên chạy sẽ chạy cùng với phương thức Seed,update-database sẽ tự nhận được sự thay đổi nếu có
         }
-
+        // tạo mới các dữ liệu mẫu
         protected override void Seed(Shop2DbContext context)
         {
             CreateProductCategory(context);
-            //CreateApplicationUser(context);
+            CreateApplicationUser(context);
             CreateProduct(context);
             CreateSlide(context);
             CreatePage(context);
@@ -31,28 +31,31 @@
         }
         private void CreateApplicationUser(Shop2DbContext context)
         {
-
-            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new Shop2DbContext()));
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new Shop2DbContext()));
-
-            var user = new ApplicationUser()
+            if(context.Users.Any())
             {
-                UserName = "noname",
-                Email = "noname9xnd@gmail.com",
-                EmailConfirmed = true,
-                BirthDay = DateTime.Now,
-                FullName = "nonamexx"
-            };
-            manager.Create(user, "12345$");
+                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new Shop2DbContext()));
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new Shop2DbContext()));
 
-            if (!roleManager.Roles.Any())
-            {
-                roleManager.Create(new IdentityRole { Name = "Admin" });
-                roleManager.Create(new IdentityRole { Name = "User" });
+                var user = new ApplicationUser()
+                {
+                    UserName = "noname",
+                    Email = "noname9xnd@gmail.com",
+                    EmailConfirmed = true,
+                    BirthDay = DateTime.Now,
+                    FullName = "nonamexx"
+                };
+                manager.Create(user, "12345$");
+
+                if (!roleManager.Roles.Any())
+                {
+                    roleManager.Create(new IdentityRole { Name = "Admin" });
+                    roleManager.Create(new IdentityRole { Name = "User" });
+                }
+
+                var adminUser = manager.FindByEmail("noname9xnd@gmail.com");
+                manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
             }
-
-            var adminUser = manager.FindByEmail("noname9xnd@gmail.com");
-            manager.AddToRoles(adminUser.Id, new string[] { "Admin", "User" });
+            
 
         }
         private void CreateProductCategory(Shop2DbContext context)

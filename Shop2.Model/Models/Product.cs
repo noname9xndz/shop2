@@ -29,6 +29,8 @@ namespace Shop2.Model.Models
         [Required]
         public int CategoryID { set; get; }
         [ForeignKey("CategoryID")]
+        //EntityCollection<TEntity>, EntityReference<TEntity> là đối tượng thể hiện mỗi quan hệ giữa 2 entity class
+        // có thể truy xuất thông qua các property của entity class
         public virtual ProductCategory ProductCategory { set; get; }
 
        

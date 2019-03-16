@@ -34,6 +34,8 @@ namespace Shop2.Model.Models
 
         public bool? HomeFlag { set; get; }
 
+        //EntityCollection<TEntity>, EntityReference<TEntity> là đối tượng thể hiện mỗi quan hệ giữa 2 entity class
+        // có thể truy xuất thông qua các property của entity class
         public virtual IEnumerable<Product> Products { set; get; }
     }
 }

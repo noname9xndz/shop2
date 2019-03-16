@@ -1,10 +1,17 @@
-namespace Shop2.Data.Migrations
+﻿namespace Shop2.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
     public partial class InitialDB : DbMigration
     {
+        /*
+         * một số tình huống : 1 cột đang kiểu string muốn chuyển sang kiểu int mà ko mất dữ liệu thì ntn
+         * b1 : add 1 migration 
+         * b2 : add thêm 1 cột temp vào bảng đó => chuyển dữ liệu string (có giá trị chữ hoặc số) sang cột temp đó
+         * b3 : dùng alter column để sửa dữ liệu cột đó thành int 
+         * b4 : dùng phương thức sql trong c# đẩy vào 1 câu lệnh (nếu dữ liệu là số thì đẩy lại dữ liệu về cột đó còn string thì thôi)
+             */
         public override void Up()
         {
             CreateTable(
