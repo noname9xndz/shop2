@@ -110,6 +110,21 @@ var cart = {
             }
             
         });
+
+        // sk chọn hình thức thanh toán
+        $('input[name="paymentMethod"]').off('click').on('click', function () {
+            if ($(this).val() == 'NL') {
+                $('.boxContent').hide();
+                $('#nganluongContent').show();
+            }
+            else if ($(this).val() == 'ATM_ONLINE') {
+                $('.boxContent').hide();
+                $('#bankContent').show();
+            }
+            else {
+                $('.boxContent').hide();
+            }
+        });
         
 
     },
@@ -227,7 +242,9 @@ var cart = {
             CustomerEmail :  $("#txtEmail").val(),
             CustomerMobile : $("#txtPhone").val(),
             CustomerMessage: $("#txtMessage").val(),
-            PaymentMethod: "Thanh Toán Tiền Mặt",
+            // lấy ra các phương thức thanh toán
+            PaymentMethod: $('input[name="paymentMethod"]:checked').val(),
+            BankCode: $('input[groupname="bankcode"]:checked').prop('id'),
             Status: false
         }
         $.ajax(
@@ -240,14 +257,22 @@ var cart = {
                 dataType: 'json',
                 success: function (res) {
                     if (res.status == true) {
-
-                        $("#divCheckout").hide();
-                        cart.deleteAllItem();
-                        // ghi đè lên cartContent
-                        setTimeout(function () {
-                            $('#cartContent').html('Cảm ơn bạn đã đặt hàng . Chúng tôi sẽ liên hệ lại sớm nhất');
-                        }, 1000);
+                        if (response.urlCheckout != undefined && response.urlCheckout != '') {
+                                 window.location.href = response.urlCheckout; // chuyển hướng qua ngân lượng
+                        }
+                        else {
+                            $("#divCheckout").hide();
+                            cart.deleteAllItem();
+                            // ghi đè lên cartContent
+                            setTimeout(function () {
+                                $('#cartContent').html('Cảm ơn bạn đã đặt hàng . Chúng tôi sẽ liên hệ lại sớm nhất');
+                            }, 1000);
+                        }
                        
+                    }
+                    else {
+                        $('#divMessage').show();
+                        $('#divMessage').text(response.message);
                     }
                 }
             })

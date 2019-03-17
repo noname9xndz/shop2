@@ -4,6 +4,7 @@ using Shop2.Common;
 using Shop2.Model.Models;
 using Shop2.Service;
 using Shop2.Web.Infrastructure.Extensions;
+using Shop2.Web.Infrastructure.NganLuongAPI;
 using Shop2.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,11 @@ namespace Shop2.Web.Controllers
         IProductService _productService;
         IOrderService _orderService;
         private ApplicationUserManager _userManager;
+        // dùng để thanh toán ngân lượng
+        private string merchantId = ConfigHelper.GetByKey("MerchantId");
+        private string merchantPassword = ConfigHelper.GetByKey("MerchantPassword");
+        private string merchantEmail = ConfigHelper.GetByKey("MerchantEmail");
+
         public ShoppingCartController(IProductService productService, IOrderService orderService, ApplicationUserManager userManager)
         {
             this._productService = productService;
@@ -189,11 +195,14 @@ namespace Shop2.Web.Controllers
            
         }
         // tạo order khi click thanh toán
-        public JsonResult CreatOrder(string orderViewModel)
+        public ActionResult CreatOrder(string orderViewModel)
         {
             // order(chứa thông tin người mua hàng) 
             // orderDetail(chứ số lượng sp,sp) 
             var order = new JavaScriptSerializer().Deserialize<OrderViewModel>(orderViewModel);
+
+            
+
             var orderNew = new Order();
             orderNew.UpdateOrder(order);
 
@@ -204,7 +213,7 @@ namespace Shop2.Web.Controllers
             }
 
             var cartSession = (List<ShoppingCartViewModel>)Session[CommonConstants.SessionCart];
-            List<OrderDetail> orderDetails = new List<OrderDetail>();
+            List<OrderDetail> orderDetails = new List<OrderDetail>(); 
             bool isEnough = true;
 
             foreach(var item in cartSession)
@@ -218,26 +227,106 @@ namespace Shop2.Web.Controllers
             }
             if(isEnough==true)
             {
-                _orderService.Create(orderNew, orderDetails);
+              //_orderService.Create(orderNew, orderDetails);
+                var orderReturn = _orderService.Create(ref orderNew, orderDetails);
                 _productService.Save();
 
-                return Json(new
+                // thanh toán tiền mặt
+                if (order.PaymentMethod == "CASH")
                 {
-                    status = true,
-                    message = "Không đủ hàng"
-                });
+                    return Json(new
+                    {
+                        status = true
+                    });
+                }
+                else
+                {  // thanh toán bằng ATM,Ngân Lượng
+                    var currentLink = ConfigHelper.GetByKey("CurrentLink");
+
+                    RequestInfo info = new RequestInfo();
+                    info.Merchant_id = merchantId;
+                    info.Merchant_password = merchantPassword;
+                    info.Receiver_email = merchantEmail;
+
+
+
+                    info.cur_code = "vnd";
+                    info.bank_code = order.BankCode;
+
+                    info.Order_code = orderReturn.ID.ToString();
+                    info.Total_amount = orderDetails.Sum(x => x.Quantity * x.Price).ToString();
+                    info.fee_shipping = "0";
+                    info.Discount_amount = "0";
+                    info.order_description = "Thanh toán đơn hàng tại NonameShop";
+                    info.return_url = currentLink + "xac-nhan-don-hang.html";
+                    info.cancel_url = currentLink + "huy-don-hang.html";
+
+                    info.Buyer_fullname = order.CustomerName;
+                    info.Buyer_email = order.CustomerEmail;
+                    info.Buyer_mobile = order.CustomerMobile;
+
+                    APICheckoutV3 objNLChecout = new APICheckoutV3();
+                    ResponseInfo result = objNLChecout.GetUrlCheckout(info, order.PaymentMethod);
+                    if (result.Error_code == "00")
+                    {
+                        return Json(new
+                        {
+                            status = true,
+                            urlCheckout = result.Checkout_url,// chuyển hướng qua ngân lượng
+                            message = result.Description
+                        });
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            status = false,
+                            message = result.Description
+                        });
+                    }
+                }
+                  
             }
             else
             {
                 return Json(new
                 {
-                    status = false
+                    status = false,
+                    message = "Không đủ hàng"
                 });
             }
             
+        }
+        public ActionResult ConfirmOrder()
+        {
+            string token = Request["token"];
 
-           
+            RequestCheckOrder info = new RequestCheckOrder();
+            info.Merchant_id = merchantId;
+            info.Merchant_password = merchantPassword;
+            info.Token = token;
 
+            APICheckoutV3 objNLChecout = new APICheckoutV3();
+            ResponseCheckOrder result = objNLChecout.GetTransactionDetail(info);
+
+            if (result.errorCode == "00")
+            {
+                //update status order
+                _orderService.UpdateStatus(int.Parse(result.order_code));
+                _orderService.Save();
+                ViewBag.IsSuccess = true;
+                ViewBag.Result = "Thanh toán thành công. Chúng tôi sẽ liên hệ lại sớm nhất.";
+            }
+            else
+            {
+                ViewBag.IsSuccess = true;
+                ViewBag.Result = "Có lỗi xảy ra. Vui lòng liên hệ admin.";
+            }
+            return View();
+        }
+        public ActionResult CancelOrder()
+        {
+            return View();
         }
     }
 }

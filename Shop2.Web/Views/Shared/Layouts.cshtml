@@ -11,12 +11,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <meta name="keywords" content="@ViewBag.MetaKeyword">
     <meta name="description" content="@ViewBag.MetaDescription">
 
-    @*<link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Assets/client/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
         <link href="~/Assets/client/css/style.css" rel="stylesheet" type="text/css" media="all" />
         <link href="~/Assets/admin/libs/font-awesome-4.6.3/css/font-awesome.css" rel="stylesheet" />
         <link href="~/Assets/admin/libs/jquery-ui/themes/smoothness/jquery-ui.min.css" rel="stylesheet" />
-        <link href="~/Assets/client/client/Custom.css" rel="stylesheet" />*@
-    @Styles.Render("~/css/base")
+        <link href="~/Assets/client/client/Custom.css" rel="stylesheet" />
+    @*@Styles.Render("~/css/base")*@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 
@@ -37,19 +37,19 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     @{Html.RenderAction("Footer", "Home");}
     <div class="clearfix"> </div>
 
-    <!--<script src="~/Assets/client/js/jquery.min.js"></script>
+    <script src="~/Assets/client/js/jquery.min.js"></script>
     <script src="~/Assets/admin/libs/jquery-ui/jquery-ui.min.js"></script>
-    <script src="~/Assets/admin/libs/mustache/mustache.js"></script>     thư viện dùng render ra html template
-    <script src="~/Assets/admin/libs/numeral/numeral.js"></script> thư viện format số
-    <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script> bắt ngoại lệ cho form đặt hàng
+    <script src="~/Assets/admin/libs/mustache/mustache.js"></script>     @*thư viện dùng render ra html template*@
+    <script src="~/Assets/admin/libs/numeral/numeral.js"></script> @*thư viện format số*@
+    <script src="~/Assets/admin/libs/jquery-validation/dist/jquery.validate.js"></script> @*bắt ngoại lệ cho form đặt hàng*@
     <script src="~/Assets/admin/libs/jquery-validation/dist/additional-methods.min.js"></script>
 
-    <script src="~/Assets/client/client/common.js"></script>chứa các phương thức dùng chung cho cả project
-    thay vì nhúng từng file ta sẽ gộp lại trong bundleconfig để tối ưu hóa website
-         -->
+    <script src="~/Assets/client/client/common.js"></script>@*chứa các phương thức dùng chung cho cả project*@
+    @*thay vì nhúng từng file ta sẽ gộp lại trong bundleconfig để tối ưu hóa website*@
+         
 
-    @Scripts.Render("~/js/jquery")
-    @Scripts.Render("~/js/plugins")
+    @*@Scripts.Render("~/js/jquery")
+    @Scripts.Render("~/js/plugins")*@
 
     <!--  required các trang con có bắt buộc phải áp dụng session này không -->
     @RenderSection("footerJS", required: false)

@@ -11,7 +11,10 @@ namespace Shop2.Service
 {
     public interface IOrderService
     {
-        bool Create(Order order,List<OrderDetail> orderDetails);
+        // truyền vào ref để trả về chính order đó
+        Order Create(ref Order order,List<OrderDetail> orderDetails);
+        void UpdateStatus(int orderId);
+        void Save();
     }
     public class OrderService : IOrderService
     {
@@ -25,7 +28,7 @@ namespace Shop2.Service
             this._orderRepository = orderRepository;
             this._unitOfWork = unitOfWork;
         }
-        public bool Create(Order order, List<OrderDetail> orderDetails)
+        public Order Create(ref Order order, List<OrderDetail> orderDetails)
         {
             try
             {
@@ -40,7 +43,7 @@ namespace Shop2.Service
                     _orderDetailRepository.Add(orderDetail);
                 }
 
-                return true;
+                return order;
             }
             catch(Exception)
             {
@@ -48,6 +51,18 @@ namespace Shop2.Service
             }
            
 
+        }
+        
+        public void UpdateStatus(int orderId)
+        {// update thông tin khi thanh toán thành công
+            var order = _orderRepository.GetSingleById(orderId);
+            order.Status = true;
+            _orderRepository.Update(order);
+        }
+
+        public void Save()
+        {
+            _unitOfWork.Commit();
         }
     }
 }

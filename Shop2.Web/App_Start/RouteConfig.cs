@@ -100,6 +100,19 @@ namespace Shop2.Web
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
                  namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
             );
+
+            routes.MapRoute(
+              name: "Confirm Order",
+              url: "xac-nhan-don-hang.html",
+              defaults: new { controller = "ShoppingCart", action = "ConfirmOrder", id = UrlParameter.Optional },
+              namespaces: new string[] { "TeduShop.Web.Controllers" }
+             );
+            routes.MapRoute(
+               name: "Cancel Order",
+               url: "huy-don-hang.html",
+               defaults: new { controller = "ShoppingCart", action = "CancelOrder", id = UrlParameter.Optional },
+               namespaces: new string[] { "TeduShop.Web.Controllers" }
+              );
         }
     }
 }

@@ -11,7 +11,25 @@ namespace Shop2.Data.Infrastructure
 
     /*1 mảng IEnumerable có những thuộc tính
                 -Là một mảng read-only, chỉ có thể đọc, không thể thêm hay bớt phần tử.
-                -Chỉ duyệt theo một chiều, từ đầu tới cuối mảng
+                -có thể duyệt cac phần tử chỉ 1 chiều tiến lên, nó không thể duyệt ngược lại giữa các phần tử
+                -Khi truy vấn dữ liệu từ database, IEnumerable thực thi câu lệnh select trên server sau đó tải toàn bộ dữ liệu về client rồi mới lọc dữ liệu
+                -IEnumerable phù hợp với Linq to Object và Linq to XML
+                -IEnumerable không hỗ trợ custom query
+                -IEnumerable không hỗ trợ lazy loading vì thế không phù hợp với trường hợp phân trang.
+
+   IQueryable : - cũng chỉ có thể di chuyển 1 chiều tiến lên trong collection, nó không thể move back lại.
+                - tốt nhất cho truy vấn dữ liệu out-memory như là database.
+                - Khi truy vấn, IQueryable thực thi câu lệnh truy vấn và lọc dữ liệu trên Server luôn
+                - IQueryable phù hợp cho Linq to SQL
+                - IQueryable hỗ trợ custom query sử dụng phương thức CreateQuery và Execute.
+                - IQueryable hỗ trợ lazy loading. Vì thế nó phù hợp cho trường hợp phân trang.Ví dụ về IQueryable
+        
+        
+    => Iqueryable giúp cho các bạn build câu lệnh và thực thi 1 lần trên server để trả về số bản ghi nhỏ nhất có thể
+    => IEnumerable giúp các bạn thao tác với các collection in-memory sẽ tốt hơn
+
+   ------------- nếu thao tác trên dữ liệu lớn ta nên dùng IQueryable ---------------------------------------
+     https://tedu.com.vn/lap-trinh-c/su-khac-nhau-giua-ienumerable-va-iqueryable-35.html
 */
 
     //RepositoryBase là 1 lớp abstract class  kế thừa IRepository và 

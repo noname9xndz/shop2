@@ -32,7 +32,7 @@ namespace Shop2.Web
                .Include("~/Assets/client/client/Custom.css", new CssRewriteUrlTransform())
                );
 
-            BundleTable.EnableOptimizations = true;
+            BundleTable.EnableOptimizations =  bool.Parse(ConfigHelper.GetByKey("EnableBundles"));
         }
     }
 }

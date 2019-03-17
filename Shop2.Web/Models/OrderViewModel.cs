@@ -38,11 +38,15 @@ namespace Shop2.Web.Models
         public string PaymentStatus { set; get; }
         public bool Status { set; get; }
 
+        
         [MaxLength(128)]
         public string CustomerId { set; get; }
-
+        // sử dụng thanh toán ngân lương hoặc atm
         public string BankCode { set; get; }
 
+
         public IEnumerable<OrderDetailViewModel> OrderDetails { set; get; }
+
+
     }
 }

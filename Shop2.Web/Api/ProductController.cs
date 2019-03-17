@@ -68,6 +68,7 @@ namespace Shop2.Web.Api
         [HttpGet]
         public HttpResponseMessage GetAllParents(HttpRequestMessage request)
         {
+            // c1 viết function nặc danh
             return CreateHttpResponse(request,
                 () => {
 
@@ -79,6 +80,18 @@ namespace Shop2.Web.Api
                     var response = request.CreateResponse(HttpStatusCode.OK, responseData);
                     return response;
                 });
+            // c2 : 
+            //Func<HttpResponseMessage> func = () => // đây là 1 delegate thực thi khối lệnh bên trong
+            //{
+            //    var listproduct = _productService.GetAll();
+
+            //    var responseData = Mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(listproduct);
+
+
+            //    var response = request.CreateResponse(HttpStatusCode.OK, responseData);
+            //    return response;
+            //}
+            // return CreateHttpResponse(request, func);
         }
 
 
