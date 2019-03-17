@@ -13,7 +13,6 @@ namespace Shop2.UnitTest.ServiceTest
     {
         // khai báo các đối tượng bằng cách dùng mock để giả lập đối tượng
         private Mock<IPostCategoryRepository> _mockRepository;
-
         private Mock<IUnitOfWork> _mockUnitOfWork;
         private IPostCategoryService _categoryService;
         private List<PostCategory> _listCategory;

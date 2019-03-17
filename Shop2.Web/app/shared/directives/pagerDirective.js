@@ -9,17 +9,17 @@
 
     function pagerDirective() {
         return {
-            scope: {
+            scope: { // giới hạn quyền cho các biến
                 page: '@',
                 pagesCount: '@',
-                totalCount: '@',
-                searchFunc: '&',
+                totalCount: '@', // @ chỉ đọc , = two way binding
+                searchFunc: '&', // quyền cao nhất có quyền truyền vào 1 funtion
                 customPath: '@'
             },
-            replace: true,
-            restrict: 'E',
-            templateUrl: '/app/shared/directives/pagerDirective.html',
-            controller: [
+            replace: true, // replace toàn bộ nội dung  trả ra của directive này
+            restrict: 'E', // directive này được sử dụng ở đâu(E là Element)
+            templateUrl: '/app/shared/directives/pagerDirective.html',// đường dẫn của directives
+            controller: [ // định nghĩa controller của riêng directive
                 '$scope', function ($scope) {
                     $scope.search = function (i) {
                         if ($scope.searchFunc) {

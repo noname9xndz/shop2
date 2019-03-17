@@ -26,7 +26,7 @@ namespace Shop2.Data.Infrastructure
 
         // tìm kiếm  bằng id
         T GetSingleById(int id);
-
+        // lấy về bản ghi cùng với   string[] includes : chứa các thuộc tính liên quan
         T GetSingleByCondition(Expression<Func<T, bool>> expression, string[] includes = null);
 
         // lấy về các đối tượng và lấy thêm được cả đối tượng được nó chứa

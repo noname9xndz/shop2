@@ -65,7 +65,7 @@ namespace Shop2.Web.App_Start
                .AsImplementedInterfaces().InstancePerRequest();
 
             // đưa tất cả vào 1 thùng chứa
-            Autofac.IContainer container = builder.Build();
+            IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             // thay thế cơ chế mặc định
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

@@ -20,8 +20,9 @@ namespace Shop2.Data.Infrastructure
     {
         #region Properties
         private Shop2DbContext dataContext;
-        private readonly IDbSet<T> dbSet;
+        private readonly IDbSet<T> dbSet; // đại điện cho lớp DbSet của bảng nhất định
 
+        
         protected IDbFactory DbFactory
         {
             get;
@@ -40,7 +41,8 @@ namespace Shop2.Data.Infrastructure
             dbSet = DbContext.Set<T>();
         }
 
-        #region Implementation
+        #region 
+
         // thêm
         public virtual T Add(T entity)
         {

@@ -5,7 +5,7 @@
 
     function asDate() {
         return {
-            require: '^ngModel', // phải đặt trong phần tử ngModel
+            require: '^ngModel', // phải đặt trong phần tử ngModel thì mới chạy 
             restrict: 'A',  // chỉ để làm thuộc tính(attribute) không làm element
 
             // thao tác format date -> datetime

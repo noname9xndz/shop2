@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shop2.Data.Infrastructure
 {
-    //UnitOfWork : giúp chúng at commit sau đó mới đẩy vào Database 
+    //UnitOfWork : giúp chúng at commit sau đó mới đẩy vào Database , đảm bảo 1 đơn vị làm việc chỉ dùng chung 1 collection
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IDbFactory dbFactory;
