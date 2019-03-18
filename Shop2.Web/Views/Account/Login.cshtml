@@ -10,7 +10,7 @@
 <div class="account_grid">
     <div class=" login-right">
         <h3>Đăng nhập</h3>
-        @using (Html.BeginForm("Login", "Account",new {returnUrl = @ViewBag.ReturnUrl }, FormMethod.Post))
+        @using (Html.BeginForm("Login", "Account", new { returnUrl = @ViewBag.ReturnUrl }, FormMethod.Post))
         {
             <div>
                 <span>Tài Khảon<label>*</label></span>
@@ -29,6 +29,8 @@
             <a class="forgot" href="#">Forgot Your Password?</a>
             <input type="submit" value="Đăng Nhập">
         }
+
+        @Html.Partial("_ExternalLoginsListPartial", new Shop2.Web.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
 
     </div>
     <div class=" login-left">

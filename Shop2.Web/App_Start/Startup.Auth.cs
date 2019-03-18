@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using Shop2.Data;
@@ -25,12 +26,76 @@ namespace Shop2.Web.App_Start
 
     public partial class Startup
     {
-        // phương thức tạo usermanager
-        private static UserManager<ApplicationUser> CreateManager(IdentityFactoryOptions<UserManager<ApplicationUser>> options, IOwinContext context)
+        // cấu hình đăng nhập trong  ASP.NET Identity, nhớ gọi nó bên Startup
+        public void ConfigureAuth(IAppBuilder app)
         {
-            var userStore = new UserStore<ApplicationUser>(context.Get<Shop2DbContext>());
-            var owinManager = new UserManager<ApplicationUser>(userStore);
-            return owinManager;
+            // Configure the db context, user manager and signin manager to use a single instance per request
+            app.CreatePerOwinContext(Shop2DbContext.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
+            // viết lại cơ chế login, mặc định la cơ chế login và lưu vào cookies ở đây ta dùng token
+
+
+
+            // add PerOwinContext(Open web interface for dotnet) quản lý usermanger tượng tác với bảng user
+            // PerOwinContext giúp giảm sự phụ thuôc giữa serve và application , cho phép quản lý user độc lập không phụ thuộc vào server
+            app.CreatePerOwinContext<UserManager<ApplicationUser>>(CreateManager);
+
+            // đăng nhập bằng token sử dụng cho admin
+            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
+            {
+                // tất cả request đăng nhâp đều thông qua TokenEndpointPath 
+                TokenEndpointPath = new PathString("/oauth/token"),
+                Provider = new AuthorizationServerProvider(),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
+                // có thể validiton qua các ứng dụng client sử dụng http uri
+                AllowInsecureHttp = true,
+
+            });
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+
+
+            // đăng nhập bằng cookies ,sử dụng cho client
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/dang-nhap.html"),
+                Provider = new CookieAuthenticationProvider
+                {
+                    // Enables the application to validate the security stamp when the user logs in.
+                    // This is a security feature which is used when you change a password or add an external login to your account.  
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                        validateInterval: TimeSpan.FromMinutes(30),
+                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager, DefaultAuthenticationTypes.ApplicationCookie)) // DefaultAuthenticationTypes.ApplicationCookie dùng trong đăng nhập MXH
+                }
+            });
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
+            // chưa login thì sẽ chuyển qua authen để chứng thực
+
+            // Uncomment the following lines to enable logging in with third party login providers
+            //app.UseMicrosoftAccountAuthentication(
+            //    clientId: "",
+            //    clientSecret: "");
+
+            //app.UseTwitterAuthentication(
+            //   consumerKey: "",
+            //   consumerSecret: "");
+
+            // add nuget : Microsoft.Owin.Security.Facebook
+            app.UseFacebookAuthentication(
+               appId: "394781941300120",
+               appSecret: "cc0a3cce87ae425c9ff251e217979104");
+
+
+            // add nuget : Microsoft.Owin.Security.Google
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "413684325958-invhtr9uthksetmpgnh2lldcm4t1n3o1.apps.googleusercontent.com",
+                ClientSecret = "g9JzXCXFKOKjJOw3_4THW6EF"
+            });
         }
 
         // viết class kế thừa từ OAuthAuthorizationServerProvider
@@ -68,9 +133,7 @@ namespace Shop2.Web.App_Start
                 if (user != null)
                 {
                     // đăng nhập thành công tạo ra 1 userclaims(chứa tất cả thông tin user) gán vào session
-                    ClaimsIdentity identity = await userManager.CreateIdentityAsync(
-                                                           user,
-                                                           DefaultAuthenticationTypes.ExternalBearer);
+                    ClaimsIdentity identity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);
                     context.Validated(identity);
                 }
                 else
@@ -81,75 +144,18 @@ namespace Shop2.Web.App_Start
             }
         }
 
-
-        // cấu hình đăng nhập trong  ASP.NET Identity, nhớ gọi nó bên Startup
-        public void ConfigureAuth(IAppBuilder app)
+        // phương thức tạo usermanager
+        private static UserManager<ApplicationUser> CreateManager(IdentityFactoryOptions<UserManager<ApplicationUser>> options, IOwinContext context)
         {
-            // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(Shop2DbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
-
-            // viết lại cơ chế login, mặc định la cơ chế login và lưu vào cookies ở đây ta dùng token
-
-
-
-            // add PerOwinContext(Open web interface for dotnet) quản lý usermanger tượng tác với bảng user
-            // PerOwinContext giúp giảm sự phụ thuôc giữa serve và application , cho phép quản lý user độc lập không phụ thuộc vào server
-            app.CreatePerOwinContext<UserManager<ApplicationUser>>(CreateManager);
-            
-            // đăng nhập bằng token sử dụng cho admin
-            app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions
-            {
-                // tất cả request đăng nhâp đều thông qua TokenEndpointPath 
-                TokenEndpointPath = new PathString("/oauth/token"),
-                Provider = new AuthorizationServerProvider(),
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(30),
-                // có thể validiton qua các ứng dụng client sử dụng http uri
-                AllowInsecureHttp = true,
-
-            });
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-
-            // đăng nhập bằng cookies ,sử dụng cho client
-            app.UseCookieAuthentication(new CookieAuthenticationOptions
-            {
-                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
-                LoginPath = new PathString("/dang-nhap.html"),
-                Provider = new CookieAuthenticationProvider
-                {
-                    // Enables the application to validate the security stamp when the user logs in.
-                    // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
-                        validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager, DefaultAuthenticationTypes.ApplicationCookie))
-                }
-            });
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
-            // chưa login thì sẽ chuyển qua authen để chứng thực
-
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
-
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
-
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            var userStore = new UserStore<ApplicationUser>(context.Get<Shop2DbContext>());
+            var owinManager = new UserManager<ApplicationUser>(userStore);
+            return owinManager;
         }
 
+       
+
+
+        
        
      
 

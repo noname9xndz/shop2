@@ -21,7 +21,7 @@ namespace Shop2.Model.Models
         public DateTime? BirthDay { set; get; }
 
         //  tạo danh tính người dùng 
-        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
+        public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager,string authenticationType) //string authenticationType dùng cho đăng nhập mạng xã hội
         {
             //cơ chế clamis là cơ chế giống như lưu session(tk,mk,tên,mail,phân quyền..) trong ứng dụng 
             //còn clamis mở rộng nó sẽ mã hóa chứa nhiều thông tin của user và có thể trao đổi qua lại với client
@@ -31,7 +31,7 @@ namespace Shop2.Model.Models
 
             //add cơ chế quản lý thông qua cookies
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
-            var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);
+            var userIdentity = await manager.CreateIdentityAsync(this,authenticationType);
             // Add custom user claims here
             return userIdentity;
         }

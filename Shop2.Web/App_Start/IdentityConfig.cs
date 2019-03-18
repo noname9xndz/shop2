@@ -30,9 +30,9 @@ namespace Shop2.Web.App_Start
         // tạo tk và mk và bắt ngoài lệ (ApplicationUserStore)
         public class ApplicationUserManager : UserManager<ApplicationUser>
         {
-            public ApplicationUserManager(IUserStore<ApplicationUser> store)
-                : base(store)
+            public ApplicationUserManager(IUserStore<ApplicationUser> store): base(store)
             {
+
             }
 
             public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
@@ -76,19 +76,16 @@ namespace Shop2.Web.App_Start
         // cấu hình đăng nhập
         public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
         {
-            public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
-                : base(userManager, authenticationManager)
+            public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager): base(userManager, authenticationManager)
             {
+
             }
 
-            //public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
-            //{
-            //    return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
-            //}
+
             public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
-           {
-               return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager, DefaultAuthenticationTypes.ApplicationCookie);
-           }
+            {
+                return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager,DefaultAuthenticationTypes.ApplicationCookie);
+            }
 
             public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
             {
