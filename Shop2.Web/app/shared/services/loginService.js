@@ -6,44 +6,51 @@
 
 (function (app) {
     'use strict';
-    app.service('loginService', loginService); 
+    app.service('loginService', loginService);
 
-    loginService.$inject = ['$http', '$q', 'authenticationService', 'authData'];
+    loginService.$inject = ['$http', '$q', 'authenticationService', 'authData', 'apiService'];
 
-    function loginService($http, $q, authenticationService, authData) {
-            var userInfo;
-            var deferred;
+    function loginService($http, $q, authenticationService, authData,apiService) {
+        var userInfo;
+        var deferred;
 
-            this.login = function (userName, password) {
-                deferred = $q.defer();
-                var data = "grant_type=password&username=" + userName + "&password=" + password;
-                // gọi vào /oauth/token trên server truyền vào data
-                $http.post('/oauth/token', data, {
-                    headers:
-                        { 'Content-Type': 'application/x-www-form-urlencoded' }
-                   })
-                  .success(function (response) {
+        this.login = function (userName, password) {
+            deferred = $q.defer();
+            var data = "grant_type=password&username=" + userName + "&password=" + password;
+            // gọi vào /oauth/token trên server truyền vào data
+            $http.post('/oauth/token', data, {
+                headers:
+                    { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+                .then(function (response) {
                     userInfo = {
-                        accessToken: response.access_token,
+                        accessToken: response.data.access_token,
                         userName: userName
                     };
                     authenticationService.setTokenInfo(userInfo);
                     authData.authenticationData.IsAuthenticated = true;
                     authData.authenticationData.userName = userName;
+                    authData.authenticationData.accessToken = userInfo.accessToken;
                     deferred.resolve(null);
-                   })
-                  .error(function (err, status) {
-                        authData.authenticationData.IsAuthenticated = false;
-                        authData.authenticationData.userName = "";
-                        deferred.resolve(err);
-                    });
-                return deferred.promise;
-            }
+                },
+                function (err, status) {
+                    authData.authenticationData.IsAuthenticated = false;
+                    authData.authenticationData.userName = "";
+                    deferred.resolve(err);
+                })
+                
+            return deferred.promise;
+        }
 
-            this.logOut = function () {
+        this.logOut = function () {
+            apiService.post('/api/account/logout', null, function (response) {
                 authenticationService.removeToken();
                 authData.authenticationData.IsAuthenticated = false;
                 authData.authenticationData.userName = "";
-            }
-        };
+                authData.authenticationData.accessToken = "";
+
+            }, null);
+
+        }
+    };
 })(angular.module('shop2.common'));

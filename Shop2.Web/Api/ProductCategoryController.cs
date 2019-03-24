@@ -5,8 +5,8 @@ using Shop2.Web.Infrastructure.Core;
 using Shop2.Web.Infrastructure.Extensions;
 using Shop2.Web.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -16,12 +16,12 @@ using System.Web.Script.Serialization;
 namespace Shop2.Web.Api
 {
     [RoutePrefix("api/productcategory")]
-   [Authorize] // bắt buộc đăng nhập mói vô được
+    [Authorize] // bắt buộc đăng nhập mói vô được
     public class ProductCategoryController : ApiControllerBase
     {
         IProductCategoryService _productCategoryService;
 
-        public ProductCategoryController(IErrorService errorService, IProductCategoryService productCategoryService) : base (errorService)
+        public ProductCategoryController(IErrorService errorService, IProductCategoryService productCategoryService) : base(errorService)
         {
             this._productCategoryService = productCategoryService;
         }
@@ -30,19 +30,20 @@ namespace Shop2.Web.Api
 
         [Route("getall")]
         [HttpGet]
-       
-        public HttpResponseMessage Get(HttpRequestMessage request,string keyword,int page,int pageSize=20)
+
+        public HttpResponseMessage Get(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request,
-                () => {
-                int totalRow = 0;
+                () =>
+                {
+                    int totalRow = 0;
                     // tìm kiếm theo keyword
-                var listCategory = _productCategoryService.GetAllByKeyWord(keyword);
+                    var listCategory = _productCategoryService.GetAllByKeyWord(keyword);
 
-                // lấy ra số bản ghi và thực hiện phân trang
-                totalRow = listCategory.Count();
-                
-                var query = listCategory.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
+                    // lấy ra số bản ghi và thực hiện phân trang
+                    totalRow = listCategory.Count();
+
+                    var query = listCategory.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
 
                     var listproductCategory = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(query);
 
@@ -54,8 +55,8 @@ namespace Shop2.Web.Api
                         // làm tròn số trang (lên )
                         TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize)
                     };
-                   
-                    var response = request.CreateResponse(HttpStatusCode.OK,paginationSet);
+
+                    var response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
                     return response;
                 });
         }
@@ -65,17 +66,18 @@ namespace Shop2.Web.Api
 
         [Route("getallparents")]
         [HttpGet]
-       
+
         public HttpResponseMessage GetAllParents(HttpRequestMessage request)
         {
             return CreateHttpResponse(request,
-                () => {
-                    
+                () =>
+                {
+
                     var listproductCategory = _productCategoryService.GetAll();
-                    
+
                     var responseData = Mapper.Map<IEnumerable<ProductCategory>, IEnumerable<ProductCategoryViewModel>>(listproductCategory);
 
-               
+
                     var response = request.CreateResponse(HttpStatusCode.OK, responseData);
                     return response;
                 });
@@ -87,16 +89,16 @@ namespace Shop2.Web.Api
         [Route("create")]
         [HttpPost]
         [Authorize] // bắt buộc đăng nhập mói vô được
-       
-        public HttpResponseMessage Creat(HttpRequestMessage request,ProductCategoryViewModel productCategoryViewModel)
+
+        public HttpResponseMessage Creat(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
         {
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
 
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
-                    response = request.CreateResponse(HttpStatusCode.BadRequest,ModelState);
+                    response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
                 }
                 else
                 {
@@ -105,31 +107,51 @@ namespace Shop2.Web.Api
                     newProductCategory.CreatedDate = DateTime.Now;
                     newProductCategory.CreatedBy = User.Identity.Name;
                     _productCategoryService.Add(newProductCategory);
-                    _productCategoryService.Save();
+
+                    try
+                    {
+                        _productCategoryService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
+
 
                     var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(newProductCategory);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
                 }
-                
+
 
                 return response;
 
-             });
+            });
         }
 
 
         // lấy về id để update
         [Route("getbyid/{id:int}")]
         [HttpGet]
-        
-        public HttpResponseMessage GetByID(HttpRequestMessage request,int id)
+
+        public HttpResponseMessage GetByID(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request,
-                () => {
+                () =>
+                {
 
                     var listproductCategory = _productCategoryService.GetById(id);
 
-                    var responseData = Mapper.Map<ProductCategory,ProductCategoryViewModel>(listproductCategory);
+                    var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(listproductCategory);
 
 
                     var response = request.CreateResponse(HttpStatusCode.OK, responseData);
@@ -140,9 +162,9 @@ namespace Shop2.Web.Api
 
 
         [Route("update")]
-        [HttpPut] 
+        [HttpPut]
         [AllowAnonymous]
-      
+
         public HttpResponseMessage Update(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel)
         {
             return CreateHttpResponse(request, () =>
@@ -162,7 +184,25 @@ namespace Shop2.Web.Api
                     dbProductCategory.CreatedBy = User.Identity.Name;
 
                     _productCategoryService.Update(dbProductCategory);
-                    _productCategoryService.Save();
+                    try
+                    {
+                        _productCategoryService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
+
 
                     var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(dbProductCategory);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
@@ -177,8 +217,8 @@ namespace Shop2.Web.Api
         [Route("delete")]
         [HttpDelete]
         [AllowAnonymous]
-        
-        public HttpResponseMessage Delete(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel,int id)
+
+        public HttpResponseMessage Delete(HttpRequestMessage request, ProductCategoryViewModel productCategoryViewModel, int id)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -188,11 +228,30 @@ namespace Shop2.Web.Api
                 {
                     response = request.CreateResponse(HttpStatusCode.BadRequest, ModelState);
                 }
-                else 
+                else
                 {
 
-                   var dbProductCategory = _productCategoryService.Delete(id);
-                    _productCategoryService.Save();
+                    var dbProductCategory = _productCategoryService.Delete(id);
+
+                    try
+                    {
+                        _productCategoryService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
+
 
                     var responseData = Mapper.Map<ProductCategory, ProductCategoryViewModel>(dbProductCategory);
                     response = request.CreateResponse(HttpStatusCode.OK, responseData);
@@ -207,8 +266,8 @@ namespace Shop2.Web.Api
         [Route("deletemulti")]
         [HttpDelete]
         [AllowAnonymous]
-        
-        public HttpResponseMessage DeleteMulti(HttpRequestMessage request,string checkedProductCategories)
+
+        public HttpResponseMessage DeleteMulti(HttpRequestMessage request, string checkedProductCategories)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -222,15 +281,33 @@ namespace Shop2.Web.Api
                 {
                     // thư viện JavaScriptSerializer giúp ta dữ liệu text dưới dạng JSON qua một đối tượng tương ứng ở đây 
                     var listProductCategory = new JavaScriptSerializer().Deserialize<List<int>>(checkedProductCategories);
-                    foreach(var item in listProductCategory)
+                    foreach (var item in listProductCategory)
                     {
                         _productCategoryService.Delete(item);
                     }
-                   
-                    _productCategoryService.Save();
 
-          
-                    response = request.CreateResponse(HttpStatusCode.OK,listProductCategory.Count);
+                    try
+                    {
+                        _productCategoryService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
+
+
+
+                    response = request.CreateResponse(HttpStatusCode.OK, listProductCategory.Count);
                 }
 
 

@@ -9,6 +9,9 @@ using System.Net.Http;
 using System.Web.Http;
 
 using Shop2.Web.Infrastructure.Extensions;
+using System.Data.Entity.Validation;
+using System;
+
 namespace Shop2.Web.Api
 {
     [RoutePrefix("api/postcategory")]
@@ -74,7 +77,26 @@ namespace Shop2.Web.Api
                        // bất cứ đối tượng tạo ở Model(Shop.Web) sử dụng phương thức thì giá trị của nó sẽ tự động đẩy sang Model(Shop.Model)
                         newPostCategory.UpdatePostCategory(postCategoryViewModel);
                         var category = _postCategoryService.Add(newPostCategory);
-                        _postCategoryService.Save();
+
+                        try
+                        {
+                            _postCategoryService.Save();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            foreach (var eve in e.EntityValidationErrors)
+                            {
+                                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                                foreach (var ve in eve.ValidationErrors)
+                                {
+                                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                        ve.PropertyName, ve.ErrorMessage);
+                                }
+                            }
+                            throw;
+                        }
+
                         // trả về đối tượng đã dược lưu để xử lý
                         response = request.CreateResponse(HttpStatusCode.Created, category);
                     }
@@ -101,7 +123,26 @@ namespace Shop2.Web.Api
                         postcatagoryDb.UpdatePostCategory(postCategoryViewModel);
                         // không có lỗi sẽ dùng  Service để lưu đối tượng vào database
                         _postCategoryService.Update(postcatagoryDb);
-                        _postCategoryService.Save();
+
+                        try
+                        {
+                            _postCategoryService.Save();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            foreach (var eve in e.EntityValidationErrors)
+                            {
+                                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                                foreach (var ve in eve.ValidationErrors)
+                                {
+                                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                        ve.PropertyName, ve.ErrorMessage);
+                                }
+                            }
+                            throw;
+                        }
+
                         // trả về đối tượng đã dược lưu để xử lý
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
@@ -124,7 +165,26 @@ namespace Shop2.Web.Api
                     {
                         // không có lỗi sẽ dùng  Service để lưu đối tượng vào database
                         _postCategoryService.Delete(id);
-                        _postCategoryService.Save();
+
+                        try
+                        {
+                            _postCategoryService.Save();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            foreach (var eve in e.EntityValidationErrors)
+                            {
+                                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                                foreach (var ve in eve.ValidationErrors)
+                                {
+                                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                        ve.PropertyName, ve.ErrorMessage);
+                                }
+                            }
+                            throw;
+                        }
+
                         // trả về đối tượng đã dược lưu để xử lý
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }

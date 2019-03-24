@@ -6,6 +6,7 @@ using Shop2.Web.Infrastructure.Extensions;
 using Shop2.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -81,7 +82,26 @@ namespace Shop2.Web.Api
                     newPage.CreatedDate = DateTime.Now;
                     newPage.CreatedBy = User.Identity.Name;
                     _pageService.Add(newPage);
-                    _pageService.Save();
+                  
+                    try
+                    {
+                        _pageService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
+
 
                     var responseData = Mapper.Map<Page, PageViewModel>(newPage);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
@@ -138,7 +158,25 @@ namespace Shop2.Web.Api
                     dbPage.CreatedBy = User.Identity.Name;
 
                     _pageService.Update(dbPage);
-                    _pageService.Save();
+
+                    try
+                    {
+                        _pageService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
                     var responseData = Mapper.Map<Page, Page>(dbPage);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
@@ -168,7 +206,25 @@ namespace Shop2.Web.Api
                 {
 
                     var dbPage = _pageService.Delete(id);
-                    _pageService.Save();
+
+                    try
+                    {
+                        _pageService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
                     var responseData = Mapper.Map<Page,PageViewModel>(dbPage);
                     response = request.CreateResponse(HttpStatusCode.OK, responseData);
@@ -198,12 +254,30 @@ namespace Shop2.Web.Api
                 {
                     // thư viện JavaScriptSerializer giúp ta dữ liệu text dưới dạng JSON qua một đối tượng tương ứng ở đây 
                     var listPage = new JavaScriptSerializer().Deserialize<List<int>>(checkedPages);
+
                     foreach (var item in listPage)
                     {
                         _pageService.Delete(item);
                     }
 
-                    _pageService.Save();
+                    try
+                    {
+                        _pageService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
 
                     response = request.CreateResponse(HttpStatusCode.OK, listPage.Count);

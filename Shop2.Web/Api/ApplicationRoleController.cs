@@ -7,6 +7,7 @@ using Shop2.Web.Infrastructure.Extensions;
 using Shop2.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -97,7 +98,27 @@ namespace Shop2.Web.Api
                 try
                 {
                     _appRoleService.Add(newAppRole);
-                    _appRoleService.Save();
+
+                    try
+                    {
+                        _appRoleService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
+
+                   
                     return request.CreateResponse(HttpStatusCode.OK, applicationRoleViewModel);
                 }
                 catch (NameDuplicatedException dex)
@@ -122,7 +143,25 @@ namespace Shop2.Web.Api
                 {
                     appRole.UpdateApplicationRole(applicationRoleViewModel, "update");
                     _appRoleService.Update(appRole);
-                    _appRoleService.Save();
+
+                    try
+                    {
+                        _appRoleService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
                     return request.CreateResponse(HttpStatusCode.OK, appRole);
                 }
                 catch (NameDuplicatedException dex)
@@ -141,7 +180,25 @@ namespace Shop2.Web.Api
         public HttpResponseMessage Delete(HttpRequestMessage request, string id)
         {
             _appRoleService.Delete(id);
-            _appRoleService.Save();
+
+            try
+            {
+                _appRoleService.Save();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
             return request.CreateResponse(HttpStatusCode.OK, id);
         }
 
@@ -164,7 +221,25 @@ namespace Shop2.Web.Api
                         _appRoleService.Delete(item);
                     }
 
-                    _appRoleService.Save();
+
+                    try
+                    {
+                        _appRoleService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
                     response = request.CreateResponse(HttpStatusCode.OK, listItem.Count);
                 }

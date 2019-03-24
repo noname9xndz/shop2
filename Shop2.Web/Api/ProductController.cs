@@ -7,6 +7,7 @@ using Shop2.Web.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -117,7 +118,26 @@ namespace Shop2.Web.Api
                     newProduct.CreatedDate = DateTime.Now;
                     newProduct.CreatedBy = User.Identity.Name;
                     _productService.Add(newProduct);
-                    _productService.Save();
+                   
+
+                    try
+                    {
+                        _productService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
                     var responseData = Mapper.Map<Product, ProductViewModel>(newProduct);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
@@ -172,7 +192,25 @@ namespace Shop2.Web.Api
                     dbProduct.CreatedBy = User.Identity.Name;
 
                     _productService.Update(dbProduct);
-                    _productService.Save();
+
+                    try
+                    {
+                        _productService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
                     var responseData = Mapper.Map<Product, ProductViewModel>(dbProduct);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
@@ -201,7 +239,25 @@ namespace Shop2.Web.Api
                 {
 
                     var dbProduct = _productService.Delete(id);
-                    _productService.Save();
+
+                    try
+                    {
+                        _productService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
                     var responseData = Mapper.Map<Product, ProductViewModel>(dbProduct);
                     response = request.CreateResponse(HttpStatusCode.OK, responseData);
@@ -236,7 +292,24 @@ namespace Shop2.Web.Api
                         _productService.Delete(item);
                     }
 
-                    _productService.Save();
+                    try
+                    {
+                        _productService.Save();
+                    }
+                    catch (DbEntityValidationException e)
+                    {
+                        foreach (var eve in e.EntityValidationErrors)
+                        {
+                            Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                            foreach (var ve in eve.ValidationErrors)
+                            {
+                                Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                    ve.PropertyName, ve.ErrorMessage);
+                            }
+                        }
+                        throw;
+                    }
 
 
                     response = request.CreateResponse(HttpStatusCode.OK, listproduct.Count);

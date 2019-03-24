@@ -10,9 +10,10 @@
             loginService.logOut();
             $state.go('login');
         }
-        $scope.authentication = authData.authenticationData;
+       $scope.authentication = authData.authenticationData;
 
-      authenticationService.validateRequest();
+
+      //authenticationService.validateRequest();
     }
 
 })(angular.module('shop2'));

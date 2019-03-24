@@ -19,10 +19,9 @@
             authenticationService.setHeader(); //add token hiện tại vào để xác nhận
             $http.get(url, params).then(function (result) {
                 success(result);
-            }),
-                function (error) {
-                    failed(error);
-                }
+            }, function (error) {
+                failed(error);
+            });
         }
 
         // định nghĩa post

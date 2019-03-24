@@ -7,6 +7,7 @@ using Shop2.Web.Infrastructure.Extensions;
 using Shop2.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -117,7 +118,26 @@ namespace Shop2.Web.Api
                             }
                         }
                         _appGroupService.AddUserToGroups(listAppUserGroup, newAppUser.Id);
-                        _appGroupService.Save();
+
+                        try
+                        {
+                            _appGroupService.Save();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            foreach (var eve in e.EntityValidationErrors)
+                            {
+                                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                                foreach (var ve in eve.ValidationErrors)
+                                {
+                                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                        ve.PropertyName, ve.ErrorMessage);
+                                }
+                            }
+                            throw;
+                        }
+                       
 
 
                         return request.CreateResponse(HttpStatusCode.OK, applicationUserViewModel);
@@ -173,7 +193,26 @@ namespace Shop2.Web.Api
                             }
                         }
                         _appGroupService.AddUserToGroups(listAppUserGroup, applicationUserViewModel.Id);
-                        _appGroupService.Save();
+
+                        try
+                        {
+                            _appGroupService.Save();
+                        }
+                        catch (DbEntityValidationException e)
+                        {
+                            foreach (var eve in e.EntityValidationErrors)
+                            {
+                                Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                                    eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                                foreach (var ve in eve.ValidationErrors)
+                                {
+                                    Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                                        ve.PropertyName, ve.ErrorMessage);
+                                }
+                            }
+                            throw;
+                        }
+
                         return request.CreateResponse(HttpStatusCode.OK, applicationUserViewModel);
 
                     }
