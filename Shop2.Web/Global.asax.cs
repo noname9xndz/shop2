@@ -22,6 +22,9 @@ namespace Shop2.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //lấy instance of servie không thông qua controller
+            // IFeedbackService service = ServiceFactory.Get<IFeedbackService>();
         }
     }
 }

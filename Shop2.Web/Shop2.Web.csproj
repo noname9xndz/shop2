@@ -82,6 +82,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="EPPlus, Version=4.5.3.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.5.3.1\lib\net40\EPPlus.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -119,6 +122,7 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -130,6 +134,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -245,6 +250,7 @@
     </Compile>
     <Compile Include="Infrastructure\Core\ApiControllerBase.cs" />
     <Compile Include="Infrastructure\Core\PaginationSet.cs" />
+    <Compile Include="Infrastructure\Core\ServiceFactory.cs" />
     <Compile Include="Infrastructure\Extensions\EntityExtensions.cs" />
     <Compile Include="Infrastructure\NganLuongAPI\APICheckoutV3.cs" />
     <Compile Include="Mappings\AutoMapperConfiguration.cs" />
@@ -311,6 +317,8 @@
     <Content Include="app\components\products\productAddView.html" />
     <Content Include="app\components\products\productEditController.js" />
     <Content Include="app\components\products\productEditView.html" />
+    <Content Include="app\components\products\productImportController.js" />
+    <Content Include="app\components\products\productImportView.html" />
     <Content Include="app\components\products\productListController.js" />
     <Content Include="app\components\products\productListView.html" />
     <Content Include="app\components\product_categories\productCategoryAddView.html" />
@@ -334,6 +342,7 @@
     <Content Include="app\components\statistic\revenueStatisticController.js" />
     <Content Include="app\components\statistic\revenueStatisticView.html" />
     <Content Include="app\components\statistic\statistic.module.js" />
+    <Content Include="app\shared\views\sideBar.html" />
     <Content Include="Assets\admin\css\admin.css" />
     <Content Include="Assets\admin\css\AdminLTE.css" />
     <Content Include="Assets\admin\css\AdminLTE.min.css" />
@@ -429,6 +438,9 @@
     <Content Include="Assets\admin\libs\angular-local-storage\dist\angular-local-storage.js" />
     <Content Include="Assets\admin\libs\angular-local-storage\dist\angular-local-storage.min.js" />
     <Content Include="Assets\admin\libs\angular-local-storage\index.js" />
+    <Content Include="Assets\admin\libs\angular-sanitize\angular-sanitize.js" />
+    <Content Include="Assets\admin\libs\angular-sanitize\angular-sanitize.min.js" />
+    <Content Include="Assets\admin\libs\angular-sanitize\index.js" />
     <Content Include="Assets\admin\libs\angular-ui-router\release\angular-ui-router.js" />
     <Content Include="Assets\admin\libs\angular-ui-router\release\angular-ui-router.min.js" />
     <Content Include="Assets\admin\libs\angular-ui-router\src\common.js" />
@@ -442,6 +454,18 @@
     <Content Include="Assets\admin\libs\angular-ui-router\src\view.js" />
     <Content Include="Assets\admin\libs\angular-ui-router\src\viewDirective.js" />
     <Content Include="Assets\admin\libs\angular-ui-router\src\viewScroll.js" />
+    <Content Include="Assets\admin\libs\angular-ui-select\dist\select.css" />
+    <Content Include="Assets\admin\libs\angular-ui-select\dist\select.js" />
+    <Content Include="Assets\admin\libs\angular-ui-select\dist\select.min.css" />
+    <Content Include="Assets\admin\libs\angular-ui-select\dist\select.min.js" />
+    <Content Include="Assets\admin\libs\angular-ui-select\docs\assets\app.js" />
+    <Content Include="Assets\admin\libs\angular-ui-select\docs\assets\demo.js" />
+    <Content Include="Assets\admin\libs\angular-ui-select\docs\assets\docs.css" />
+    <Content Include="Assets\admin\libs\angular-ui-select\docs\assets\plunkr.js" />
+    <Content Include="Assets\admin\libs\angular-ui-select\docs\index.html" />
+    <Content Include="Assets\admin\libs\angular-ui-select\docs\partials\_footer.html" />
+    <Content Include="Assets\admin\libs\angular-ui-select\docs\partials\_header.html" />
+    <Content Include="Assets\admin\libs\angular-ui-select\index.js" />
     <Content Include="Assets\admin\libs\angular\angular-csp.css" />
     <Content Include="Assets\admin\libs\angular\angular.js" />
     <Content Include="Assets\admin\libs\angular\angular.min.js" />
@@ -6852,6 +6876,26 @@
     <Content Include="Assets\admin\libs\angular-ui-router\CONTRIBUTING.md" />
     <Content Include="Assets\admin\libs\angular-ui-router\LICENSE" />
     <Content Include="Assets\admin\libs\angular-ui-router\README.md" />
+    <Content Include="Assets\admin\libs\angular-ui-select\.bower.json" />
+    <Content Include="Assets\admin\libs\angular-ui-select\bower.json" />
+    <Content Include="Assets\admin\libs\angular-ui-select\CHANGELOG.md" />
+    <Content Include="Assets\admin\libs\angular-ui-select\composer.json" />
+    <Content Include="Assets\admin\libs\angular-ui-select\CONTRIBUTING.md" />
+    <Content Include="Assets\admin\libs\angular-ui-select\deploy-docs.sh" />
+    <Content Include="Assets\admin\libs\angular-ui-select\dist\select.min.css.map" />
+    <Content Include="Assets\admin\libs\angular-ui-select\dist\select.min.js.map" />
+    <Content Include="Assets\admin\libs\angular-ui-select\LICENSE" />
+    <Content Include="Assets\admin\libs\angular-ui-select\package.json" />
+    <Content Include="Assets\admin\libs\angular-ui-select\README.md" />
+    <Content Include=".bowerrc" />
+    <Content Include="Assets\admin\libs\angular-sanitize\.bower.json" />
+    <Content Include="Assets\admin\libs\angular-sanitize\angular-sanitize.min.js.map" />
+    <Content Include="Assets\admin\libs\angular-sanitize\bower.json" />
+    <Content Include="Assets\admin\libs\angular-sanitize\LICENSE.md" />
+    <Content Include="Assets\admin\libs\angular-sanitize\package.json" />
+    <Content Include="Assets\admin\libs\angular-sanitize\README.md" />
+    <Content Include="Assets\admin\templates\ProductImportTemplate.xlsx" />
+    <Content Include="app\shared\directives\fileUpload.directive.js" />
     <None Include="packages.config" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Shared\Layouts.cshtml" />

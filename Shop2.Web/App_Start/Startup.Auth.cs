@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -9,8 +10,11 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using Shop2.Common;
 using Shop2.Data;
 using Shop2.Model.Models;
+using Shop2.Service;
+using Shop2.Web.Infrastructure.Core;
 using static Shop2.Web.App_Start.IdentityConfig;
 
 [assembly: OwinStartup(typeof(Shop2.Web.App_Start.Startup))]
@@ -133,13 +137,32 @@ namespace Shop2.Web.App_Start
                 if (user != null)
                 {
                     // đăng nhập thành công tạo ra 1 userclaims(chứa tất cả thông tin user) gán vào session
-                    ClaimsIdentity identity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);
-                    context.Validated(identity);
+                    //ClaimsIdentity identity = await userManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ExternalBearer);
+                    //context.Validated(identity);
+
+                    // check quyền admin
+                    var applicationGroupService = ServiceFactory.Get<IApplicationGroupService>();
+                    var listGroup = applicationGroupService.GetListGroupByUserId(user.Id);
+                    if (listGroup.Any(x => x.Name == CommonConstants.Administrator))
+                    {
+                       // đăng nhập thành công tạo ra 1 userclaims(chứa tất cả thông tin user) gán vào session
+                       ClaimsIdentity identity = await userManager.CreateIdentityAsync(
+                                      user,
+                                      DefaultAuthenticationTypes.ExternalBearer);
+                        context.Validated(identity);
+                    }
+                    else
+                    {
+                        context.Rejected();
+                        context.SetError("invalid_group", "Bạn không phải là admin");
+                    }
+
                 }
                 else
                 {
-                    context.SetError("invalid_grant", "Tài khoản hoặc mật khẩu không đúng.'");
+
                     context.Rejected();
+                    context.SetError("invalid_grant", "Tài khoản hoặc mật khẩu không đúng -__- ");
                 }
             }
         }

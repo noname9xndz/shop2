@@ -26,9 +26,17 @@
                                 <!--binding biến keyword ra bằng ng-model và sự kiện click vào button bằng ng-click -->
                                 <input type="text" class="form-control" ng-model="keyword" placeholder="Từ khóa">
                                 <span class="input-group-btn">
+
+
+
                                     <button class="btn btn-default" type="button" ng-click="search()">Tìm kiếm</button>
+
                                     <button style="margin-left:20px" class="btn btn-success" type="button" ui-sref="productAdd">Thêm Mới</button>
                                     <button style="margin-left:20px" class="btn btn-success" type="button" ng-click="deleteMulti()" id="btnDelete" disabled>Xóa</button>
+
+                                    <a class="btn btn-warning" href="/Assets/admin/templates/ProductImportTemplate.xlsx">Download template</a>
+                                    <button class="btn btn-primary" ui-sref="product_import">Nhập</button>
+
                                 </span>
                             </div>
                         </div>
@@ -78,6 +86,13 @@
 
                         <tbody>
                     </table>
+                    <div ng-if="loading">
+                        <div class="col-xs-4"></div>
+                        <div class="col-xs-4">
+                            <i class="fa fa-refresh fa-4x fa-spin"></i> <label class="label label-primary">Đang tải...</label>
+                        </div>
+                        <div class="col-xs-4"></div>
+                    </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">

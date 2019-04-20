@@ -21,5 +21,7 @@ và chỉ thực hiệncontroller trong view đó mà không cần tải lại c
         'ngCkeditor',
         'checklist-model',
         'chart.js',
-        'LocalStorageModule'])
+        'LocalStorageModule',
+        'ui.select',
+        'ngSanitize'])
 })(); // chỉ ra module này thuộc tp nào không có bỏ trống

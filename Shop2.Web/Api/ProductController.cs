@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Shop2.Common;
 using Shop2.Model.Models;
 using Shop2.Service;
 using Shop2.Web.Infrastructure.Core;
@@ -8,11 +9,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace Shop2.Web.Api
 {
@@ -28,7 +34,7 @@ namespace Shop2.Web.Api
         }
 
 
-
+        #region CRUD
         [Route("getall")]
         [HttpGet]
         public HttpResponseMessage Get(HttpRequestMessage request, string keyword, int page, int pageSize = 20)
@@ -320,6 +326,155 @@ namespace Shop2.Web.Api
 
             });
         }
+        #endregion
+
+        #region import excel
+
+        [Route("import")]
+        [HttpPost]
+        public async Task<HttpResponseMessage> Import()
+        {
+            // kiểm tra định dạng nào hỗ trợ request
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Định dạng không được server hỗ trợ");
+            }
+
+            var root = HttpContext.Current.Server.MapPath("~/UploadedFiles/Excels"); // lấy ra đường dẫn gốc lưu file
+
+            if (!Directory.Exists(root))
+            {
+                Directory.CreateDirectory(root);
+            }
+            // đọc bất đồng bộ file 
+            var provider = new MultipartFormDataStreamProvider(root);
+            var result = await Request.Content.ReadAsMultipartAsync(provider);
+
+            //do stuff with files if you wish
+            if (result.FormData["categoryId"] == null)
+            {
+                Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Bạn chưa chọn danh mục sản phẩm.");
+            }
+
+            //Upload files
+            int addedCount = 0;
+            int categoryId = 0;
+            int.TryParse(result.FormData["categoryId"], out categoryId); // lấy ra categoryId
+
+            foreach (MultipartFileData fileData in result.FileData)// MultipartFileData các file sẽ được băm ra nhiều phần
+            {
+                if (string.IsNullOrEmpty(fileData.Headers.ContentDisposition.FileName))
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotAcceptable, "Yêu cầu không đúng định dạng");
+                }
+
+                string fileName = fileData.Headers.ContentDisposition.FileName;
+                if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
+                {
+                    fileName = fileName.Trim('"');
+                }
+                if (fileName.Contains(@"/") || fileName.Contains(@"\"))
+                {
+                    fileName = Path.GetFileName(fileName);
+                }
+
+                var fullPath = Path.Combine(root, fileName);
+                File.Copy(fileData.LocalFileName, fullPath, true); // copy location => root
+
+                //insert to DB 
+                var listProduct = this.ReadProductFromExcel(fullPath, categoryId); 
+                if (listProduct.Count > 0)
+                {
+                    foreach (var product in listProduct)
+                    {
+                        _productService.Add(product);
+                        addedCount++;
+                    }
+                    _productService.Save();
+                }
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, "Đã nhập thành công " + addedCount + " sản phẩm thành công.");
+        }
+        
+
+        private List<Product> ReadProductFromExcel(string fullPath, int categoryId)
+        {
+            // add nuget : epplus
+            using (var package = new ExcelPackage(new FileInfo(fullPath)))
+            {
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[1]; // mảng trong excel bắt đầu từ 1
+                List<Product> listProduct = new List<Product>();
+                ProductViewModel productViewModel;
+                Product product;
+
+                decimal originalPrice = 0;
+                decimal price = 0;
+                decimal promotionPrice;
+
+                int quantity;
+                bool status = false;
+                bool showHome = false;
+                bool isHot = false;
+                int warranty;
+                // dòng 1 trong execl là header => chạy từ dòng 2
+                for (int i = workSheet.Dimension.Start.Row + 1; i <= workSheet.Dimension.End.Row; i++)
+                {
+                    // tạo mới 1 product và đọc từng row => mapping
+                    productViewModel = new ProductViewModel();
+                    product = new Product();
+
+                    productViewModel.Name = workSheet.Cells[i, 1].Value.ToString();
+                    productViewModel.Alias = StringHelper.ToUnsignString(productViewModel.Name);
+                    productViewModel.Description = workSheet.Cells[i, 2].Value.ToString();
+
+                    if (int.TryParse(workSheet.Cells[i, 3].Value.ToString(), out warranty))
+                    {
+                        productViewModel.Warranty = warranty;
+
+                    }
+                    //TryParse tránh trường hợp throw exception thay vào đó là đưa về giá trị mặc đinh
+                    decimal.TryParse(workSheet.Cells[i, 4].Value.ToString().Replace(",", ""), out originalPrice);
+                    productViewModel.OriginalPrice = originalPrice;
+
+                    decimal.TryParse(workSheet.Cells[i, 5].Value.ToString().Replace(",", ""), out price);
+                    productViewModel.Price = price;
+
+                    if (decimal.TryParse(workSheet.Cells[i, 6].Value.ToString(), out promotionPrice))
+                    {
+                        productViewModel.PromotionPrice = promotionPrice;
+
+                    }
+                    if (int.TryParse(workSheet.Cells[i, 7].Value.ToString(), out quantity))
+                    {
+                        productViewModel.Quantity = quantity;
+
+                    }
+
+                    productViewModel.Content = workSheet.Cells[i, 8].Value.ToString();
+                    productViewModel.MetaKeyword = workSheet.Cells[i, 9].Value.ToString();
+                    productViewModel.MetaDescription = workSheet.Cells[i, 10].Value.ToString();
+                    productViewModel.Tags = workSheet.Cells[i, 11].Value.ToString();
+
+                    productViewModel.CategoryID = categoryId;
+
+                    bool.TryParse(workSheet.Cells[i, 12].Value.ToString(), out status);
+                    productViewModel.Status = status;
+
+                    bool.TryParse(workSheet.Cells[i, 13].Value.ToString(), out showHome);
+                    productViewModel.HomeFlag = showHome;
+
+                    bool.TryParse(workSheet.Cells[i, 14].Value.ToString(), out isHot);
+                    productViewModel.HotFlag = isHot;
+
+                    //mapping
+                    product.UpdateProduct(productViewModel);
+                    listProduct.Add(product);
+                }
+                return listProduct;
+            }
+        }
+        #endregion
+
 
     }
 }

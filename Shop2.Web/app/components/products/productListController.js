@@ -99,7 +99,7 @@
         function search() {
             getProducts();
         }
-
+        $scope.loading = true;
         function getProducts(page) {
             page = page || 0;
             var cofig = {
@@ -112,9 +112,9 @@
             }
 
             apiService.get('/api/product/getall', cofig, function (result) {
-                if (result.data.TotalCount == 0) {
-                    notificationService.displayWarning('không có bản ghi nào được tìm thấy');
-                }
+                //if (result.data.TotalCount == 0) {
+                //    notificationService.displayWarning('không có bản ghi nào được tìm thấy');
+                //}
                 //else {
                 //    notificationService.displaySuccess('tìm thấy ' + result.data.TotalCount + ' bản ghi');
                 //}
@@ -124,9 +124,11 @@
                 $scope.page = result.data.Page;
                 $scope.pagesCount = result.data.TotalPages;
                 $scope.totalCount = result.data.TotalCount;
+                $scope.loading = false;
 
             }, function () {
                 console.log('load product failed');
+                $scope.loading = false;
             });
         }
 

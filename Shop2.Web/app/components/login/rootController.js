@@ -10,9 +10,8 @@
             loginService.logOut();
             $state.go('login');
         }
-       $scope.authentication = authData.authenticationData;
-
-
+        $scope.authentication = authData.authenticationData;
+        $scope.sideBar ="/app/shared/views/sideBar.html"
       //authenticationService.validateRequest();
     }
 

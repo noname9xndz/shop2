@@ -84,7 +84,7 @@ namespace Shop2.Web.Controllers
 
 
         [ChildActionOnly]
-        [OutputCache(Duration = 3600)]
+       // [OutputCache(Duration = 3600)]
         public ActionResult Category()
         {    //Category view
             var model = _productCategoryService.GetAll();
