@@ -37,6 +37,8 @@ namespace Shop2.Service
         // sp liên quan
         IEnumerable<Product> GetReatedProducts(int id, int top);
 
+        IEnumerable<Product> GetListProduct(string keyword);
+
         IEnumerable<Tag> GetListTagByProductId(int id);
 
         // tăng view khi xem chi tiết sp
@@ -154,6 +156,8 @@ namespace Shop2.Service
         {
             return _ProductRepository.GetMulti(x => x.Status==true).OrderByDescending(x => x.CreatedDate).Take(top);
         }
+
+       
 
         public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize,out int totalRow, string sort)
         {
@@ -297,6 +301,16 @@ namespace Shop2.Service
                
             }
             
+        }
+
+        public IEnumerable<Product> GetListProduct(string keyword)
+        {
+            IEnumerable<Product> query;
+            if (!string.IsNullOrEmpty(keyword))
+                query = _ProductRepository.GetMulti(x => x.Name.Contains(keyword));
+            else
+                query = _ProductRepository.GetAll();
+            return query;
         }
     }
 

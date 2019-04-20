@@ -131,8 +131,43 @@
                 $scope.loading = false;
             });
         }
-
         $scope.getProducts();
+
+        // xuất file excel,pdf
+        $scope.exportExcel = exportExcel;
+        $scope.exportPdf = exportPdf;
+
+        function exportExcel() {
+            var config = { // tìm bao nhiêu sp export ra bằng đấy
+                params: {
+                    filter: $scope.keyword
+                }
+            }
+            apiService.get('/api/product/ExportXls', config, function (response) {
+                if (response.status = 200) {
+                    window.location.href = response.data.Message;
+                }
+            }, function (error) {
+                notificationService.displayError(error);
+
+            });
+        }
+
+        function exportPdf(productId) {
+            var config = {
+                params: {
+                    id: productId
+                }
+            }
+            apiService.get('/api/product/ExportPdf', config, function (response) {
+                if (response.status = 200) {
+                    window.location.href = response.data.Message;
+                }
+            }, function (error) {
+                notificationService.displayError(error);
+
+            });
+        }
 
     }
 })(angular.module('shop2.products')); // chỉ ra controller này thuộc module nào
