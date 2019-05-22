@@ -37,7 +37,7 @@ namespace Shop2.Web.Api
         }
         [Route("getlistpaging")]
         [HttpGet]
-        [Authorize(Roles = "ViewUser")]
+      [Authorize(Roles = "View")]
         public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize, string filter = null)
         {
 
@@ -63,7 +63,7 @@ namespace Shop2.Web.Api
         }
         [Route("getlistall")]
         [HttpGet]
-        [Authorize(Roles = "ViewUser")]
+       [Authorize(Roles = "View")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -79,7 +79,7 @@ namespace Shop2.Web.Api
         }
         [Route("detail/{id:int}")]
         [HttpGet]
-        [Authorize(Roles = "ViewUser")]
+       [Authorize(Roles = "View")]
         public HttpResponseMessage Details(HttpRequestMessage request, int id)
         {
             if (id == 0)

@@ -17,8 +17,8 @@
     <div class="box-header with-border">
       <h3 class="box-title">Danh mục quyền</h3>
       <div class="box-tools pull-right">
-        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+        <button class="btn btn-box-tool"  data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+        <button class="btn btn-box-tool"  data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
       </div>
     </div>
     <div class="box-body">
@@ -32,30 +32,30 @@
           </div><!-- /input-group -->
         </div>
         <div class="col-md-6">
-          <button class="btn btn-success" ui-sref="add_application_role">Thêm mới</button>
-          <button class="btn btn-danger" ng-click="deleteMultiple()" id="btnDelete" disabled>Xóa</button>
+          <!--<button hidden class="btn btn-success" ui-sref="add_application_role">Thêm mới</button>
+          <button hidden class="btn btn-danger" ng-click="deleteMultiple()" id="btnDelete" disabled>Xóa</button>-->
         </div>
       </di>
       <div class="row">
         <div class="col-md-12">
           <table class="table table-bordered">
             <tr>
-           <td>
-             <input name="all" type="checkbox" ng-click="selectAll()" />
+           <!--<td>
+             <input hidden name="all" type="checkbox" ng-click="selectAll()" />-->
               <th style="width:55%">Tên quyền</th>
               <th style="width: 20%">Mô tả</th>
-              <th style="width: 10%">Thao tác</th>
+              <!--<th style="width: 10%">Thao tác</th>-->
             </tr>
             <tr ng-repeat="item in data">
-              <td><input type="checkbox" ng-model="item.checked" name="all" /></td>
+              <!--<td><input type="checkbox" ng-model="item.checked" name="all" /></td>-->
               <td><a ui-sref="edit_application_role({id:item.Id})">{{item.Name}}</a></td>
               <td>
                 {{item.Description}}
               </td>
-              <td>
-                <button class="btn btn-sm btn-primary" ui-sref="edit_application_role({id:item.Id})"><i class="fa fa-pencil"></i></button>
-                <button class="btn  btn-sm btn-danger" ng-click="deleteItem(item.Id)"><i class="fa fa-trash"></i></button>
-              </td>
+              <!--<td>
+                <button hidden class="btn btn-sm btn-primary" ui-sref="edit_application_role({id:item.Id})"><i class="fa fa-pencil"></i></button>
+                <button hidden class="btn  btn-sm btn-danger" ng-click="deleteItem(item.Id)"><i class="fa fa-trash"></i></button>
+              </td>-->
             </tr>
             <tfoot>
               <tr>

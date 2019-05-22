@@ -34,7 +34,7 @@ namespace Shop2.Web.Api
 
         [Route("getlistpaging")]
         [HttpGet]
-        [Authorize(Roles = "ViewUser")]
+       [Authorize(Roles = "View")]
         public HttpResponseMessage GetListPaging(HttpRequestMessage request, int page, int pageSize, string filter = null)
         {
             // viết theo dạng hàm nặc danh
@@ -61,7 +61,7 @@ namespace Shop2.Web.Api
 
         [Route("detail/{id}")]
         [HttpGet]
-        [Authorize(Roles = "ViewUser")]
+       [Authorize(Roles = "View")]
         public HttpResponseMessage Details(HttpRequestMessage request, string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -86,7 +86,7 @@ namespace Shop2.Web.Api
 
         [HttpPost]
         [Route("add")]
-       [Authorize(Roles = "AddUser")]
+       [Authorize(Roles = "Add")]
         public async Task<HttpResponseMessage> Create(HttpRequestMessage request, ApplicationUserViewModel applicationUserViewModel)
         {
             if (ModelState.IsValid)
@@ -164,7 +164,7 @@ namespace Shop2.Web.Api
 
         [HttpPut]
         [Route("update")]
-        [Authorize(Roles = "UpdateUser")]
+        [Authorize(Roles = "Update")]
         public async Task<HttpResponseMessage> Update(HttpRequestMessage request, ApplicationUserViewModel applicationUserViewModel)
         {
             if (ModelState.IsValid)
@@ -232,7 +232,7 @@ namespace Shop2.Web.Api
 
         [HttpDelete]
         [Route("delete")]
-        [Authorize(Roles = "DeleteUser")]
+        [Authorize(Roles = "Delete")]
         public async Task<HttpResponseMessage> Delete(HttpRequestMessage request, string id)
         {
             var appUser = await _userManager.FindByIdAsync(id);

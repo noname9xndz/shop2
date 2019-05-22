@@ -26,35 +26,35 @@ namespace Shop2.Web
               name: "Register",
               url: "dang-ky.html",
               defaults: new { controller = "Account", action = "Register", id = UrlParameter.Optional },
-              namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+              namespaces: new string[] { "Shop2.Web.Controllers" } 
           );
 
             routes.MapRoute(
                 name: "Search",
                 url: "tim-kiem.html",
                 defaults: new { controller = "Product", action = "Search", id = UrlParameter.Optional },
-              namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+              namespaces: new string[] { "Shop2.Web.Controllers" } 
             );
 
             routes.MapRoute(
                name: "About",
                url: "gioi-thieu.html",
                defaults: new { controller = "About", action = "Index", id = UrlParameter.Optional },
-               namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+               namespaces: new string[] { "Shop2.Web.Controllers" } 
            );
 
             routes.MapRoute(
                name: "Product Category",
                url: "{Alias}.pc-{id}.html",
                defaults: new { controller = "Product", action = "Category", id = UrlParameter.Optional },
-                 namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+                 namespaces: new string[] { "Shop2.Web.Controllers" } 
            );
 
             routes.MapRoute(
                name: "Product",
                url: "{Alias}.p-{id}.html",
                defaults: new { controller = "Product", action = "Detail", id = UrlParameter.Optional },
-                 namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+                 namespaces: new string[] { "Shop2.Web.Controllers" }
            );
 
 
@@ -70,20 +70,20 @@ namespace Shop2.Web
                name: "trang chủ",
                url: "trang-chu.html",
                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                 namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+                 namespaces: new string[] { "Shop2.Web.Controllers" } 
            );
 
             routes.MapRoute(
              name: "Page",
-             url: "trang/{Alias}.html",
+             url: "trang/{Alias}.html", // bug
              defaults: new { controller = "Page", action = "Index", Alias = UrlParameter.Optional },
-             namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+             namespaces: new string[] { "Shop2.Web.Controllers" } 
          );
             routes.MapRoute(
              name: "Cart",
              url: "gio-hang.html",
              defaults: new { controller = "ShoppingCart", action = "Index", id = UrlParameter.Optional },
-               namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+               namespaces: new string[] { "Shop2.Web.Controllers" } 
          );
           
 
@@ -91,14 +91,14 @@ namespace Shop2.Web
                name: "Contact",
                url: "lien-he.html",
                defaults: new { controller = "Contact", action = "Index", id = UrlParameter.Optional },
-                 namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+                 namespaces: new string[] { "Shop2.Web.Controllers" } 
            );
 
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                 namespaces: new string[] { "Shop2.Web.Controllers" } // giúp tránh lỗi trùng namespace với web api
+                 namespaces: new string[] { "Shop2.Web.Controllers" }
             );
 
             routes.MapRoute(
